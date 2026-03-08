@@ -64,6 +64,13 @@ class ShowGame
             return redirect()->route('game.simulate-tournament', $gameId);
         }
 
+        // Season/tournament complete: redirect to end-of-season summary
+        if (!$nextMatch && !$hasRemainingMatches) {
+            return $game->isTournamentMode()
+                ? redirect()->route('game.tournament-end', $gameId)
+                : redirect()->route('game.season-end', $gameId);
+        }
+
         $notifications = $this->notificationService->getNotifications($game->id, true, 15);
         $groupedNotifications = $notifications->groupBy(fn ($n) => $n->game_date?->format('Y-m-d') ?? 'unknown');
 

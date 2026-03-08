@@ -2,7 +2,6 @@
 
 return [
     // Season end
-    'season_honours' => 'Honores Temporada :season',
     'league_champion' => 'Campeón de :league',
     'cup_winner' => 'Campeón de Copa',
     'beat' => 'Venció :team_a',

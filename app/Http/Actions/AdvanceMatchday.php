@@ -18,8 +18,7 @@ class AdvanceMatchday
 
         return match ($result->type) {
             'blocked' => $this->redirectBlocked($gameId, $result->pendingAction),
-            'season_complete' => redirect()->route('show-game', $gameId)
-                ->with('message', 'Season complete!'),
+            'season_complete' => redirect()->route('game.season-end', $gameId),
             'live_match' => redirect()->route('game.live-match', [
                 'gameId' => $gameId,
                 'matchId' => $result->matchId,

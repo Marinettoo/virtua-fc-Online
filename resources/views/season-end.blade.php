@@ -45,9 +45,35 @@ $getZoneClass = function($position) use ($standingsZones, $borderColorMap) {
 
                 {{-- Season header --}}
                 <div class="text-center">
-                    <div class="text-slate-400 font-semibold text-xs uppercase tracking-widest">
-                        {{ __('season.season_honours', ['season' => $game->formatted_season]) }}
+                    <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                        {{ __('game.season_complete') }}
+                    </h1>
+                    <p class="text-sm md:text-base text-slate-500 mt-1">
+                        {{ __('game.season_complete_congrats', ['season' => $game->formatted_season]) }}
+                    </p>
+                </div>
+
+                {{-- Manager evaluation --}}
+                @php
+                    $gradeColors = [
+                        'exceptional' => 'bg-green-50 border-green-300 text-green-800',
+                        'exceeded' => 'bg-emerald-50 border-emerald-200 text-emerald-800',
+                        'met' => 'bg-slate-50 border-slate-200 text-slate-700',
+                        'below' => 'bg-amber-50 border-amber-200 text-amber-800',
+                        'disaster' => 'bg-red-50 border-red-200 text-red-800',
+                    ];
+                    $gradeClass = $gradeColors[$managerEvaluation['grade']] ?? $gradeColors['met'];
+                @endphp
+                <div class="rounded-lg border p-4 {{ $gradeClass }}">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 mb-2">
+                        <div class="font-bold text-base">{{ $managerEvaluation['title'] }}</div>
+                        <div class="text-xs opacity-80">
+                            {{ __('season.target') }}: {{ $managerEvaluation['goalLabel'] }}
+                            &rarr;
+                            {{ __('season.actual') }}: {{ __('season.place', ['position' => $managerEvaluation['actualPosition']]) }}
+                        </div>
                     </div>
+                    <p class="text-sm opacity-90 leading-relaxed">{{ $managerEvaluation['message'] }}</p>
                 </div>
 
                 {{-- ============================================================ --}}
@@ -131,29 +157,6 @@ $getZoneClass = function($position) use ($standingsZones, $borderColorMap) {
                                 @endforeach
                             </div>
                             @endif
-                        </div>
-
-                        {{-- Manager evaluation --}}
-                        @php
-                            $gradeColors = [
-                                'exceptional' => 'bg-green-50 border-green-300 text-green-800',
-                                'exceeded' => 'bg-emerald-50 border-emerald-200 text-emerald-800',
-                                'met' => 'bg-slate-50 border-slate-200 text-slate-700',
-                                'below' => 'bg-amber-50 border-amber-200 text-amber-800',
-                                'disaster' => 'bg-red-50 border-red-200 text-red-800',
-                            ];
-                            $gradeClass = $gradeColors[$managerEvaluation['grade']] ?? $gradeColors['met'];
-                        @endphp
-                        <div class="rounded-lg border p-4 {{ $gradeClass }}">
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 mb-2">
-                                <div class="font-bold text-base">{{ $managerEvaluation['title'] }}</div>
-                                <div class="text-xs opacity-80">
-                                    {{ __('season.target') }}: {{ $managerEvaluation['goalLabel'] }}
-                                    &rarr;
-                                    {{ __('season.actual') }}: {{ __('season.place', ['position' => $managerEvaluation['actualPosition']]) }}
-                                </div>
-                            </div>
-                            <p class="text-sm opacity-90 leading-relaxed">{{ $managerEvaluation['message'] }}</p>
                         </div>
                     </div>
 
