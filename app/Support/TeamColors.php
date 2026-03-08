@@ -1135,7 +1135,7 @@ class TeamColors
         ],
 
         // Group D
-        'USA' => [
+        'United States' => [
             'pattern' => 'solid',
             'primary' => 'white',
             'secondary' => 'blue-900',
@@ -1167,7 +1167,7 @@ class TeamColors
             'secondary' => 'yellow-400',
             'number' => 'white',
         ],
-        "Côte d'Ivoire" => [
+        "Ivory Coast" => [
             'pattern' => 'solid',
             'primary' => 'orange-600',
             'secondary' => 'green-600',
@@ -1213,7 +1213,7 @@ class TeamColors
             'secondary' => 'white',
             'number' => 'white',
         ],
-        'IR Iran' => [
+        'Iran' => [
             'pattern' => 'solid',
             'primary' => 'white',
             'secondary' => 'red-600',
@@ -1233,7 +1233,7 @@ class TeamColors
             'secondary' => 'yellow-400',
             'number' => 'yellow-400',
         ],
-        'Cabo Verde' => [
+        'Cape Verde' => [
             'pattern' => 'solid',
             'primary' => 'blue-700',
             'secondary' => 'red-600',

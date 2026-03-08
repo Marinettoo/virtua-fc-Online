@@ -224,14 +224,6 @@
       "position": "Central Midfield"
     },
     {
-      "contract": "Mar 26, 2025",
-      "dateOfBirth": "Nov 6, 2007",
-      "height": "1,74m",
-      "id": "1295763",
-      "name": "Darwin Guagua",
-      "position": "Central Midfield"
-    },
-    {
       "contract": "Sep 12, 2023",
       "dateOfBirth": "May 4, 2007",
       "foot": "left",
@@ -379,17 +371,6 @@
       "marketValue": "€2.00m",
       "name": "Enner Valencia",
       "number": "13",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Nov 14, 2025",
-      "dateOfBirth": "Mar 19, 2005",
-      "foot": "left",
-      "height": "1,82m",
-      "id": "971663",
-      "marketValue": "€200k",
-      "name": "Jeremy Arévalo",
-      "number": "7",
       "position": "Centre-Forward"
     }
   ],

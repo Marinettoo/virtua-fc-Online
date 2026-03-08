@@ -1,0 +1,282 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/3816.png",
+  "name": "Colombia",
+  "players": [
+    {
+      "contract": "Jun 4, 2019",
+      "dateOfBirth": "Mar 29, 1995",
+      "foot": "right",
+      "height": "1,99m",
+      "id": "292985",
+      "marketValue": "€1.50m",
+      "name": "Álvaro Montero",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Oct 11, 2014",
+      "dateOfBirth": "Mar 9, 1989",
+      "foot": "left",
+      "height": "1,83m",
+      "id": "74113",
+      "marketValue": "€500k",
+      "name": "Camilo Vargas",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Feb 7, 2007",
+      "dateOfBirth": "Aug 31, 1988",
+      "foot": "right",
+      "height": "1,83m",
+      "id": "73396",
+      "marketValue": "€200k",
+      "name": "David Ospina",
+      "number": "1",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Jun 4, 2019",
+      "dateOfBirth": "Jun 26, 1998",
+      "foot": "left",
+      "height": "1,87m",
+      "id": "413565",
+      "marketValue": "€25.00m",
+      "name": "Jhon Lucumí",
+      "number": "3",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 16, 2016",
+      "dateOfBirth": "Jun 12, 1996",
+      "foot": "right",
+      "height": "1,87m",
+      "id": "341429",
+      "marketValue": "€18.00m",
+      "name": "Davinson Sánchez",
+      "number": "23",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Sep 10, 2021",
+      "dateOfBirth": "Mar 9, 1999",
+      "foot": "right",
+      "height": "1,79m",
+      "id": "474589",
+      "marketValue": "€7.00m",
+      "name": "Carlos Cuesta",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jun 8, 2016",
+      "dateOfBirth": "Sep 23, 1994",
+      "foot": "right",
+      "height": "1,95m",
+      "id": "289446",
+      "marketValue": "€3.00m",
+      "name": "Yerry Mina",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jan 16, 2022",
+      "dateOfBirth": "Mar 6, 1997",
+      "foot": "left",
+      "height": "1,76m",
+      "id": "366324",
+      "marketValue": "€2.80m",
+      "name": "Álvaro Angulo",
+      "number": "8",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Mar 26, 2015",
+      "dateOfBirth": "Aug 21, 1992",
+      "foot": "left",
+      "height": "1,85m",
+      "id": "262939",
+      "marketValue": "€1.80m",
+      "name": "Johan Mojica",
+      "number": "14",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Jun 4, 2021",
+      "dateOfBirth": "May 26, 1996",
+      "foot": "right",
+      "height": "1,81m",
+      "id": "493003",
+      "marketValue": "€27.00m",
+      "name": "Daniel Muñoz",
+      "number": "21",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Oct 16, 2013",
+      "dateOfBirth": "Jan 13, 1992",
+      "foot": "right",
+      "height": "1,78m",
+      "id": "120443",
+      "marketValue": "€1.50m",
+      "name": "Santiago Arias",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Oct 12, 2023",
+      "dateOfBirth": "Jun 2, 2000",
+      "foot": "right",
+      "height": "1,87m",
+      "id": "735573",
+      "marketValue": "€22.00m",
+      "name": "Richard Ríos",
+      "number": "6",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Nov 10, 2017",
+      "dateOfBirth": "Oct 25, 1994",
+      "foot": "right",
+      "height": "1,79m",
+      "id": "262980",
+      "marketValue": "€8.00m",
+      "name": "Jefferson Lerma",
+      "number": "16",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Jan 29, 2023",
+      "dateOfBirth": "Sep 29, 2000",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "857948",
+      "marketValue": "€7.00m",
+      "name": "Kevin Castaño",
+      "number": "5",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Nov 16, 2025",
+      "dateOfBirth": "Jul 23, 2003",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "936981",
+      "marketValue": "€3.50m",
+      "name": "Gustavo Puerta",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Sep 10, 2024",
+      "dateOfBirth": "Sep 12, 1998",
+      "foot": "right",
+      "height": "1,83m",
+      "id": "585747",
+      "marketValue": "€3.30m",
+      "name": "Juan Portilla",
+      "number": "15",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Sep 25, 2022",
+      "dateOfBirth": "May 25, 1998",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "354145",
+      "marketValue": "€9.00m",
+      "name": "Jorge Carrascal",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Oct 11, 2011",
+      "dateOfBirth": "Jul 12, 1991",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "88103",
+      "marketValue": "€2.00m",
+      "name": "James Rodríguez",
+      "number": "10",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Sep 12, 2018",
+      "dateOfBirth": "Jan 13, 1997",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "480692",
+      "marketValue": "€70.00m",
+      "name": "Luis Díaz",
+      "number": "7",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Dec 10, 2023",
+      "dateOfBirth": "Sep 12, 2002",
+      "foot": "right",
+      "height": "1,71m",
+      "id": "957461",
+      "marketValue": "€5.00m",
+      "name": "Andrés Gómez",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Oct 12, 2025",
+      "dateOfBirth": "Jul 20, 1999",
+      "foot": "right",
+      "height": "1,70m",
+      "id": "572042",
+      "marketValue": "€4.00m",
+      "name": "Johan Carbonero",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Jun 5, 2022",
+      "dateOfBirth": "Sep 21, 1997",
+      "foot": "right",
+      "height": "1,68m",
+      "id": "588989",
+      "marketValue": "€15.00m",
+      "name": "Jhon Arias",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Jan 16, 2022",
+      "dateOfBirth": "Nov 19, 2003",
+      "foot": "left",
+      "height": "1,76m",
+      "id": "857818",
+      "marketValue": "€14.00m",
+      "name": "Yáser Asprilla",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Nov 17, 2020",
+      "dateOfBirth": "Dec 2, 1997",
+      "foot": "right",
+      "height": "1,81m",
+      "id": "424784",
+      "marketValue": "€22.00m",
+      "name": "Luis Suárez",
+      "number": "19",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Nov 17, 2023",
+      "dateOfBirth": "May 11, 1993",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "185245",
+      "marketValue": "€10.00m",
+      "name": "Jhon Córdoba",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Sep 7, 2019",
+      "dateOfBirth": "Sep 15, 1995",
+      "foot": "right",
+      "height": "1,74m",
+      "id": "323831",
+      "marketValue": "€4.00m",
+      "name": "Rafael Borré",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "3816"
+}

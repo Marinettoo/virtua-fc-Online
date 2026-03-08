@@ -35,24 +35,6 @@
       "position": "Goalkeeper"
     },
     {
-      "contract": "Oct 15, 2025",
-      "dateOfBirth": "Apr 9, 1997",
-      "foot": "right",
-      "height": "1,86m",
-      "id": "435001",
-      "marketValue": "€2.20m",
-      "name": "Facundo Cambeses",
-      "position": "Goalkeeper"
-    },
-    {
-      "dateOfBirth": "Apr 14, 2007",
-      "height": "1,82m",
-      "id": "1296407",
-      "name": "Demian Talavera",
-      "number": "23",
-      "position": "Goalkeeper"
-    },
-    {
       "contract": "Jun 4, 2021",
       "dateOfBirth": "Apr 27, 1998",
       "foot": "right",
@@ -117,46 +99,6 @@
       "position": "Centre-Back"
     },
     {
-      "dateOfBirth": "Jan 8, 2002",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "661136",
-      "marketValue": "€4.00m",
-      "name": "Kevin Lomónaco",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Nov 11, 2017",
-      "dateOfBirth": "Jun 27, 1991",
-      "foot": "right",
-      "height": "1,87m",
-      "id": "113133",
-      "marketValue": "€2.70m",
-      "name": "Germán Pezzella",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "May 20, 2009",
-      "dateOfBirth": "Feb 12, 1988",
-      "foot": "right",
-      "height": "1,83m",
-      "id": "54781",
-      "marketValue": "€1.00m",
-      "name": "Nicolás Otamendi",
-      "number": "19",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Oct 15, 2025",
-      "dateOfBirth": "Nov 1, 2003",
-      "foot": "left",
-      "height": "1,85m",
-      "id": "1261395",
-      "marketValue": "€150k",
-      "name": "Lautaro Rivero",
-      "position": "Centre-Back"
-    },
-    {
       "contract": "Jun 9, 2017",
       "dateOfBirth": "Aug 31, 1992",
       "foot": "left",
@@ -168,16 +110,6 @@
       "position": "Left-Back"
     },
     {
-      "contract": "Nov 16, 2016",
-      "dateOfBirth": "Oct 28, 1991",
-      "foot": "left",
-      "height": "1,72m",
-      "id": "60410",
-      "marketValue": "€3.50m",
-      "name": "Marcos Acuña",
-      "position": "Left-Back"
-    },
-    {
       "contract": "Jun 4, 2021",
       "dateOfBirth": "Apr 6, 1998",
       "foot": "right",
@@ -185,16 +117,6 @@
       "id": "424042",
       "marketValue": "€25.00m",
       "name": "Nahuel Molina",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Mar 22, 2019",
-      "dateOfBirth": "Jan 1, 1997",
-      "foot": "right",
-      "height": "1,75m",
-      "id": "402733",
-      "marketValue": "€5.00m",
-      "name": "Gonzalo Montiel",
       "position": "Right-Back"
     },
     {
@@ -234,16 +156,6 @@
       "id": "671915",
       "marketValue": "€7.50m",
       "name": "Enzo Barrenechea",
-      "position": "Defensive Midfield"
-    },
-    {
-      "contract": "Jun 13, 2017",
-      "dateOfBirth": "Jun 29, 1994",
-      "foot": "right",
-      "height": "1,80m",
-      "id": "166237",
-      "marketValue": "€5.00m",
-      "name": "Leandro Paredes",
       "position": "Defensive Midfield"
     },
     {
@@ -454,17 +366,6 @@
       "marketValue": "€9.00m",
       "name": "José Manuel López",
       "number": "21",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Nov 14, 2025",
-      "dateOfBirth": "Oct 7, 2002",
-      "foot": "right",
-      "height": "1,90m",
-      "id": "1064871",
-      "marketValue": "€800k",
-      "name": "Joaquín Panichelli",
-      "number": "24",
       "position": "Centre-Forward"
     }
   ],

@@ -1,0 +1,343 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/3581.png",
+  "name": "Paraguay",
+  "players": [
+    {
+      "contract": "Sep 10, 2025",
+      "dateOfBirth": "Jun 11, 2000",
+      "foot": "left",
+      "height": "1,98m",
+      "id": "643259",
+      "marketValue": "€5.00m",
+      "name": "Orlando Gill",
+      "number": "22",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Sep 8, 2023",
+      "dateOfBirth": "Dec 29, 1996",
+      "foot": "right",
+      "height": "1,92m",
+      "id": "378871",
+      "marketValue": "€1.50m",
+      "name": "Carlos Coronel",
+      "number": "1",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 17, 2022",
+      "dateOfBirth": "Nov 2, 1994",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "532557",
+      "marketValue": "€700k",
+      "name": "Juan Espínola",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Aug 14, 2013",
+      "dateOfBirth": "Mar 29, 1988",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "107318",
+      "marketValue": "€150k",
+      "name": "Roberto Fernández",
+      "number": "12",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 20, 2018",
+      "dateOfBirth": "Dec 26, 1996",
+      "foot": "left",
+      "height": "1,88m",
+      "id": "353032",
+      "marketValue": "€12.00m",
+      "name": "Omar Alderete",
+      "number": "3",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Sep 7, 2013",
+      "dateOfBirth": "May 6, 1993",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "215390",
+      "marketValue": "€4.00m",
+      "name": "Gustavo Gómez",
+      "number": "15",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 11, 2013",
+      "dateOfBirth": "Feb 9, 1993",
+      "foot": "left",
+      "height": "1,85m",
+      "id": "273000",
+      "marketValue": "€3.00m",
+      "name": "Júnior Alonso",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 19, 2025",
+      "dateOfBirth": "Mar 12, 2000",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "491587",
+      "marketValue": "€2.00m",
+      "name": "Alexis Duarte",
+      "number": "5",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jun 8, 2024",
+      "dateOfBirth": "Apr 17, 1991",
+      "foot": "right",
+      "height": "1,79m",
+      "id": "389399",
+      "marketValue": "€600k",
+      "name": "Gustavo Velázquez",
+      "number": "2",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 14, 2025",
+      "dateOfBirth": "Apr 3, 2007",
+      "foot": "left",
+      "height": "1,77m",
+      "id": "1283997",
+      "marketValue": "€4.00m",
+      "name": "Diego León",
+      "number": "25",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Oct 10, 2024",
+      "dateOfBirth": "Jan 16, 2001",
+      "foot": "left",
+      "height": "1,84m",
+      "id": "847023",
+      "marketValue": "€2.50m",
+      "name": "Agustín Sández",
+      "number": "6",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "May 28, 2016",
+      "dateOfBirth": "Feb 3, 1998",
+      "foot": "left",
+      "height": "1,78m",
+      "id": "401732",
+      "marketValue": "€1.20m",
+      "name": "Blas Riveros",
+      "number": "14",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Jun 18, 2023",
+      "dateOfBirth": "Jun 1, 2000",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "756494",
+      "marketValue": "€4.00m",
+      "name": "Juan José Cáceres",
+      "number": "4",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Jul 2, 2017",
+      "dateOfBirth": "Jan 25, 1994",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "344676",
+      "marketValue": "€300k",
+      "name": "Alan Benítez",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Nov 19, 2019",
+      "dateOfBirth": "May 22, 1996",
+      "foot": "right",
+      "height": "1,66m",
+      "id": "323872",
+      "marketValue": "€4.00m",
+      "name": "Andrés Cubas",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Sep 2, 2021",
+      "dateOfBirth": "Jun 27, 2000",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "491596",
+      "marketValue": "€4.00m",
+      "name": "Braian Ojeda",
+      "number": "20",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Nov 19, 2025",
+      "dateOfBirth": "Aug 29, 2002",
+      "foot": "right",
+      "height": "1,89m",
+      "id": "1127335",
+      "marketValue": "€350k",
+      "name": "Lucas Romero",
+      "number": "13",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Sep 1, 2022",
+      "dateOfBirth": "Mar 27, 2003",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "996897",
+      "marketValue": "€25.00m",
+      "name": "Diego Gómez",
+      "number": "8",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jun 12, 2024",
+      "dateOfBirth": "Jul 11, 2001",
+      "foot": "right",
+      "height": "1,81m",
+      "id": "861852",
+      "marketValue": "€4.00m",
+      "name": "Damián Bobadilla",
+      "number": "16",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Sep 1, 2022",
+      "dateOfBirth": "Feb 11, 2002",
+      "foot": "left",
+      "height": "1,75m",
+      "id": "661269",
+      "marketValue": "€3.00m",
+      "name": "Matías Galarza",
+      "number": "23",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jun 12, 2018",
+      "dateOfBirth": "Jan 11, 1995",
+      "foot": "left",
+      "height": "1,71m",
+      "id": "355817",
+      "marketValue": "€5.00m",
+      "name": "Kaku",
+      "number": "10",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Sep 11, 2024",
+      "dateOfBirth": "Jan 8, 2005",
+      "foot": "left",
+      "height": "1,83m",
+      "id": "906315",
+      "marketValue": "€300k",
+      "name": "Hugo Cuenca",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Sep 5, 2015",
+      "dateOfBirth": "Feb 10, 1994",
+      "foot": "left",
+      "height": "1,74m",
+      "id": "272999",
+      "marketValue": "€9.00m",
+      "name": "Miguel Almirón",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Oct 10, 2025",
+      "dateOfBirth": "Jan 7, 2003",
+      "foot": "left",
+      "height": "1,77m",
+      "id": "873981",
+      "marketValue": "€4.00m",
+      "name": "Diego González",
+      "number": "11",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Sep 7, 2013",
+      "dateOfBirth": "Jul 4, 1992",
+      "foot": "right",
+      "height": "1,76m",
+      "id": "262262",
+      "marketValue": "€900k",
+      "name": "Ángel Romero",
+      "number": "11",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Nov 20, 2022",
+      "dateOfBirth": "Aug 31, 1999",
+      "foot": "right",
+      "height": "1,79m",
+      "id": "745191",
+      "marketValue": "€11.00m",
+      "name": "Ramón Sosa",
+      "number": "7",
+      "position": "Second Striker"
+    },
+    {
+      "contract": "Jun 8, 2024",
+      "dateOfBirth": "Jun 16, 1995",
+      "foot": "right",
+      "height": "1,87m",
+      "id": "970518",
+      "marketValue": "€4.00m",
+      "name": "Álex Arce",
+      "number": "18",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Sep 5, 2025",
+      "dateOfBirth": "Apr 25, 1996",
+      "foot": "right",
+      "height": "1,78m",
+      "id": "567736",
+      "marketValue": "€4.00m",
+      "name": "Ronaldo Martínez",
+      "number": "21",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Aug 14, 2013",
+      "dateOfBirth": "Mar 4, 1996",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "234523",
+      "marketValue": "€2.50m",
+      "name": "Antonio Sanabria",
+      "number": "9",
+      "position": "Centre-Forward"
+    },
+    {
+      "dateOfBirth": "Sep 28, 1999",
+      "foot": "right",
+      "height": "1,86m",
+      "id": "975188",
+      "marketValue": "€1.00m",
+      "name": "Adrián Alcaraz",
+      "number": "17",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Jun 4, 2021",
+      "dateOfBirth": "Oct 12, 1990",
+      "foot": "right",
+      "height": "1,90m",
+      "id": "358418",
+      "marketValue": "€800k",
+      "name": "Gabriel Ávalos",
+      "number": "19",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "3581"
+}

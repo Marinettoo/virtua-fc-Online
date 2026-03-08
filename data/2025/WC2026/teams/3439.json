@@ -35,45 +35,6 @@
       "position": "Goalkeeper"
     },
     {
-      "dateOfBirth": "Dec 10, 1997",
-      "foot": "right",
-      "height": "1,97m",
-      "id": "352041",
-      "marketValue": "€8.00m",
-      "name": "Lucas Perri",
-      "position": "Goalkeeper"
-    },
-    {
-      "contract": "Oct 14, 2025",
-      "dateOfBirth": "Jan 31, 1999",
-      "foot": "right",
-      "height": "1,99m",
-      "id": "574901",
-      "marketValue": "€8.00m",
-      "name": "Hugo Souza",
-      "position": "Goalkeeper"
-    },
-    {
-      "dateOfBirth": "Feb 13, 1996",
-      "foot": "right",
-      "height": "1,97m",
-      "id": "432914",
-      "marketValue": "€7.00m",
-      "name": "John Victor",
-      "number": "1",
-      "position": "Goalkeeper"
-    },
-    {
-      "contract": "Jan 26, 2017",
-      "dateOfBirth": "Dec 13, 1987",
-      "foot": "right",
-      "height": "1,89m",
-      "id": "69400",
-      "marketValue": "€1.80m",
-      "name": "Weverton",
-      "position": "Goalkeeper"
-    },
-    {
       "contract": "Sep 9, 2023",
       "dateOfBirth": "Dec 19, 1997",
       "foot": "left",
@@ -127,48 +88,6 @@
       "position": "Centre-Back"
     },
     {
-      "contract": "Jun 6, 2025",
-      "dateOfBirth": "Aug 9, 1999",
-      "foot": "both",
-      "height": "1,91m",
-      "id": "648020",
-      "marketValue": "€12.00m",
-      "name": "Alexsandro",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 21, 2025",
-      "dateOfBirth": "Jan 3, 1996",
-      "foot": "right",
-      "height": "1,85m",
-      "id": "374136",
-      "marketValue": "€11.00m",
-      "name": "Léo Ortiz",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 23, 2024",
-      "dateOfBirth": "Feb 12, 1996",
-      "foot": "right",
-      "height": "1,90m",
-      "id": "432773",
-      "marketValue": "€7.00m",
-      "name": "Fabrício Bruno",
-      "number": "15",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Sep 15, 2011",
-      "dateOfBirth": "Jul 15, 1991",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "145707",
-      "marketValue": "€4.00m",
-      "name": "Danilo",
-      "number": "13",
-      "position": "Centre-Back"
-    },
-    {
       "contract": "Oct 18, 2023",
       "dateOfBirth": "Jan 7, 1999",
       "foot": "left",
@@ -190,47 +109,6 @@
       "position": "Left-Back"
     },
     {
-      "contract": "Oct 8, 2021",
-      "dateOfBirth": "Apr 14, 1997",
-      "foot": "left",
-      "height": "1,76m",
-      "id": "346766",
-      "marketValue": "€13.00m",
-      "name": "Guilherme Arana",
-      "position": "Left-Back"
-    },
-    {
-      "contract": "May 30, 2016",
-      "dateOfBirth": "Mar 22, 1994",
-      "foot": "left",
-      "height": "1,76m",
-      "id": "220793",
-      "marketValue": "€10.00m",
-      "name": "Douglas Santos",
-      "position": "Left-Back"
-    },
-    {
-      "dateOfBirth": "Aug 29, 1999",
-      "foot": "left",
-      "height": "1,76m",
-      "id": "676035",
-      "marketValue": "€3.00m",
-      "name": "Luciano Juba",
-      "number": "24",
-      "position": "Left-Back"
-    },
-    {
-      "contract": "Nov 10, 2011",
-      "dateOfBirth": "Jan 26, 1991",
-      "foot": "left",
-      "height": "1,81m",
-      "id": "79960",
-      "marketValue": "€1.80m",
-      "name": "Alex Sandro",
-      "number": "6",
-      "position": "Left-Back"
-    },
-    {
       "contract": "Jun 17, 2023",
       "dateOfBirth": "Jun 21, 2001",
       "foot": "right",
@@ -238,38 +116,6 @@
       "id": "789082",
       "marketValue": "€20.00m",
       "name": "Vanderson",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Mar 21, 2025",
-      "dateOfBirth": "Sep 6, 2003",
-      "foot": "right",
-      "height": "1,78m",
-      "id": "964580",
-      "marketValue": "€9.00m",
-      "name": "Wesley",
-      "number": "14",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Sep 10, 2025",
-      "dateOfBirth": "Jul 23, 1999",
-      "foot": "right",
-      "height": "1,74m",
-      "id": "468249",
-      "marketValue": "€6.00m",
-      "name": "Vitinho",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Oct 10, 2025",
-      "dateOfBirth": "Jul 25, 1996",
-      "foot": "right",
-      "height": "1,75m",
-      "id": "412594",
-      "marketValue": "€1.70m",
-      "name": "Paulo Henrique",
-      "number": "25",
       "position": "Right-Back"
     },
     {
@@ -291,17 +137,6 @@
       "marketValue": "€18.00m",
       "name": "Fabinho",
       "number": "17",
-      "position": "Defensive Midfield"
-    },
-    {
-      "contract": "Sep 15, 2011",
-      "dateOfBirth": "Feb 23, 1992",
-      "foot": "right",
-      "height": "1,85m",
-      "id": "16306",
-      "marketValue": "€12.00m",
-      "name": "Casemiro",
-      "number": "5",
       "position": "Defensive Midfield"
     },
     {
@@ -364,16 +199,6 @@
       "id": "341705",
       "marketValue": "€20.00m",
       "name": "Gerson",
-      "position": "Central Midfield"
-    },
-    {
-      "contract": "Sep 10, 2025",
-      "dateOfBirth": "Jun 22, 1998",
-      "foot": "right",
-      "height": "1,81m",
-      "id": "578872",
-      "marketValue": "€8.00m",
-      "name": "Jean Lucas",
       "position": "Central Midfield"
     },
     {
@@ -543,26 +368,6 @@
       "marketValue": "€20.00m",
       "name": "Vitor Roque",
       "number": "26",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Oct 11, 2024",
-      "dateOfBirth": "Feb 25, 2001",
-      "foot": "right",
-      "height": "1,79m",
-      "id": "432164",
-      "marketValue": "€15.00m",
-      "name": "Igor Jesus",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Sep 5, 2025",
-      "dateOfBirth": "Jan 24, 2002",
-      "foot": "right",
-      "height": "1,82m",
-      "id": "620477",
-      "marketValue": "€4.50m",
-      "name": "Kaio Jorge",
       "position": "Centre-Forward"
     }
   ],

@@ -99,47 +99,6 @@
       "position": "Centre-Back"
     },
     {
-      "contract": "Mar 21, 2025",
-      "dateOfBirth": "May 9, 1992",
-      "foot": "left",
-      "height": "2,01m",
-      "id": "134270",
-      "marketValue": "€7.00m",
-      "name": "Dan Burn",
-      "number": "12",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 21, 2025",
-      "dateOfBirth": "Sep 26, 2006",
-      "foot": "left",
-      "height": "1,78m",
-      "id": "890721",
-      "marketValue": "€10.00m",
-      "name": "Myles Lewis-Skelly",
-      "position": "Left-Back"
-    },
-    {
-      "contract": "Sep 9, 2025",
-      "dateOfBirth": "Aug 9, 2000",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "483348",
-      "marketValue": "€8.00m",
-      "name": "Djed Spence",
-      "number": "14",
-      "position": "Left-Back"
-    },
-    {
-      "contract": "Nov 13, 2025",
-      "dateOfBirth": "Mar 21, 2005",
-      "foot": "left",
-      "height": "1,93m",
-      "id": "743413",
-      "name": "Nico O'Reilly",
-      "position": "Left-Back"
-    },
-    {
       "contract": "Jun 7, 2018",
       "dateOfBirth": "Oct 7, 1998",
       "foot": "right",
@@ -187,17 +146,6 @@
       "id": "744149",
       "marketValue": "€32.00m",
       "name": "Adam Wharton",
-      "position": "Defensive Midfield"
-    },
-    {
-      "contract": "Nov 17, 2010",
-      "dateOfBirth": "Jun 17, 1990",
-      "foot": "right",
-      "height": "1,82m",
-      "id": "61651",
-      "marketValue": "€3.50m",
-      "name": "Jordan Henderson",
-      "number": "8",
       "position": "Defensive Midfield"
     },
     {

@@ -1,0 +1,238 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/9171.png",
+  "name": "New Zealand",
+  "players": [
+    {
+      "contract": "Mar 24, 2018",
+      "dateOfBirth": "Aug 12, 1993",
+      "foot": "right",
+      "height": "1,94m",
+      "id": "207843",
+      "marketValue": "€1.00m",
+      "name": "Max Crocombe",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Mar 18, 2022",
+      "dateOfBirth": "Jan 13, 1996",
+      "foot": "right",
+      "height": "1,97m",
+      "id": "290838",
+      "marketValue": "€250k",
+      "name": "Oliver Sail",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Mar 23, 2023",
+      "dateOfBirth": "Mar 27, 2003",
+      "foot": "right",
+      "height": "1,94m",
+      "id": "733234",
+      "marketValue": "€250k",
+      "name": "Kees Sims",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Jun 5, 2018",
+      "dateOfBirth": "Dec 23, 1996",
+      "foot": "right",
+      "height": "1,95m",
+      "id": "363901",
+      "marketValue": "€100k",
+      "name": "Nik Tzanev",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 17, 2023",
+      "dateOfBirth": "Sep 23, 2003",
+      "foot": "right",
+      "height": "1,90m",
+      "id": "724809",
+      "marketValue": "€1.50m",
+      "name": "Finn Surman",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 13, 2023",
+      "dateOfBirth": "Jan 27, 2005",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "1007720",
+      "marketValue": "€1.50m",
+      "name": "Tyler Bindon",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 16, 2013",
+      "dateOfBirth": "Mar 27, 1995",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "172333",
+      "marketValue": "€400k",
+      "name": "Bill Tuiloma",
+      "position": "Centre-Back"
+    },
+    {
+      "dateOfBirth": "Aug 15, 2000",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "509709",
+      "marketValue": "€200k",
+      "name": "George Stanger",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Mar 25, 2011",
+      "dateOfBirth": "Aug 18, 1988",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "81723",
+      "marketValue": "€150k",
+      "name": "Michael Boxall",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 16, 2021",
+      "dateOfBirth": "Nov 28, 1994",
+      "foot": "left",
+      "height": "1,88m",
+      "id": "207061",
+      "marketValue": "€600k",
+      "name": "Francis de Vries",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Mar 18, 2022",
+      "dateOfBirth": "Aug 13, 2002",
+      "foot": "left",
+      "height": "1,73m",
+      "id": "617021",
+      "marketValue": "€600k",
+      "name": "Ben Old",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Nov 17, 2019",
+      "dateOfBirth": "Apr 9, 1998",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "345343",
+      "marketValue": "€400k",
+      "name": "James McGarry",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Nov 20, 2013",
+      "dateOfBirth": "Jan 13, 1993",
+      "foot": "right",
+      "height": "1,81m",
+      "id": "175699",
+      "marketValue": "€250k",
+      "name": "Storm Roux",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Nov 14, 2019",
+      "dateOfBirth": "Apr 27, 1999",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "345700",
+      "marketValue": "€3.00m",
+      "name": "Joe Bell",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Sep 7, 2015",
+      "dateOfBirth": "Jun 12, 1996",
+      "foot": "right",
+      "height": "1,84m",
+      "id": "256019",
+      "marketValue": "€600k",
+      "name": "Alex Rufer",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Oct 9, 2021",
+      "dateOfBirth": "Feb 19, 2002",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "617018",
+      "marketValue": "€3.00m",
+      "name": "Marko Stamenić",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Oct 9, 2021",
+      "dateOfBirth": "Apr 13, 2002",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "617019",
+      "marketValue": "€400k",
+      "name": "Matthew Garbett",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Oct 9, 2025",
+      "dateOfBirth": "Dec 10, 1998",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "400799",
+      "marketValue": "€350k",
+      "name": "Owen Parker-Price",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Mar 24, 2018",
+      "dateOfBirth": "Nov 2, 1996",
+      "foot": "right",
+      "height": "1,81m",
+      "id": "264903",
+      "marketValue": "€800k",
+      "name": "Andre de Jong",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Mar 24, 2018",
+      "dateOfBirth": "Feb 20, 1999",
+      "foot": "left",
+      "height": "1,77m",
+      "id": "350357",
+      "marketValue": "€500k",
+      "name": "Sarpreet Singh",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Jun 18, 2024",
+      "dateOfBirth": "Aug 19, 2002",
+      "foot": "right",
+      "height": "1,76m",
+      "id": "677509",
+      "marketValue": "€600k",
+      "name": "Jesse Randall",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Nov 14, 2019",
+      "dateOfBirth": "May 1, 2000",
+      "foot": "left",
+      "height": "1,75m",
+      "id": "485672",
+      "marketValue": "€1.50m",
+      "name": "Elijah Just",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Nov 19, 2008",
+      "dateOfBirth": "Feb 19, 1990",
+      "foot": "both",
+      "height": "1,71m",
+      "id": "50200",
+      "marketValue": "€325k",
+      "name": "Kosta Barbarouses",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "9171"
+}

@@ -34,25 +34,6 @@
       "position": "Goalkeeper"
     },
     {
-      "dateOfBirth": "Aug 1, 1995",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "215094",
-      "marketValue": "€3.50m",
-      "name": "Nick Olij",
-      "position": "Goalkeeper"
-    },
-    {
-      "dateOfBirth": "Jan 17, 2003",
-      "foot": "left",
-      "height": "1,93m",
-      "id": "646991",
-      "marketValue": "€1.50m",
-      "name": "Robin Roefs",
-      "number": "13",
-      "position": "Goalkeeper"
-    },
-    {
       "contract": "Oct 13, 2023",
       "dateOfBirth": "Apr 19, 2001",
       "foot": "left",
@@ -271,17 +252,6 @@
       "id": "470394",
       "marketValue": "€16.00m",
       "name": "Kenneth Taylor",
-      "position": "Central Midfield"
-    },
-    {
-      "contract": "Nov 17, 2025",
-      "dateOfBirth": "Oct 4, 2003",
-      "foot": "right",
-      "height": "1,89m",
-      "id": "601495",
-      "marketValue": "€1.50m",
-      "name": "Luciano Valente",
-      "number": "22",
       "position": "Central Midfield"
     },
     {

@@ -1,0 +1,269 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/4311.png",
+  "name": "Cape Verde",
+  "players": [
+    {
+      "contract": "Oct 12, 2023",
+      "dateOfBirth": "Nov 4, 1994",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "182722",
+      "marketValue": "€2.00m",
+      "name": "Bruno Varela",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Jun 3, 2018",
+      "dateOfBirth": "Feb 23, 1997",
+      "foot": "right",
+      "height": "1,87m",
+      "id": "398048",
+      "marketValue": "€300k",
+      "name": "Márcio Rosa",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Sep 8, 2012",
+      "dateOfBirth": "Jun 3, 1986",
+      "foot": "right",
+      "height": "1,89m",
+      "id": "242277",
+      "marketValue": "€50k",
+      "name": "Vozinha",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 14, 2017",
+      "dateOfBirth": "Jan 17, 1995",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "349570",
+      "marketValue": "€1.00m",
+      "name": "Diney Borges",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "May 29, 2025",
+      "dateOfBirth": "Apr 18, 2004",
+      "foot": "left",
+      "height": "1,71m",
+      "id": "1044831",
+      "marketValue": "€800k",
+      "name": "David Moreira",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 18, 2025",
+      "dateOfBirth": "Jun 18, 1995",
+      "foot": "right",
+      "height": "1,98m",
+      "id": "247666",
+      "marketValue": "€500k",
+      "name": "Ricardo Santos",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Sep 7, 2021",
+      "dateOfBirth": "Jun 5, 2000",
+      "foot": "right",
+      "height": "1,93m",
+      "id": "662119",
+      "marketValue": "€300k",
+      "name": "Kelvin Pires",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jun 22, 2008",
+      "dateOfBirth": "May 20, 1988",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "80486",
+      "marketValue": "€50k",
+      "name": "Stopira",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Mar 21, 2024",
+      "dateOfBirth": "Nov 3, 2002",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "1072017",
+      "marketValue": "€8.00m",
+      "name": "Wagner Pina",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Oct 12, 2023",
+      "dateOfBirth": "Sep 18, 2002",
+      "foot": "both",
+      "height": "1,76m",
+      "id": "611855",
+      "marketValue": "€2.00m",
+      "name": "Sidny Lopes Cabral",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Mar 25, 2024",
+      "dateOfBirth": "May 19, 2001",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "681827",
+      "marketValue": "€400k",
+      "name": "Jójó",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Mar 25, 2022",
+      "dateOfBirth": "Jan 27, 1997",
+      "foot": "both",
+      "height": "1,81m",
+      "id": "544586",
+      "marketValue": "€4.50m",
+      "name": "Kevin Lenini",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Jan 14, 2024",
+      "dateOfBirth": "Feb 28, 1997",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "258513",
+      "marketValue": "€1.00m",
+      "name": "Laros Duarte",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "May 29, 2025",
+      "dateOfBirth": "Jul 20, 1998",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "486766",
+      "marketValue": "€700k",
+      "name": "Aílson Tavares",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Jun 8, 2021",
+      "dateOfBirth": "May 26, 1998",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "623965",
+      "marketValue": "€700k",
+      "name": "João Paulo",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Mar 23, 2022",
+      "dateOfBirth": "Jul 4, 1999",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "432852",
+      "marketValue": "€1.50m",
+      "name": "Deroy Duarte",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Mar 29, 2016",
+      "dateOfBirth": "Nov 23, 1993",
+      "foot": "right",
+      "height": "1,75m",
+      "id": "272930",
+      "marketValue": "€750k",
+      "name": "Jamiro Monteiro",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Oct 12, 2023",
+      "dateOfBirth": "May 3, 2002",
+      "foot": "right",
+      "height": "1,76m",
+      "id": "840836",
+      "marketValue": "€1.20m",
+      "name": "Hélio Varela",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Oct 7, 2020",
+      "dateOfBirth": "Apr 27, 1994",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "531450",
+      "marketValue": "€1.00m",
+      "name": "Willy Semedo",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "May 29, 2025",
+      "dateOfBirth": "Feb 19, 1997",
+      "foot": "left",
+      "height": "1,81m",
+      "id": "445517",
+      "marketValue": "€750k",
+      "name": "Heri Tavares",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Mar 24, 2023",
+      "dateOfBirth": "Jan 18, 1997",
+      "foot": "right",
+      "height": "1,86m",
+      "id": "337670",
+      "marketValue": "€450k",
+      "name": "Alessio Da Cruz",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Aug 11, 2010",
+      "dateOfBirth": "Jan 8, 1990",
+      "foot": "right",
+      "height": "1,78m",
+      "id": "111627",
+      "marketValue": "€250k",
+      "name": "Ryan Mendes",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Jun 8, 2021",
+      "dateOfBirth": "Jun 21, 2001",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "791528",
+      "marketValue": "€3.00m",
+      "name": "Telmo Arcanjo",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Aug 14, 2013",
+      "dateOfBirth": "Nov 27, 1990",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "170895",
+      "marketValue": "€325k",
+      "name": "Garry Rodrigues",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Mar 21, 2024",
+      "dateOfBirth": "May 4, 2001",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "676411",
+      "marketValue": "€800k",
+      "name": "Dailon Livramento",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Jun 4, 2016",
+      "dateOfBirth": "Feb 10, 1991",
+      "foot": "right",
+      "height": "1,84m",
+      "id": "306166",
+      "marketValue": "€500k",
+      "name": "Nuno Da Costa",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "4311"
+}

@@ -1,0 +1,267 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/3505.png",
+  "name": "United States",
+  "players": [
+    {
+      "contract": "Jan 20, 2024",
+      "dateOfBirth": "Mar 13, 2001",
+      "height": "1,93m",
+      "id": "649397",
+      "marketValue": "€3.50m",
+      "name": "Patrick Schulte",
+      "number": "25",
+      "position": "Goalkeeper"
+    },
+    {
+      "dateOfBirth": "Apr 8, 1997",
+      "foot": "right",
+      "height": "1,95m",
+      "id": "334992",
+      "marketValue": "€3.00m",
+      "name": "Jonathan Klinsmann",
+      "number": "21",
+      "position": "Goalkeeper"
+    },
+    {
+      "dateOfBirth": "Sep 14, 2000",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "972454",
+      "marketValue": "€2.50m",
+      "name": "Roman Celentano",
+      "number": "24",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Jun 7, 2025",
+      "dateOfBirth": "Sep 2, 1998",
+      "height": "1,93m",
+      "id": "500309",
+      "marketValue": "€2.00m",
+      "name": "Matt Freese",
+      "number": "1",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Mar 25, 2023",
+      "dateOfBirth": "Aug 12, 1998",
+      "foot": "left",
+      "height": "1,90m",
+      "id": "389253",
+      "marketValue": "€6.00m",
+      "name": "Auston Trusty",
+      "number": "15",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Feb 1, 2020",
+      "dateOfBirth": "Feb 25, 1999",
+      "foot": "right",
+      "height": "1,84m",
+      "id": "429259",
+      "marketValue": "€6.00m",
+      "name": "Mark McKenzie",
+      "number": "22",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Sep 7, 2019",
+      "dateOfBirth": "Mar 14, 1997",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "468022",
+      "marketValue": "€3.50m",
+      "name": "Miles Robinson",
+      "number": "12",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 17, 2010",
+      "dateOfBirth": "Oct 5, 1987",
+      "foot": "left",
+      "height": "1,86m",
+      "id": "145466",
+      "marketValue": "€200k",
+      "name": "Tim Ream",
+      "number": "13",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jan 29, 2023",
+      "dateOfBirth": "Jul 31, 2002",
+      "foot": "left",
+      "height": "1,70m",
+      "id": "683812",
+      "marketValue": "€2.50m",
+      "name": "John Tolkin",
+      "number": "3",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Sep 7, 2019",
+      "dateOfBirth": "Nov 3, 2000",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "361104",
+      "marketValue": "€18.00m",
+      "name": "Sergiño Dest",
+      "number": "2",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Jun 2, 2022",
+      "dateOfBirth": "Dec 31, 2002",
+      "foot": "right",
+      "height": "1,84m",
+      "id": "504153",
+      "marketValue": "€7.00m",
+      "name": "Joe Scally",
+      "number": "5",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Jun 7, 2025",
+      "dateOfBirth": "Aug 9, 2004",
+      "height": "1,88m",
+      "id": "985806",
+      "marketValue": "€3.50m",
+      "name": "Alex Freeman",
+      "number": "16",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Feb 1, 2021",
+      "dateOfBirth": "Sep 24, 2001",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "670096",
+      "marketValue": "€12.00m",
+      "name": "Tanner Tessmann",
+      "number": "8",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Jan 26, 2023",
+      "dateOfBirth": "Nov 16, 2001",
+      "foot": "right",
+      "height": "1,75m",
+      "id": "513968",
+      "marketValue": "€9.00m",
+      "name": "Aidan Morris",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jun 11, 2025",
+      "dateOfBirth": "May 10, 2001",
+      "foot": "right",
+      "height": "1,75m",
+      "id": "734761",
+      "marketValue": "€5.00m",
+      "name": "Sebastian Berhalter",
+      "number": "17",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jul 13, 2017",
+      "dateOfBirth": "Jun 3, 1995",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "354792",
+      "marketValue": "€3.50m",
+      "name": "Cristian Roldán",
+      "number": "6",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jan 20, 2024",
+      "dateOfBirth": "Jan 4, 1999",
+      "foot": "right",
+      "height": "1,83m",
+      "id": "310662",
+      "marketValue": "€3.00m",
+      "name": "Timothy Tillman",
+      "number": "14",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Jan 20, 2024",
+      "dateOfBirth": "Sep 7, 2003",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "880626",
+      "marketValue": "€8.00m",
+      "name": "Diego Luna",
+      "number": "10",
+      "position": "Left Midfield"
+    },
+    {
+      "contract": "Feb 1, 2020",
+      "dateOfBirth": "Oct 22, 2000",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "393323",
+      "marketValue": "€15.00m",
+      "name": "Brenden Aaronson",
+      "number": "11",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Nov 12, 2020",
+      "dateOfBirth": "Nov 13, 2002",
+      "foot": "right",
+      "height": "1,87m",
+      "id": "504215",
+      "marketValue": "€6.00m",
+      "name": "Giovanni Reyna",
+      "number": "7",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Jan 18, 2025",
+      "dateOfBirth": "Apr 19, 2001",
+      "foot": "left",
+      "height": "1,85m",
+      "id": "993063",
+      "marketValue": "€4.50m",
+      "name": "Max Arfsten",
+      "number": "18",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Jun 16, 2023",
+      "dateOfBirth": "Jul 3, 2001",
+      "foot": "right",
+      "height": "1,78m",
+      "id": "503770",
+      "marketValue": "€22.00m",
+      "name": "Folarin Balogun",
+      "number": "20",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Sep 9, 2021",
+      "dateOfBirth": "Jan 9, 2003",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "627207",
+      "marketValue": "€15.00m",
+      "name": "Ricardo Pepi",
+      "number": "9",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Jun 2, 2022",
+      "dateOfBirth": "Mar 27, 1998",
+      "foot": "right",
+      "height": "1,93m",
+      "id": "315291",
+      "marketValue": "€14.00m",
+      "name": "Haji Wright",
+      "number": "19",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "3505"
+}

@@ -122,26 +122,6 @@
       "position": "Centre-Back"
     },
     {
-      "contract": "Oct 13, 2025",
-      "dateOfBirth": "Apr 5, 2002",
-      "foot": "left",
-      "height": "1,88m",
-      "id": "582987",
-      "marketValue": "€1.50m",
-      "name": "Adrian Bajrami",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 21, 2025",
-      "dateOfBirth": "Feb 2, 1997",
-      "foot": "right",
-      "height": "1,87m",
-      "id": "243770",
-      "marketValue": "€1.20m",
-      "name": "Stefan Gartenmann",
-      "position": "Centre-Back"
-    },
-    {
       "contract": "Sep 1, 2021",
       "dateOfBirth": "Jan 11, 1996",
       "foot": "left",
@@ -198,16 +178,6 @@
       "id": "503348",
       "marketValue": "€2.20m",
       "name": "Lucas Blondel",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Oct 14, 2014",
-      "dateOfBirth": "Mar 5, 1993",
-      "foot": "right",
-      "height": "1,83m",
-      "id": "168989",
-      "marketValue": "€1.50m",
-      "name": "Silvan Widmer",
       "position": "Right-Back"
     },
     {
@@ -291,16 +261,6 @@
       "position": "Central Midfield"
     },
     {
-      "contract": "Jun 7, 2025",
-      "dateOfBirth": "Oct 14, 2005",
-      "foot": "right",
-      "height": "1,82m",
-      "id": "927353",
-      "marketValue": "€750k",
-      "name": "Johan Manzambi",
-      "position": "Central Midfield"
-    },
-    {
       "contract": "Sep 8, 2024",
       "dateOfBirth": "Aug 5, 1999",
       "foot": "right",
@@ -328,16 +288,6 @@
       "id": "583058",
       "marketValue": "€9.00m",
       "name": "Alvyn Sanches",
-      "position": "Attacking Midfield"
-    },
-    {
-      "contract": "Oct 12, 2018",
-      "dateOfBirth": "Nov 11, 1993",
-      "foot": "right",
-      "height": "1,85m",
-      "id": "250490",
-      "marketValue": "€2.00m",
-      "name": "Christian Fassnacht",
       "position": "Attacking Midfield"
     },
     {

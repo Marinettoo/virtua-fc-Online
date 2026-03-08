@@ -1,0 +1,270 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/3382.png",
+  "name": "Belgium",
+  "players": [
+    {
+      "contract": "Nov 18, 2025",
+      "dateOfBirth": "Jul 7, 2002",
+      "foot": "right",
+      "height": "1,93m",
+      "id": "503883",
+      "marketValue": "€25.00m",
+      "name": "Senne Lammens",
+      "number": "1",
+      "position": "Goalkeeper"
+    },
+    {
+      "dateOfBirth": "Jul 31, 2005",
+      "foot": "left",
+      "height": "2,00m",
+      "id": "834397",
+      "marketValue": "€15.00m",
+      "name": "Mike Penders",
+      "number": "12",
+      "position": "Goalkeeper"
+    },
+    {
+      "dateOfBirth": "Feb 26, 2002",
+      "foot": "right",
+      "height": "1,92m",
+      "id": "486046",
+      "marketValue": "€8.00m",
+      "name": "Maarten Vandevoordt",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Jun 3, 2021",
+      "dateOfBirth": "Feb 26, 1992",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "127202",
+      "marketValue": "€6.00m",
+      "name": "Matz Sels",
+      "number": "13",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 16, 2021",
+      "dateOfBirth": "May 25, 2000",
+      "foot": "left",
+      "height": "1,85m",
+      "id": "368891",
+      "marketValue": "€24.00m",
+      "name": "Arthur Theate",
+      "number": "3",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Mar 23, 2024",
+      "dateOfBirth": "Jun 12, 2002",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "490384",
+      "marketValue": "€20.00m",
+      "name": "Koni De Winter",
+      "number": "16",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 13, 2019",
+      "dateOfBirth": "Jan 28, 1993",
+      "foot": "right",
+      "height": "1,90m",
+      "id": "236168",
+      "marketValue": "€3.00m",
+      "name": "Brandon Mechele",
+      "number": "4",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jun 5, 2024",
+      "dateOfBirth": "Dec 22, 2000",
+      "foot": "left",
+      "height": "1,82m",
+      "id": "429915",
+      "marketValue": "€22.00m",
+      "name": "Maxim De Cuyper",
+      "number": "5",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Oct 10, 2025",
+      "dateOfBirth": "Mar 28, 2005",
+      "foot": "left",
+      "height": "1,78m",
+      "id": "981196",
+      "marketValue": "€15.00m",
+      "name": "Joaquin Seys",
+      "number": "2",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Sep 7, 2018",
+      "dateOfBirth": "Dec 5, 1995",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "262226",
+      "marketValue": "€10.00m",
+      "name": "Timothy Castagne",
+      "number": "21",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Nov 14, 2013",
+      "dateOfBirth": "Sep 12, 1991",
+      "foot": "right",
+      "height": "1,91m",
+      "id": "100986",
+      "marketValue": "€1.80m",
+      "name": "Thomas Meunier",
+      "number": "15",
+      "position": "Right-Back"
+    },
+    {
+      "contract": "Mar 20, 2025",
+      "dateOfBirth": "Feb 23, 2001",
+      "foot": "right",
+      "height": "1,78m",
+      "id": "422763",
+      "marketValue": "€12.00m",
+      "name": "Nicolas Raskin",
+      "number": "23",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Sep 7, 2025",
+      "dateOfBirth": "Sep 16, 1998",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "569845",
+      "marketValue": "€7.00m",
+      "name": "Charles Vanhoutte",
+      "number": "18",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Mar 26, 2008",
+      "dateOfBirth": "Jan 12, 1989",
+      "foot": "right",
+      "height": "1,86m",
+      "id": "35047",
+      "marketValue": "€1.40m",
+      "name": "Axel Witsel",
+      "number": "6",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "Nov 9, 2016",
+      "dateOfBirth": "May 7, 1997",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "249565",
+      "marketValue": "€35.00m",
+      "name": "Youri Tielemans",
+      "number": "8",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Oct 8, 2020",
+      "dateOfBirth": "Jun 27, 1999",
+      "foot": "right",
+      "height": "1,80m",
+      "id": "381950",
+      "marketValue": "€25.00m",
+      "name": "Alexis Saelemaekers",
+      "number": "22",
+      "position": "Right Midfield"
+    },
+    {
+      "contract": "Sep 4, 2025",
+      "dateOfBirth": "Aug 6, 2004",
+      "foot": "left",
+      "height": "1,79m",
+      "id": "655006",
+      "marketValue": "€18.00m",
+      "name": "Diego Moreira",
+      "number": "7",
+      "position": "Left Midfield"
+    },
+    {
+      "contract": "Nov 11, 2020",
+      "dateOfBirth": "Mar 10, 2001",
+      "foot": "left",
+      "height": "1,92m",
+      "id": "435772",
+      "marketValue": "€35.00m",
+      "name": "Charles De Ketelaere",
+      "number": "17",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Sep 7, 2018",
+      "dateOfBirth": "Aug 24, 1992",
+      "foot": "right",
+      "height": "1,95m",
+      "id": "137576",
+      "marketValue": "€6.00m",
+      "name": "Hans Vanaken",
+      "number": "20",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Sep 5, 2020",
+      "dateOfBirth": "May 27, 2002",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "486049",
+      "marketValue": "€65.00m",
+      "name": "Jérémy Doku",
+      "number": "11",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Sep 5, 2020",
+      "dateOfBirth": "Dec 4, 1994",
+      "foot": "right",
+      "height": "1,72m",
+      "id": "144028",
+      "marketValue": "€20.00m",
+      "name": "Leandro Trossard",
+      "number": "10",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Nov 11, 2020",
+      "dateOfBirth": "Sep 24, 1997",
+      "foot": "left",
+      "height": "1,87m",
+      "id": "303259",
+      "marketValue": "€20.00m",
+      "name": "Dodi Lukébakio",
+      "number": "14",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Jun 8, 2022",
+      "dateOfBirth": "Feb 16, 2000",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "368887",
+      "marketValue": "€40.00m",
+      "name": "Loïs Openda",
+      "number": "9",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Nov 15, 2025",
+      "dateOfBirth": "Jan 24, 2004",
+      "foot": "right",
+      "height": "1,84m",
+      "id": "708454",
+      "marketValue": "€8.00m",
+      "name": "Romeo Vermant",
+      "number": "19",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "3382"
+}

@@ -99,58 +99,6 @@
       "position": "Centre-Back"
     },
     {
-      "contract": "Jan 23, 2012",
-      "dateOfBirth": "Mar 2, 1992",
-      "foot": "right",
-      "height": "1,85m",
-      "id": "185363",
-      "marketValue": "€200k",
-      "name": "Almahdi Ali",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 29, 2016",
-      "dateOfBirth": "Aug 6, 1990",
-      "foot": "right",
-      "height": "1,82m",
-      "id": "228727",
-      "marketValue": "€200k",
-      "name": "Pedro Miguel",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Dec 25, 2018",
-      "dateOfBirth": "Feb 8, 1999",
-      "foot": "right",
-      "height": "1,88m",
-      "id": "561030",
-      "marketValue": "€200k",
-      "name": "Ahmed Suhail",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Dec 1, 2025",
-      "dateOfBirth": "Dec 22, 1997",
-      "foot": "right",
-      "height": "1,88m",
-      "id": "1264176",
-      "marketValue": "€100k",
-      "name": "Issa Laye",
-      "number": "2",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Jun 11, 2024",
-      "dateOfBirth": "Aug 15, 2003",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "943150",
-      "marketValue": "€100k",
-      "name": "Al-Hashmi Al-Hussain",
-      "number": "16",
-      "position": "Centre-Back"
-    },
-    {
       "contract": "Nov 18, 2010",
       "dateOfBirth": "Aug 28, 1993",
       "foot": "left",
@@ -213,37 +161,6 @@
       "position": "Right-Back"
     },
     {
-      "contract": "Jun 11, 2024",
-      "dateOfBirth": "Feb 7, 2004",
-      "foot": "right",
-      "height": "1,75m",
-      "id": "944732",
-      "marketValue": "€200k",
-      "name": "Nabil Irfan",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Dec 25, 2013",
-      "dateOfBirth": "Jun 12, 1991",
-      "foot": "right",
-      "height": "1,73m",
-      "id": "185524",
-      "marketValue": "€150k",
-      "name": "Murad Naji",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Oct 8, 2025",
-      "dateOfBirth": "Mar 11, 2005",
-      "foot": "right",
-      "height": "1,87m",
-      "id": "1054631",
-      "marketValue": "€100k",
-      "name": "Ayoub Al-Oui",
-      "number": "13",
-      "position": "Right-Back"
-    },
-    {
       "contract": "Sep 3, 2025",
       "dateOfBirth": "Apr 5, 1991",
       "foot": "right",
@@ -294,17 +211,6 @@
       "marketValue": "€300k",
       "name": "Assim Madibo",
       "number": "23",
-      "position": "Defensive Midfield"
-    },
-    {
-      "contract": "Jun 10, 2025",
-      "dateOfBirth": "Oct 30, 2003",
-      "foot": "right",
-      "height": "1,89m",
-      "id": "822935",
-      "marketValue": "€150k",
-      "name": "Mohamed Al-Mannai",
-      "number": "17",
       "position": "Defensive Midfield"
     },
     {
@@ -402,36 +308,6 @@
       "position": "Left Winger"
     },
     {
-      "dateOfBirth": "Apr 21, 2003",
-      "foot": "right",
-      "height": "1,75m",
-      "id": "933797",
-      "marketValue": "€125k",
-      "name": "Mohamed Surag",
-      "position": "Left Winger"
-    },
-    {
-      "contract": "Jun 6, 2024",
-      "dateOfBirth": "Jun 16, 2006",
-      "foot": "right",
-      "height": "1,77m",
-      "id": "1143849",
-      "marketValue": "€50k",
-      "name": "Tahsin Mohammed Jamshid",
-      "position": "Left Winger"
-    },
-    {
-      "contract": "Jun 6, 2024",
-      "dateOfBirth": "Jan 26, 2005",
-      "foot": "right",
-      "height": "1,78m",
-      "id": "1062461",
-      "marketValue": "€50k",
-      "name": "Mohamed Khaled Gouda",
-      "number": "19",
-      "position": "Left Winger"
-    },
-    {
       "contract": "Jan 17, 2024",
       "dateOfBirth": "Sep 22, 2000",
       "foot": "right",
@@ -449,27 +325,6 @@
       "id": "560128",
       "marketValue": "€325k",
       "name": "Amro Surag",
-      "position": "Right Winger"
-    },
-    {
-      "contract": "Dec 25, 2013",
-      "dateOfBirth": "Apr 5, 1990",
-      "foot": "right",
-      "height": "1,68m",
-      "id": "223908",
-      "marketValue": "€175k",
-      "name": "Ismail Mohamad",
-      "position": "Right Winger"
-    },
-    {
-      "contract": "Jun 11, 2024",
-      "dateOfBirth": "Oct 5, 2001",
-      "foot": "left",
-      "height": "1,62m",
-      "id": "753162",
-      "marketValue": "€125k",
-      "name": "Khalid Ali Sabah",
-      "number": "12",
       "position": "Right Winger"
     },
     {
@@ -512,26 +367,6 @@
       "marketValue": "€275k",
       "name": "Mohammed Muntari",
       "number": "9",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Nov 16, 2023",
-      "dateOfBirth": "May 30, 2004",
-      "foot": "right",
-      "height": "1,84m",
-      "id": "933815",
-      "marketValue": "€175k",
-      "name": "Ahmed Al-Rawi",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Jul 9, 2007",
-      "dateOfBirth": "Nov 8, 1983",
-      "foot": "right",
-      "height": "1,86m",
-      "id": "64868",
-      "marketValue": "€50k",
-      "name": "Sebastián Soria",
       "position": "Centre-Forward"
     }
   ],

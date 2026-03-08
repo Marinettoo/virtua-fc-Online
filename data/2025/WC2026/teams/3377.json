@@ -164,16 +164,6 @@
       "position": "Right-Back"
     },
     {
-      "contract": "Mar 25, 2022",
-      "dateOfBirth": "Sep 25, 1992",
-      "foot": "right",
-      "height": "1,78m",
-      "id": "175639",
-      "marketValue": "€6.00m",
-      "name": "Jonathan Clauss",
-      "position": "Right-Back"
-    },
-    {
       "contract": "Sep 1, 2021",
       "dateOfBirth": "Jan 27, 2000",
       "foot": "right",
@@ -181,16 +171,6 @@
       "id": "413112",
       "marketValue": "€80.00m",
       "name": "Aurélien Tchouaméni",
-      "position": "Defensive Midfield"
-    },
-    {
-      "contract": "Mar 25, 2016",
-      "dateOfBirth": "Mar 29, 1991",
-      "foot": "right",
-      "height": "1,68m",
-      "id": "225083",
-      "marketValue": "€7.00m",
-      "name": "N'Golo Kanté",
       "position": "Defensive Midfield"
     },
     {
@@ -316,17 +296,6 @@
       "marketValue": "€40.00m",
       "name": "Maghnes Akliouche",
       "number": "12",
-      "position": "Right Winger"
-    },
-    {
-      "contract": "Jun 2, 2017",
-      "dateOfBirth": "Jan 26, 1993",
-      "foot": "left",
-      "height": "1,81m",
-      "id": "184892",
-      "marketValue": "€5.00m",
-      "name": "Florian Thauvin",
-      "number": "20",
       "position": "Right Winger"
     },
     {

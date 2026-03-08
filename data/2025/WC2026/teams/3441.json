@@ -1,0 +1,257 @@
+{
+  "image": "https://tmssl.akamaized.net/images/wappen/big/3441.png",
+  "name": "Ghana",
+  "players": [
+    {
+      "contract": "Jun 7, 2018",
+      "dateOfBirth": "Nov 29, 1996",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "254285",
+      "marketValue": "€1.50m",
+      "name": "Lawrence Ati Zigi",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Nov 14, 2025",
+      "dateOfBirth": "Jun 8, 2000",
+      "foot": "right",
+      "height": "1,90m",
+      "id": "576099",
+      "marketValue": "€275k",
+      "name": "Joseph Anang",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Mar 21, 2025",
+      "dateOfBirth": "Jul 13, 1992",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "837368",
+      "marketValue": "€100k",
+      "name": "Benjamin Asare",
+      "position": "Goalkeeper"
+    },
+    {
+      "contract": "Sep 23, 2022",
+      "dateOfBirth": "Apr 17, 1999",
+      "foot": "left",
+      "height": "1,88m",
+      "id": "563963",
+      "marketValue": "€10.00m",
+      "name": "Mohammed Salisu",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 15, 2024",
+      "dateOfBirth": "Dec 13, 2003",
+      "foot": "right",
+      "height": "1,88m",
+      "id": "734676",
+      "marketValue": "€7.00m",
+      "name": "Jonas Adjetey",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Jun 10, 2022",
+      "dateOfBirth": "Jun 4, 2000",
+      "foot": "right",
+      "height": "1,73m",
+      "id": "798404",
+      "marketValue": "€6.00m",
+      "name": "Alidu Seidu",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 18, 2023",
+      "dateOfBirth": "Oct 14, 1998",
+      "foot": "left",
+      "height": "1,97m",
+      "id": "408563",
+      "marketValue": "€5.00m",
+      "name": "Jerome Opoku",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Oct 12, 2025",
+      "dateOfBirth": "Jun 4, 2004",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "1113451",
+      "marketValue": "€4.00m",
+      "name": "Kojo Peprah Oppong",
+      "position": "Centre-Back"
+    },
+    {
+      "contract": "Nov 14, 2025",
+      "dateOfBirth": "Feb 4, 1999",
+      "foot": "left",
+      "height": "1,80m",
+      "id": "391780",
+      "marketValue": "€4.00m",
+      "name": "Derrick Köhn",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Nov 14, 2019",
+      "dateOfBirth": "Jul 18, 1998",
+      "foot": "left",
+      "height": "1,78m",
+      "id": "397171",
+      "marketValue": "€3.50m",
+      "name": "Gideon Mensah",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Mar 22, 2024",
+      "dateOfBirth": "Aug 21, 2002",
+      "foot": "left",
+      "height": "1,78m",
+      "id": "861221",
+      "marketValue": "€2.50m",
+      "name": "Ebenezer Annan",
+      "position": "Left-Back"
+    },
+    {
+      "contract": "Jun 5, 2016",
+      "dateOfBirth": "Jun 13, 1993",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "230784",
+      "marketValue": "€5.00m",
+      "name": "Thomas Partey",
+      "position": "Defensive Midfield"
+    },
+    {
+      "contract": "May 28, 2025",
+      "dateOfBirth": "Jan 15, 2006",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "1240763",
+      "marketValue": "€6.00m",
+      "name": "Caleb Yirenkyi",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Mar 26, 2024",
+      "dateOfBirth": "Apr 27, 2001",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "658533",
+      "marketValue": "€2.00m",
+      "name": "Abu Francis",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Sep 8, 2025",
+      "dateOfBirth": "Jun 24, 1998",
+      "foot": "right",
+      "height": "1,83m",
+      "id": "538006",
+      "marketValue": "€1.40m",
+      "name": "Kwasi Sibo",
+      "position": "Central Midfield"
+    },
+    {
+      "contract": "Oct 8, 2025",
+      "dateOfBirth": "Oct 8, 2004",
+      "id": "1328036",
+      "marketValue": "€75k",
+      "name": "Prince Owusu",
+      "position": "Attacking Midfield"
+    },
+    {
+      "contract": "Oct 9, 2020",
+      "dateOfBirth": "Feb 15, 2002",
+      "foot": "right",
+      "height": "1,75m",
+      "id": "746695",
+      "marketValue": "€18.00m",
+      "name": "Kamaldeen Sulemana",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "May 28, 2025",
+      "dateOfBirth": "Dec 14, 2004",
+      "foot": "left",
+      "height": "1,72m",
+      "id": "1119447",
+      "marketValue": "€10.00m",
+      "name": "Christopher Bonsu Baah",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Jun 1, 2022",
+      "dateOfBirth": "Jan 7, 2000",
+      "foot": "right",
+      "height": "1,85m",
+      "id": "583255",
+      "marketValue": "€65.00m",
+      "name": "Antoine Semenyo",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Nov 14, 2019",
+      "dateOfBirth": "Aug 2, 2000",
+      "foot": "left",
+      "height": "1,77m",
+      "id": "543499",
+      "marketValue": "€55.00m",
+      "name": "Mohammed Kudus",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Oct 9, 2021",
+      "dateOfBirth": "Mar 8, 2004",
+      "foot": "left",
+      "height": "1,77m",
+      "id": "864121",
+      "marketValue": "€24.00m",
+      "name": "Abdul Fatawu",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Sep 23, 2022",
+      "dateOfBirth": "Jun 15, 1994",
+      "foot": "right",
+      "height": "1,86m",
+      "id": "255508",
+      "marketValue": "€10.00m",
+      "name": "Iñaki Williams",
+      "position": "Right Winger"
+    },
+    {
+      "contract": "Jun 10, 2024",
+      "dateOfBirth": "Dec 29, 1998",
+      "foot": "right",
+      "height": "1,82m",
+      "id": "451747",
+      "marketValue": "€14.00m",
+      "name": "Brandon Thomas-Asante",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Nov 14, 2025",
+      "dateOfBirth": "Sep 23, 2003",
+      "foot": "right",
+      "height": "1,79m",
+      "id": "734799",
+      "marketValue": "€3.50m",
+      "name": "Prince Adu",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Nov 14, 2025",
+      "dateOfBirth": "Jan 7, 1997",
+      "foot": "left",
+      "height": "1,90m",
+      "id": "207593",
+      "marketValue": "€3.00m",
+      "name": "Prince Owusu",
+      "position": "Centre-Forward"
+    }
+  ],
+  "stadiumName": null,
+  "stadiumSeats": null,
+  "transfermarktId": "3441"
+}

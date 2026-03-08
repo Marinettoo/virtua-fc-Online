@@ -25,17 +25,6 @@
       "position": "Goalkeeper"
     },
     {
-      "contract": "Nov 12, 2025",
-      "dateOfBirth": "Sep 14, 2000",
-      "foot": "right",
-      "height": "1,88m",
-      "id": "679463",
-      "marketValue": "€300k",
-      "name": "Noureddine Farhati",
-      "number": "1",
-      "position": "Goalkeeper"
-    },
-    {
       "dateOfBirth": "Jun 13, 1996",
       "foot": "right",
       "height": "1,89m",
@@ -43,23 +32,6 @@
       "marketValue": "€300k",
       "name": "Sabri Ben Hessen",
       "number": "26",
-      "position": "Goalkeeper"
-    },
-    {
-      "dateOfBirth": "Oct 19, 1988",
-      "foot": "right",
-      "height": "1,88m",
-      "id": "206758",
-      "marketValue": "€175k",
-      "name": "Sami Helal",
-      "position": "Goalkeeper"
-    },
-    {
-      "dateOfBirth": "Jun 28, 1989",
-      "height": "1,81m",
-      "id": "441867",
-      "marketValue": "€100k",
-      "name": "Abdessalem Hallaoui",
       "position": "Goalkeeper"
     },
     {
@@ -126,46 +98,6 @@
       "position": "Centre-Back"
     },
     {
-      "contract": "Sep 21, 2019",
-      "dateOfBirth": "Sep 29, 1991",
-      "foot": "right",
-      "height": "1,89m",
-      "id": "244044",
-      "marketValue": "€450k",
-      "name": "Hamza Jelassi",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Mar 31, 2015",
-      "dateOfBirth": "Jan 28, 1992",
-      "foot": "left",
-      "height": "1,85m",
-      "id": "191407",
-      "marketValue": "€400k",
-      "name": "Oussama Haddadi",
-      "position": "Centre-Back"
-    },
-    {
-      "contract": "Dec 1, 2025",
-      "dateOfBirth": "Jan 9, 1996",
-      "foot": "right",
-      "height": "1,87m",
-      "id": "295428",
-      "marketValue": "€400k",
-      "name": "Marouane Sahraoui",
-      "position": "Centre-Back"
-    },
-    {
-      "dateOfBirth": "Jul 17, 2004",
-      "foot": "right",
-      "height": "1,88m",
-      "id": "1071742",
-      "marketValue": "€200k",
-      "name": "Adem Arous",
-      "number": "15",
-      "position": "Centre-Back"
-    },
-    {
       "contract": "Mar 25, 2021",
       "dateOfBirth": "Dec 20, 1993",
       "foot": "left",
@@ -187,17 +119,6 @@
       "position": "Left-Back"
     },
     {
-      "contract": "Jul 6, 2013",
-      "dateOfBirth": "Jan 1, 1990",
-      "foot": "left",
-      "height": "1,75m",
-      "id": "133042",
-      "marketValue": "€500k",
-      "name": "Ali Maâloul",
-      "number": "12",
-      "position": "Left-Back"
-    },
-    {
       "contract": "Sep 27, 2022",
       "dateOfBirth": "Feb 22, 1999",
       "foot": "right",
@@ -215,36 +136,6 @@
       "id": "1034598",
       "marketValue": "€800k",
       "name": "Moutaz Neffati",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Nov 12, 2025",
-      "dateOfBirth": "Feb 16, 1995",
-      "foot": "right",
-      "height": "1,75m",
-      "id": "290406",
-      "marketValue": "€500k",
-      "name": "Mohamed Ben Ali",
-      "number": "14",
-      "position": "Right-Back"
-    },
-    {
-      "contract": "Nov 18, 2024",
-      "dateOfBirth": "Dec 31, 2003",
-      "foot": "right",
-      "height": "1,83m",
-      "id": "966603",
-      "marketValue": "€450k",
-      "name": "Mahmoud Ghorbel",
-      "position": "Right-Back"
-    },
-    {
-      "dateOfBirth": "Feb 21, 2000",
-      "foot": "right",
-      "height": "1,77m",
-      "id": "898076",
-      "marketValue": "€200k",
-      "name": "Houssem Hassen Romdhane",
       "position": "Right-Back"
     },
     {
@@ -460,15 +351,6 @@
       "position": "Left Winger"
     },
     {
-      "contract": "Dec 4, 2025",
-      "dateOfBirth": "Aug 15, 2006",
-      "foot": "right",
-      "height": "1,67m",
-      "id": "1373350",
-      "name": "Mohamed Rayane Anane",
-      "position": "Left Winger"
-    },
-    {
       "contract": "Sep 6, 2019",
       "dateOfBirth": "Oct 3, 1992",
       "foot": "left",
@@ -476,22 +358,6 @@
       "id": "208880",
       "marketValue": "€750k",
       "name": "Amor Layouni",
-      "position": "Right Winger"
-    },
-    {
-      "dateOfBirth": "Feb 2, 2005",
-      "foot": "left",
-      "height": "1,74m",
-      "id": "1198342",
-      "marketValue": "€100k",
-      "name": "Khalil Ayari",
-      "position": "Right Winger"
-    },
-    {
-      "dateOfBirth": "Apr 30, 2006",
-      "foot": "left",
-      "id": "975337",
-      "name": "Nacim Dendani",
       "position": "Right Winger"
     },
     {
@@ -503,48 +369,6 @@
       "marketValue": "€700k",
       "name": "Seifeddine Jaziri",
       "number": "28",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Oct 16, 2018",
-      "dateOfBirth": "May 8, 1996",
-      "foot": "right",
-      "height": "1,85m",
-      "id": "402087",
-      "marketValue": "€500k",
-      "name": "Firas Chaouat",
-      "number": "19",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Nov 14, 2024",
-      "dateOfBirth": "Jun 18, 1997",
-      "foot": "right",
-      "height": "1,91m",
-      "id": "953150",
-      "marketValue": "€400k",
-      "name": "Hazem Mastouri",
-      "number": "9",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Jun 2, 2025",
-      "dateOfBirth": "Mar 24, 2004",
-      "foot": "right",
-      "height": "1,83m",
-      "id": "862950",
-      "marketValue": "€350k",
-      "name": "Youssef Snana",
-      "position": "Centre-Forward"
-    },
-    {
-      "contract": "Sep 9, 2018",
-      "dateOfBirth": "Dec 25, 1991",
-      "foot": "both",
-      "height": "1,86m",
-      "id": "122635",
-      "marketValue": "€300k",
-      "name": "Issam Jebali",
       "position": "Centre-Forward"
     }
   ],
