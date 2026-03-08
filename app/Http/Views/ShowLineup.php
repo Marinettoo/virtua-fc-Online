@@ -279,7 +279,7 @@ class ShowLineup
         $teamAverage = $this->lineupService->calculateTeamAverage($bestXI);
 
         // Predict their mentality based on reputation and context
-        $opponentReputation = TeamReputation::resolveLevel($game->id, $opponentTeamId);
+        $opponentReputation = TeamReputation::resolveLevel($gameId, $opponentTeamId);
         $predictedMentality = $this->lineupService->selectAIMentality(
             $opponentReputation,
             $opponentIsHome,
