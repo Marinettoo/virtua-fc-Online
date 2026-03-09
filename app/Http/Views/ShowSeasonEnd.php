@@ -64,8 +64,19 @@ class ShowSeasonEnd
             ->where('competition_id', $game->competition_id)
             ->pluck('team_id');
 
+        // === Promotion/Relegation data (needed before evaluation) ===
+        $promotionData = $this->buildPromotionData($game, $competition);
+
+        $userTeamPromoted = $promotionData
+            ? collect($promotionData['promoted'])->contains('teamId', $game->team_id)
+            : false;
+
         // Manager evaluation
-        $managerEvaluation = $this->seasonGoalService->evaluatePerformance($game, $playerStanding->position ?? 20);
+        $managerEvaluation = $this->seasonGoalService->evaluatePerformance(
+            $game,
+            $playerStanding->position ?? 20,
+            $userTeamPromoted
+        );
 
         // === League Awards (sidebar) ===
 
@@ -126,9 +137,6 @@ class ShowSeasonEnd
             ->where('type', FinancialTransaction::TYPE_EXPENSE)
             ->sum('amount');
         $transferBalance = $transferIncome - $transferSpend;
-
-        // === Promotion/Relegation data ===
-        $promotionData = $this->buildPromotionData($game, $competition);
 
         // === Reputation direction hint ===
         $reputationData = $this->buildReputationHint($game, $playerStanding?->position);

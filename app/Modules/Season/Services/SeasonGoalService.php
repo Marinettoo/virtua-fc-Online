@@ -84,7 +84,7 @@ class SeasonGoalService
     /**
      * Evaluate the manager's performance against the season goal.
      */
-    public function evaluatePerformance(Game $game, int $actualPosition): array
+    public function evaluatePerformance(Game $game, int $actualPosition, bool $promoted = false): array
     {
         $goal = $game->season_goal ?? Game::GOAL_TOP_HALF;
         $competition = Competition::find($game->competition_id);
@@ -109,6 +109,23 @@ class SeasonGoalService
             $grade = 'below';
         } else {
             $grade = 'disaster';
+        }
+
+        // Promotion is a major achievement — enforce a minimum grade floor
+        if ($promoted) {
+            $minGrade = match ($goal) {
+                Game::GOAL_PROMOTION => 'met',
+                Game::GOAL_PLAYOFF => 'exceeded',
+                default => 'exceptional',
+            };
+
+            $gradeOrder = ['disaster', 'below', 'met', 'exceeded', 'exceptional'];
+            $currentIndex = array_search($grade, $gradeOrder);
+            $minIndex = array_search($minGrade, $gradeOrder);
+
+            if ($currentIndex < $minIndex) {
+                $grade = $minGrade;
+            }
         }
 
         return $this->buildEvaluationResult($grade, $actualPosition, $targetPosition, $goal, $goalLabel, $achieved, $positionDiff);
