@@ -2,7 +2,6 @@
 
 namespace App\Http\Views;
 
-use App\Modules\Season\Jobs\SetupNewGame;
 use App\Models\Competition;
 use App\Models\Game;
 
@@ -18,25 +17,6 @@ class ShowWelcome
                 return redirect()->route('game.onboarding', $gameId);
             }
             return redirect()->route('show-game', $gameId);
-        }
-
-        // Wait for background setup to finish
-        if (!$game->isSetupComplete()) {
-            if ($game->created_at->lt(now()->subMinutes(2))) {
-                SetupNewGame::dispatch(
-                    gameId: $game->id,
-                    teamId: $game->team_id,
-                    competitionId: $game->competition_id,
-                    season: $game->season,
-                    gameMode: $game->game_mode ?? Game::MODE_CAREER,
-                );
-            }
-            return view('game-loading', [
-                'game' => $game,
-                'title' => __('game.preparing_season'),
-                'message' => __('game.setup_loading_message'),
-                'showCrest' => true,
-            ]);
         }
 
         $competition = Competition::find($game->competition_id);
