@@ -180,7 +180,7 @@ class SeedWorldCupData extends Command
             ['id' => self::COMPETITION_ID],
             [
                 'name' => 'game.wc2026_name',
-                'country' => 'INT',
+                'country' => 'XX',
                 'tier' => 0,
                 'type' => 'league',
                 'role' => 'league',

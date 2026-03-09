@@ -208,7 +208,7 @@ class SeedReferenceData extends Command
             ['id' => 'PRESEASON'],
             [
                 'name' => 'game.pre_season',
-                'country' => 'INT',
+                'country' => 'XX',
                 'flag' => null,
                 'tier' => 0,
                 'type' => 'league',

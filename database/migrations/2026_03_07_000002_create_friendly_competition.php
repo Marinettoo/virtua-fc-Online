@@ -10,7 +10,7 @@ return new class extends Migration
         DB::table('competitions')->insertOrIgnore([
             'id' => 'PRESEASON',
             'name' => 'game.pre_season',
-            'country' => 'INT',
+            'country' => 'XX',
             'flag' => null,
             'tier' => 0,
             'type' => 'league',
