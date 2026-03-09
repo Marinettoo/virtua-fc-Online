@@ -13,7 +13,7 @@ class SeasonGoalService
     /**
      * Determine the season goal for a team based on reputation and competition.
      */
-    public function determineGoalForTeam(Team $team, Competition $competition, ?Game $game = null): string
+    public function determineGoalForTeam(Team $team, Competition $competition, ?Game $game = null, bool $recentlyPromoted = false): string
     {
         $config = $competition->getConfig();
 
@@ -25,7 +25,30 @@ class SeasonGoalService
             ? TeamReputation::resolveLevel($game->id, $team->id)
             : ($team->clubProfile->reputation_level ?? 'modest');
 
-        return $config->getSeasonGoal($reputation);
+        $goal = $config->getSeasonGoal($reputation);
+
+        if ($recentlyPromoted) {
+            $goal = $this->downgradeGoal($goal, $config);
+        }
+
+        return $goal;
+    }
+
+    /**
+     * Downgrade a season goal by one tier (less ambitious) for recently promoted teams.
+     */
+    private function downgradeGoal(string $goal, HasSeasonGoals $config): string
+    {
+        $goals = $config->getAvailableGoals();
+        uasort($goals, fn ($a, $b) => $a['targetPosition'] <=> $b['targetPosition']);
+        $keys = array_keys($goals);
+        $index = array_search($goal, $keys);
+
+        if ($index !== false && isset($keys[$index + 1])) {
+            return $keys[$index + 1];
+        }
+
+        return $goal;
     }
 
     /**

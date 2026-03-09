@@ -29,7 +29,9 @@ class BudgetProjectionProcessor implements SeasonProcessor
     {
         // Determine season goal based on team reputation and competition
         $competition = Competition::find($game->competition_id);
-        $seasonGoal = $this->seasonGoalService->determineGoalForTeam($game->team, $competition, $game);
+        $promotedTeams = $data->getMetadata('promotedTeams', []);
+        $recentlyPromoted = collect($promotedTeams)->contains('teamId', $game->team_id);
+        $seasonGoal = $this->seasonGoalService->determineGoalForTeam($game->team, $competition, $game, $recentlyPromoted);
 
         $game->update(['season_goal' => $seasonGoal]);
 
