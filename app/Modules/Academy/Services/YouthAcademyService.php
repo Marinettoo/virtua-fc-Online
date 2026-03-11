@@ -360,7 +360,7 @@ class YouthAcademyService
         $technical = rand($minAbility, $maxAbility);
         $physical = rand($minAbility, $maxAbility);
 
-        $age = rand(16, 19);
+        $age = rand(17, 19);
         $currentYear = (int) $game->season;
         $dateOfBirth = Carbon::createFromDate($currentYear - $age, rand(1, 12), rand(1, 28));
 
