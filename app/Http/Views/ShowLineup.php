@@ -146,6 +146,18 @@ class ShowLineup
         $defaultPressing = $game->tactics?->default_pressing ?? 'standard';
         $defaultDefLine = $game->tactics?->default_defensive_line ?? 'normal';
 
+        $formationOptions = array_map(fn (Formation $f) => [
+            'value' => $f->value,
+            'label' => $f->label(),
+            'tooltip' => $f->tooltip(),
+        ], Formation::cases());
+
+        $mentalityOptions = array_map(fn (Mentality $m) => [
+            'value' => $m->value,
+            'label' => $m->label(),
+            'tooltip' => $m->tooltip(),
+        ], Mentality::cases());
+
         $playingStyles = array_map(fn (PlayingStyle $s) => [
             'value' => $s->value,
             'label' => $s->label(),
@@ -226,10 +238,10 @@ class ShowLineup
             'currentLineup' => $currentLineup,
             'currentSlotAssignments' => $game->tactics?->default_slot_assignments,
             'autoLineup' => $autoLineup,
-            'formations' => Formation::cases(),
+            'formationOptions' => $formationOptions,
             'currentFormation' => $currentFormation,
             'defaultFormation' => $defaultFormation,
-            'mentalities' => Mentality::cases(),
+            'mentalityOptions' => $mentalityOptions,
             'currentMentality' => $currentMentality,
             'defaultMentality' => $defaultMentality,
             'playersData' => $playersData,

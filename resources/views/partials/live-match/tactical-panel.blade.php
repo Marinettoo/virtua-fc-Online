@@ -322,18 +322,7 @@
                                 {{ __('game.tactical_formation') }}
                                 <span x-tooltip.raw="{{ __('game.tactical_formation_hint') }}" class="cursor-help shrink-0"><svg class="w-3.5 h-3.5 text-slate-300 hover:text-slate-500" fill="currentColor" viewBox="0 0 512 512"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></span>
                             </h4>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <template x-for="formation in availableFormations" :key="formation.value">
-                                    <button
-                                        @click="pendingFormation = formation.value"
-                                        class="px-3 py-2.5 rounded-lg text-sm font-semibold tabular-nums border-2 transition-all min-h-[44px]"
-                                        :class="(pendingFormation ?? activeFormation) === formation.value
-                                            ? 'bg-slate-800 text-white border-slate-800'
-                                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                        x-text="formation.value"
-                                    ></button>
-                                </template>
-                            </div>
+                            <x-tactical-lever model="(pendingFormation ?? activeFormation)" set="pendingFormation" options="availableFormations" :columns="4" />
                             <p class="mt-2 text-xs text-slate-400 italic min-h-[1.25rem]" x-text="getFormationTooltip()"></p>
                         </div>
 
@@ -343,32 +332,7 @@
                                 {{ __('game.tactical_mentality') }}
                                 <span x-tooltip.raw="{{ __('game.tactical_mentality_hint') }}" class="cursor-help shrink-0"><svg class="w-3.5 h-3.5 text-slate-300 hover:text-slate-500" fill="currentColor" viewBox="0 0 512 512"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></span>
                             </h4>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button
-                                    @click="pendingMentality = 'defensive'"
-                                    class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                    :class="(pendingMentality ?? activeMentality) === 'defensive'
-                                        ? 'bg-slate-800 text-white border-slate-800'
-                                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                    x-text="getMentalityLabel('defensive')"
-                                ></button>
-                                <button
-                                    @click="pendingMentality = 'balanced'"
-                                    class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                    :class="(pendingMentality ?? activeMentality) === 'balanced'
-                                        ? 'bg-slate-800 text-white border-slate-800'
-                                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                    x-text="getMentalityLabel('balanced')"
-                                ></button>
-                                <button
-                                    @click="pendingMentality = 'attacking'"
-                                    class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                    :class="(pendingMentality ?? activeMentality) === 'attacking'
-                                        ? 'bg-slate-800 text-white border-slate-800'
-                                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                    x-text="getMentalityLabel('attacking')"
-                                ></button>
-                            </div>
+                            <x-tactical-lever model="(pendingMentality ?? activeMentality)" set="pendingMentality" options="availableMentalities" :columns="3" />
                             <p class="mt-2 text-xs text-slate-400 italic min-h-[1.25rem]" x-text="getMentalityTooltip(pendingMentality ?? activeMentality)"></p>
                         </div>
 
@@ -382,57 +346,18 @@
                             {{-- Playing Style (In Possession) --}}
                             <div class="mb-3">
                                 <p class="text-[10px] font-medium text-slate-400 uppercase mb-1.5">{{ __('game.instructions_in_possession') }}</p>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                    <template x-for="style in availablePlayingStyles" :key="style.value">
-                                        <button
-                                            @click="pendingPlayingStyle = style.value"
-                                            class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                            :class="(pendingPlayingStyle ?? activePlayingStyle) === style.value
-                                                ? 'bg-slate-800 text-white border-slate-800'
-                                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                            x-text="style.label"
-                                        ></button>
-                                    </template>
-                                </div>
-                                <p class="mt-2 text-xs text-slate-400 italic min-h-[1.25rem]"
-                                   x-text="(availablePlayingStyles.find(s => s.value === (pendingPlayingStyle ?? activePlayingStyle)) || {}).tooltip || ''"></p>
+                                <x-tactical-lever model="(pendingPlayingStyle ?? activePlayingStyle)" set="pendingPlayingStyle" options="availablePlayingStyles" :columns="4" summary-field="tooltip" />
                             </div>
 
                             {{-- Pressing (Out of Possession) --}}
                             <div class="mb-3">
                                 <p class="text-[10px] font-medium text-slate-400 uppercase mb-1.5">{{ __('game.instructions_out_of_possession') }}</p>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <template x-for="p in availablePressing" :key="p.value">
-                                        <button
-                                            @click="pendingPressing = p.value"
-                                            class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                            :class="(pendingPressing ?? activePressing) === p.value
-                                                ? 'bg-slate-800 text-white border-slate-800'
-                                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                            x-text="p.label"
-                                        ></button>
-                                    </template>
-                                </div>
-                                <p class="mt-2 text-xs text-slate-400 italic min-h-[1.25rem]"
-                                   x-text="(availablePressing.find(p => p.value === (pendingPressing ?? activePressing)) || {}).tooltip || ''"></p>
+                                <x-tactical-lever model="(pendingPressing ?? activePressing)" set="pendingPressing" options="availablePressing" :columns="3" summary-field="tooltip" />
                             </div>
 
                             {{-- Defensive Line --}}
                             <div>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <template x-for="d in availableDefLine" :key="d.value">
-                                        <button
-                                            @click="pendingDefLine = d.value"
-                                            class="px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all min-h-[44px]"
-                                            :class="(pendingDefLine ?? activeDefLine) === d.value
-                                                ? 'bg-slate-800 text-white border-slate-800'
-                                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'"
-                                            x-text="d.label"
-                                        ></button>
-                                    </template>
-                                </div>
-                                <p class="mt-2 text-xs text-slate-400 italic min-h-[1.25rem]"
-                                   x-text="(availableDefLine.find(d => d.value === (pendingDefLine ?? activeDefLine)) || {}).tooltip || ''"></p>
+                                <x-tactical-lever model="(pendingDefLine ?? activeDefLine)" set="pendingDefLine" options="availableDefLine" :columns="3" summary-field="tooltip" />
                             </div>
                         </div>
 

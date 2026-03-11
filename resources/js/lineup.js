@@ -8,6 +8,8 @@ export default function lineupManager(config) {
         selectedPlayingStyle: config.currentPlayingStyle || 'balanced',
         selectedPressing: config.currentPressing || 'standard',
         selectedDefLine: config.currentDefLine || 'normal',
+        formationOptions: config.formationOptions || [],
+        mentalityOptions: config.mentalityOptions || [],
         playingStyles: config.playingStyles || [],
         pressingOptions: config.pressingOptions || [],
         defensiveLineOptions: config.defensiveLineOptions || [],

@@ -15,6 +15,8 @@
         currentPlayingStyle: @js($currentPlayingStyle ?? 'balanced'),
         currentPressing: @js($currentPressing ?? 'standard'),
         currentDefLine: @js($currentDefLine ?? 'normal'),
+        formationOptions: @js($formationOptions),
+        mentalityOptions: @js($mentalityOptions),
         playingStyles: @js($playingStyles),
         pressingOptions: @js($pressingOptions),
         defensiveLineOptions: @js($defensiveLineOptions),
@@ -178,37 +180,13 @@
                                             </div>
                                         </template>
                                     </div>
-                                    <div class="grid grid-cols-4 gap-1.5">
-                                        @foreach($formations as $formation)
-                                            <button type="button"
-                                                @click="selectedFormation = '{{ $formation->value }}'; updateAutoLineup()"
-                                                class="px-2 py-2 text-sm font-semibold rounded-lg border-2 transition-all duration-150 min-h-[44px]"
-                                                :class="selectedFormation === '{{ $formation->value }}'
-                                                    ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'"
-                                            >{{ $formation->label() }}</button>
-                                        @endforeach
-                                    </div>
+                                    <x-tactical-lever model="selectedFormation" options="formationOptions" :columns="4" callback="updateAutoLineup()" />
                                 </div>
 
                                 {{-- ── Mentality ── --}}
                                 <div class="mb-4">
                                     <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{{ __('squad.mentality') }}</h4>
-                                    <div class="grid grid-cols-3 gap-1.5">
-                                        @foreach($mentalities as $mentality)
-                                            <button type="button"
-                                                @click="selectedMentality = '{{ $mentality->value }}'"
-                                                class="px-3 py-2 text-sm font-semibold rounded-lg border-2 transition-all duration-150 min-h-[44px]"
-                                                :class="selectedMentality === '{{ $mentality->value }}'
-                                                    ? '{{ match($mentality->value) {
-                                                        'defensive' => 'bg-sky-600 text-white border-sky-600',
-                                                        'balanced' => 'bg-slate-700 text-white border-slate-700',
-                                                        'attacking' => 'bg-red-600 text-white border-red-600',
-                                                    } }} shadow-sm'
-                                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-900'"
-                                            >{{ $mentality->label() }}</button>
-                                        @endforeach
-                                    </div>
+                                    <x-tactical-lever model="selectedMentality" options="mentalityOptions" :columns="3" />
                                 </div>
 
                                 {{-- ── Divider ── --}}
@@ -226,58 +204,19 @@
                                     {{-- Playing Style (In Possession) --}}
                                     <div>
                                         <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('game.instructions_in_possession') }}</div>
-                                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 gap-1.5">
-                                            <template x-for="style in playingStyles" :key="style.value">
-                                                <button type="button" @click="selectedPlayingStyle = style.value"
-                                                    :class="selectedPlayingStyle === style.value
-                                                        ? 'bg-sky-100 text-sky-800 border-sky-300'
-                                                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'"
-                                                    class="px-2 py-1.5 rounded-lg border-2 text-xs font-medium min-h-[36px] transition-colors"
-                                                    x-text="style.label"
-                                                    x-tooltip="style.tooltip">
-                                                </button>
-                                            </template>
-                                        </div>
-                                        <p class="mt-1 text-[10px] text-slate-400 leading-relaxed"
-                                           x-text="playingStyles.find(s => s.value === selectedPlayingStyle)?.summary"></p>
+                                        <x-tactical-lever model="selectedPlayingStyle" options="playingStyles" :columns="4" summary-field="summary" />
                                     </div>
 
                                     {{-- Pressing Intensity (Out of Possession) --}}
                                     <div>
                                         <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('game.instructions_out_of_possession') }}</div>
-                                        <div class="grid grid-cols-3 gap-1.5">
-                                            <template x-for="p in pressingOptions" :key="p.value">
-                                                <button type="button" @click="selectedPressing = p.value"
-                                                    :class="selectedPressing === p.value
-                                                        ? 'bg-sky-100 text-sky-800 border-sky-300'
-                                                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'"
-                                                    class="px-2 py-1.5 rounded-lg border-2 text-xs font-medium min-h-[36px] transition-colors"
-                                                    x-text="p.label"
-                                                    x-tooltip="p.tooltip">
-                                                </button>
-                                            </template>
-                                        </div>
-                                        <p class="mt-1 text-[10px] text-slate-400 leading-relaxed"
-                                           x-text="pressingOptions.find(p => p.value === selectedPressing)?.summary"></p>
+                                        <x-tactical-lever model="selectedPressing" options="pressingOptions" :columns="3" summary-field="summary" />
                                     </div>
 
                                     {{-- Defensive Line Height --}}
                                     <div>
                                         <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('squad.defensive_line') }}</div>
-                                        <div class="grid grid-cols-3 gap-1.5">
-                                            <template x-for="d in defensiveLineOptions" :key="d.value">
-                                                <button type="button" @click="selectedDefLine = d.value"
-                                                    :class="selectedDefLine === d.value
-                                                        ? 'bg-sky-100 text-sky-800 border-sky-300'
-                                                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'"
-                                                    class="px-2 py-1.5 rounded-lg border-2 text-xs font-medium min-h-[36px] transition-colors"
-                                                    x-text="d.label"
-                                                    x-tooltip="d.tooltip">
-                                                </button>
-                                            </template>
-                                        </div>
-                                        <p class="mt-1 text-[10px] text-slate-400 leading-relaxed"
-                                           x-text="defensiveLineOptions.find(d => d.value === selectedDefLine)?.summary"></p>
+                                        <x-tactical-lever model="selectedDefLine" options="defensiveLineOptions" :columns="3" summary-field="summary" />
                                     </div>
                                 </div>
 

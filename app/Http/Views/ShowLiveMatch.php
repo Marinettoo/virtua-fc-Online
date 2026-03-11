@@ -188,6 +188,7 @@ class ShowLiveMatch
 
         $availableFormations = array_map(fn ($f) => [
             'value' => $f->value,
+            'label' => $f->label(),
             'tooltip' => $f->tooltip(),
         ], Formation::cases());
         $availableMentalities = array_map(fn ($m) => [
