@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Squad\Services;
+namespace App\Modules\Player\Services;
 
 /**
  * Single source of truth for all ability <-> market value conversions.

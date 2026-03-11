@@ -9,7 +9,7 @@ use App\Modules\Lineup\Enums\Mentality;
 use App\Modules\Lineup\Enums\PlayingStyle;
 use App\Modules\Lineup\Enums\PressingIntensity;
 use App\Modules\Lineup\Services\LineupService;
-use App\Modules\Squad\Services\InjuryService;
+use App\Modules\Player\Services\InjuryService;
 use App\Models\TeamReputation;
 use App\Models\Game;
 use App\Support\PitchGrid;

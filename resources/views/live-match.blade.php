@@ -654,7 +654,7 @@
                                             @foreach($injuries as $injury)
                                                 <div class="text-xs text-orange-700">
                                                     {{ $injury['playerName'] }} &mdash;
-                                                    {{ __(App\Modules\Squad\Services\InjuryService::INJURY_TRANSLATION_MAP[$injury['metadata']['injury_type']] ?? 'game.live_injury') }}
+                                                    {{ __(App\Modules\Player\Services\InjuryService::INJURY_TRANSLATION_MAP[$injury['metadata']['injury_type']] ?? 'game.live_injury') }}
                                                 </div>
                                             @endforeach
                                         </div>

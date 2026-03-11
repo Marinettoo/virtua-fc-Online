@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Modules\Competition\Services\StandingsCalculator;
 use App\Modules\Squad\Services\EligibilityService;
-use App\Modules\Squad\Services\PlayerConditionService;
+use App\Modules\Player\Services\PlayerConditionService;
 use App\Modules\Notification\Services\NotificationService;
 
 class MatchResultProcessor

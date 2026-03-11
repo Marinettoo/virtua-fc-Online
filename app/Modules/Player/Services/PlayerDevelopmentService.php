@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Squad\Services;
+namespace App\Modules\Player\Services;
 
 use App\Models\GamePlayer;
-use App\Modules\Squad\Services\DevelopmentCurve;
+use App\Modules\Player\Services\DevelopmentCurve;
 
 /**
  * Core service handling all player development logic.

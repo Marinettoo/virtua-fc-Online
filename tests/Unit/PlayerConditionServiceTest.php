@@ -6,7 +6,7 @@ use App\Models\Game;
 use App\Models\GameMatch;
 use App\Models\GamePlayer;
 use App\Models\Team;
-use App\Modules\Squad\Services\PlayerConditionService;
+use App\Modules\Player\Services\PlayerConditionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use ReflectionMethod;
 use Tests\TestCase;

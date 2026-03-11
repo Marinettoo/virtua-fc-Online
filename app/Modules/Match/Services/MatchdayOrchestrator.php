@@ -14,7 +14,7 @@ use App\Modules\Match\DTOs\MatchEventData;
 use App\Modules\Match\Jobs\ProcessCareerActions;
 use App\Modules\Notification\Services\NotificationService;
 use App\Modules\Squad\Services\EligibilityService;
-use App\Modules\Squad\Services\InjuryService;
+use App\Modules\Player\Services\InjuryService;
 use App\Models\Competition;
 use App\Models\TeamReputation;
 use App\Models\Game;

@@ -5,9 +5,9 @@ namespace App\Http\Views;
 use App\Models\AcademyPlayer;
 use App\Models\Game;
 use App\Models\GamePlayer;
-use App\Modules\Squad\Services\DevelopmentCurve;
-use App\Modules\Squad\Services\InjuryService;
-use App\Modules\Squad\Services\PlayerDevelopmentService;
+use App\Modules\Player\Services\DevelopmentCurve;
+use App\Modules\Player\Services\InjuryService;
+use App\Modules\Player\Services\PlayerDevelopmentService;
 use App\Modules\Transfer\Services\ContractService;
 use App\Support\PositionMapper;
 

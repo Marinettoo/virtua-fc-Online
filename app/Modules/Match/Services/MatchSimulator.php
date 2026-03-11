@@ -15,7 +15,7 @@ use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Support\PositionMapper;
-use App\Modules\Squad\Services\InjuryService;
+use App\Modules\Player\Services\InjuryService;
 use App\Modules\Match\Services\EnergyCalculator;
 
 class MatchSimulator

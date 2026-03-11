@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Modules\Squad\Services\PlayerValuationService;
+use App\Modules\Player\Services\PlayerValuationService;
 use App\Support\CountryCodeMapper;
 use App\Support\TeamColors;
 use App\Support\Money;

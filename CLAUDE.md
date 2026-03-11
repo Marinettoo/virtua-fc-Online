@@ -55,13 +55,14 @@ Example: `ShowGame` → `views/game.blade.php`, `AdvanceMatchday` handles playin
 
 ### Modular Monolith Architecture
 
-The codebase follows a **modular monolith** pattern. Domain logic is organized into 9 modules under `app/Modules/`, each with its own services, contracts, DTOs, and events:
+The codebase follows a **modular monolith** pattern. Domain logic is organized into 10 modules under `app/Modules/`, each with its own services, contracts, DTOs, and events:
 
 | Module | Purpose | Key services |
 |--------|---------|-------------|
 | **Match** | Match simulation engine | `MatchSimulator`, `MatchdayService`, `CupTieResolver`, handlers |
 | **Lineup** | Tactical layer | `LineupService`, `SubstitutionService`, `FormationRecommender` |
-| **Squad** | Player management | `PlayerDevelopmentService`, `PlayerGeneratorService`, `InjuryService` |
+| **Player** | Individual player lifecycle | `PlayerDevelopmentService`, `PlayerConditionService`, `PlayerValuationService`, `InjuryService`, `PlayerRetirementService`, `DevelopmentCurve` |
+| **Squad** | Squad composition | `PlayerGeneratorService`, `EligibilityService` |
 | **Transfer** | Market operations | `TransferService`, `ContractService`, `LoanService`, `ScoutingService` |
 | **Competition** | Structure & config | `CountryConfig`, `StandingsCalculator`, `CupDrawService`, handlers config |
 | **Finance** | Economic model | `BudgetProjectionService`, `SeasonSimulationService` |
@@ -69,7 +70,7 @@ The codebase follows a **modular monolith** pattern. Domain logic is organized i
 | **Notification** | In-game messaging | `NotificationService`, event listeners |
 | **Academy** | Youth development | `YouthAcademyService` |
 
-**Dependency direction:** Season (orchestrator) → Match, Transfer, Finance → Squad, Competition → Notification (leaf). No circular dependencies.
+**Dependency direction:** Season (orchestrator) → Match, Transfer, Finance → Player, Squad, Competition → Notification (leaf). No circular dependencies.
 
 Models stay in `app/Models/` (shared). The HTTP layer (`Actions/Views`) stays in `app/Http/` as thin orchestrators.
 
@@ -155,7 +156,7 @@ Revenue rates (commercial per seat, matchday per seat) are defined per competiti
 | Season setup pipeline | `app/Modules/Season/Services/SeasonSetupPipeline.php` |
 | Financial config | `config/finances.php` |
 | Transfer service | `app/Modules/Transfer/Services/TransferService.php` |
-| Player development | `app/Modules/Squad/Services/PlayerDevelopmentService.php` |
+| Player development | `app/Modules/Player/Services/PlayerDevelopmentService.php` |
 | Scouting service | `app/Modules/Transfer/Services/ScoutingService.php` |
 | Youth academy | `app/Modules/Academy/Services/YouthAcademyService.php` |
 | Loan service | `app/Modules/Transfer/Services/LoanService.php` |
@@ -176,8 +177,10 @@ app/
 │   ├── Lineup/           # Tactical layer
 │   │   ├── Services/     # LineupService, SubstitutionService, TacticalChangeService
 │   │   └── Enums/        # Formation, Mentality
-│   ├── Squad/            # Player management
-│   │   ├── Services/     # PlayerDevelopmentService, PlayerGeneratorService, InjuryService
+│   ├── Player/           # Individual player lifecycle
+│   │   └── Services/     # PlayerDevelopmentService, InjuryService, PlayerConditionService, PlayerValuationService, PlayerRetirementService, DevelopmentCurve
+│   ├── Squad/            # Squad composition
+│   │   ├── Services/     # PlayerGeneratorService, EligibilityService
 │   │   └── DTOs/         # GeneratedPlayerData
 │   ├── Transfer/         # Market operations
 │   │   └── Services/     # TransferService, ContractService, LoanService, ScoutingService

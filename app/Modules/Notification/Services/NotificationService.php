@@ -5,7 +5,7 @@ namespace App\Modules\Notification\Services;
 use App\Models\Game;
 use App\Models\GameNotification;
 use App\Models\GamePlayer;
-use App\Modules\Squad\Services\InjuryService;
+use App\Modules\Player\Services\InjuryService;
 use App\Models\RenewalNegotiation;
 use App\Models\ScoutReport;
 use App\Models\ShortlistedPlayer;

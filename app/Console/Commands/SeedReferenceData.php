@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Modules\Competition\Services\CountryConfig;
 use App\Modules\Season\Services\GamePlayerTemplateService;
-use App\Modules\Squad\Services\PlayerValuationService;
+use App\Modules\Player\Services\PlayerValuationService;
 use App\Models\User;
 use App\Support\Money;
 use App\Support\TeamColors;

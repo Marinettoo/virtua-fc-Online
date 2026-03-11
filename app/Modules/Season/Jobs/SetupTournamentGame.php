@@ -3,8 +3,8 @@
 namespace App\Modules\Season\Jobs;
 
 use App\Modules\Notification\Services\NotificationService;
-use App\Modules\Squad\Services\InjuryService;
-use App\Modules\Squad\Services\PlayerDevelopmentService;
+use App\Modules\Player\Services\InjuryService;
+use App\Modules\Player\Services\PlayerDevelopmentService;
 use App\Modules\Competition\Services\StandingsCalculator;
 use App\Models\CompetitionEntry;
 use App\Models\CompetitionTeam;

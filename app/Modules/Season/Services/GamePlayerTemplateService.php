@@ -10,8 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Modules\Transfer\Services\ContractService;
-use App\Modules\Squad\Services\InjuryService;
-use App\Modules\Squad\Services\PlayerDevelopmentService;
+use App\Modules\Player\Services\InjuryService;
+use App\Modules\Player\Services\PlayerDevelopmentService;
 
 class GamePlayerTemplateService
 {

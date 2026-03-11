@@ -4,8 +4,8 @@ namespace App\Modules\Season\Processors;
 
 use App\Modules\Season\Contracts\SeasonProcessor;
 use App\Modules\Season\DTOs\SeasonTransitionData;
-use App\Modules\Squad\Services\PlayerDevelopmentService;
-use App\Modules\Squad\Services\PlayerValuationService;
+use App\Modules\Player\Services\PlayerDevelopmentService;
+use App\Modules\Player\Services\PlayerValuationService;
 use App\Models\Game;
 use App\Models\GamePlayer;
 

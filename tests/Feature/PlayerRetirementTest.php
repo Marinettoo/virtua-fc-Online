@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Modules\Season\DTOs\SeasonTransitionData;
 use App\Modules\Season\Processors\PlayerRetirementProcessor;
-use App\Modules\Squad\Services\PlayerRetirementService;
+use App\Modules\Player\Services\PlayerRetirementService;
 use App\Models\Competition;
 use App\Models\Game;
 use App\Models\GamePlayer;

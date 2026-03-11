@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Squad\Services;
+namespace App\Modules\Player\Services;
 
 use App\Models\Game;
 use App\Models\GameMatch;

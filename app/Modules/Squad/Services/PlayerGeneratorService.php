@@ -9,9 +9,9 @@ use App\Models\Player;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Modules\Transfer\Services\ContractService;
-use App\Modules\Squad\Services\InjuryService;
-use App\Modules\Squad\Services\PlayerDevelopmentService;
-use App\Modules\Squad\Services\PlayerValuationService;
+use App\Modules\Player\Services\InjuryService;
+use App\Modules\Player\Services\PlayerDevelopmentService;
+use App\Modules\Player\Services\PlayerValuationService;
 
 /**
  * Creates computer-generated players (Player + GamePlayer records).
