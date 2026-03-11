@@ -149,85 +149,21 @@
                         </button>
                     </div>
 
-                    {{-- ═══════════════════════════════════════════ --}}
-                    {{-- MAIN CONTENT GRID                           --}}
-                    {{-- Desktop: [Tactics+Pitch 1col | Squad 2col] --}}
-                    {{-- Mobile: tab-driven single panel             --}}
-                    {{-- ═══════════════════════════════════════════ --}}
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-6 p-4 sm:p-6 md:p-8">
+                    {{-- ═══════════════════════════════════════════════════ --}}
+                    {{-- MAIN CONTENT GRID                                   --}}
+                    {{-- Desktop: [Pitch+Coach | Players | Tactics]          --}}
+                    {{-- Mobile: tab-driven single panel                     --}}
+                    {{-- ═══════════════════════════════════════════════════ --}}
+                    <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 lg:gap-6 p-4 sm:p-6 md:p-8">
 
                         {{-- ─────────────────────────────────────── --}}
-                        {{-- LEFT COLUMN: Tactics + Pitch + Coach    --}}
+                        {{-- LEFT COLUMN: Pitch + Coach (sticky)     --}}
                         {{-- ─────────────────────────────────────── --}}
-                        <div class="col-span-1 lg:sticky lg:top-[60px] lg:self-start space-y-4">
-
-                            {{-- TACTICAL PANEL (always visible on desktop, "Tactics" tab on mobile) --}}
-                            <div :class="{ 'hidden lg:block': activeLineupTab !== 'tactics' }">
-
-                                {{-- ── Formation ── --}}
-                                <div class="mb-4">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ __('squad.formation') }}</h4>
-                                        {{-- Formation modifier badge --}}
-                                        <template x-if="formationModifiers[selectedFormation]">
-                                            <div class="flex items-center gap-2 text-[10px] font-medium">
-                                                <span :class="formationModifiers[selectedFormation]?.attack > 0 ? 'text-emerald-600' : formationModifiers[selectedFormation]?.attack < 0 ? 'text-red-500' : 'text-slate-400'">
-                                                    ATK <span x-text="(formationModifiers[selectedFormation]?.attack > 0 ? '+' : '') + formationModifiers[selectedFormation]?.attack + '%'"></span>
-                                                </span>
-                                                <span :class="formationModifiers[selectedFormation]?.defense > 0 ? 'text-emerald-600' : formationModifiers[selectedFormation]?.defense < 0 ? 'text-red-500' : 'text-slate-400'">
-                                                    DEF <span x-text="(formationModifiers[selectedFormation]?.defense > 0 ? '+' : '') + formationModifiers[selectedFormation]?.defense + '%'"></span>
-                                                </span>
-                                            </div>
-                                        </template>
-                                    </div>
-                                    <x-tactical-lever model="selectedFormation" options="formationOptions" :columns="4" callback="updateAutoLineup()" />
-                                </div>
-
-                                {{-- ── Mentality ── --}}
-                                <div class="mb-4">
-                                    <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{{ __('squad.mentality') }}</h4>
-                                    <x-tactical-lever model="selectedMentality" options="mentalityOptions" :columns="3" />
-                                </div>
-
-                                {{-- ── Divider ── --}}
-                                <div class="border-t border-slate-200 my-4"></div>
-
-                                {{-- ── Team Instructions ── --}}
-                                <div class="space-y-4">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ __('game.instructions_title') }}</h4>
-                                        <button type="button" x-on:click="$dispatch('open-modal', 'tactical-guide')" class="text-[10px] text-sky-600 hover:text-sky-800 font-medium transition-colors">
-                                            {{ __('game.tactical_guide_link') }} &rarr;
-                                        </button>
-                                    </div>
-
-                                    {{-- Playing Style (In Possession) --}}
-                                    <div>
-                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('game.instructions_in_possession') }}</div>
-                                        <x-tactical-lever model="selectedPlayingStyle" options="playingStyles" :columns="4" summary-field="summary" />
-                                    </div>
-
-                                    {{-- Pressing Intensity (Out of Possession) --}}
-                                    <div>
-                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('game.instructions_out_of_possession') }}</div>
-                                        <x-tactical-lever model="selectedPressing" options="pressingOptions" :columns="3" summary-field="summary" />
-                                    </div>
-
-                                    {{-- Defensive Line Height --}}
-                                    <div>
-                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1.5">{{ __('squad.defensive_line') }}</div>
-                                        <x-tactical-lever model="selectedDefLine" options="defensiveLineOptions" :columns="3" summary-field="summary" />
-                                    </div>
-                                </div>
-
-                                {{-- Coach Assistant (mobile: inside tactics tab) --}}
-                                <div class="lg:hidden mt-4">
-                                    @include('partials.lineup-coach-panel')
-                                </div>
-                            </div>
+                        <div class="lg:col-span-2 lg:sticky lg:top-[60px] lg:self-start lg:max-h-[calc(100vh-80px)] lg:overflow-y-auto space-y-4"
+                             :class="{ 'hidden lg:block': activeLineupTab !== 'pitch' }">
 
                             {{-- PITCH VISUALIZATION --}}
-                            <div :class="{ 'hidden lg:block': activeLineupTab !== 'pitch' }">
+                            <div>
                                 <div id="pitch-container" class="bg-emerald-600 rounded-lg p-4 relative aspect-[3/4]"
                                     :style="(positioningSlotId !== null || draggingSlotId !== null) ? 'touch-action: none' : ''">
                                     {{-- Pitch markings --}}
@@ -399,25 +335,23 @@
                                         </button>
                                     </div>
                                 </div>
-
-                                {{-- Coach Assistant Panel (desktop: below pitch) --}}
-                                @include('partials.lineup-coach-panel', ['class' => 'hidden lg:block mt-4'])
                             </div>
+
+                            {{-- Coach Assistant Panel (desktop: below pitch) --}}
+                            @include('partials.lineup-coach-panel', ['class' => 'hidden lg:block'])
 
                         </div>
 
                         {{-- ─────────────────────────────────────── --}}
-                        {{-- RIGHT COLUMN: Player Selection List     --}}
+                        {{-- CENTER COLUMN: Player Selection List    --}}
                         {{-- ─────────────────────────────────────── --}}
-                        <div class="lg:col-span-2 overflow-x-auto" :class="{ 'hidden lg:block': activeLineupTab !== 'squad' }">
+                        <div class="lg:col-span-3 overflow-x-auto" :class="{ 'hidden lg:block': activeLineupTab !== 'squad' }">
                             <table class="w-full text-sm">
                                 <thead class="text-left text-sm border-b sticky top-0 bg-white">
                                     <tr>
                                         <th class="font-semibold py-2 w-10"></th>
                                         <th class="font-semibold py-2 w-10"></th>
                                         <th class="py-2"></th>
-                                        <th class="font-semibold py-2 text-center w-16 hidden md:table-cell">{{ __('squad.technical_full') }}</th>
-                                        <th class="font-semibold py-2 text-center w-16 hidden md:table-cell">{{ __('squad.physical_full') }}</th>
                                         <th class="font-semibold py-2 text-center w-16">{{ __('squad.fitness_full') }}</th>
                                         <th class="font-semibold py-2 text-center w-16">{{ __('squad.morale_full') }}</th>
                                         <th class="font-semibold py-2 w-8"></th>
@@ -432,7 +366,7 @@
                                     ] as $group)
                                         @if($group['players']->isNotEmpty())
                                             <tr class="bg-slate-200">
-                                                <td colspan="8" class="py-2 px-2 text-xs font-semibold text-slate-600 uppercase tracking-wide">
+                                                <td colspan="6" class="py-2 px-2 text-xs font-semibold text-slate-600 uppercase tracking-wide">
                                                     {{ $group['name'] }}
                                                     <span class="font-normal text-slate-400">
                                                         ({{ __('squad.need') }} <span x-text="currentSlots.filter(s => s.role === '{{ $group['role'] }}').length"></span>)
@@ -502,14 +436,6 @@
                                                             <div class="text-xs text-red-500">{{ $unavailabilityReason }}</div>
                                                         @endif
                                                     </td>
-                                                    {{-- Technical --}}
-                                                    <td class="py-2 px-2 w-16 hidden md:table-cell">
-                                                        <x-ability-bar :value="$player->technical_ability" size="sm" class="text-xs font-medium justify-center @if($player->technical_ability >= 80) text-green-600 @elseif($player->technical_ability >= 70) text-lime-600 @elseif($player->technical_ability < 60) text-slate-400 @endif" />
-                                                    </td>
-                                                    {{-- Physical --}}
-                                                    <td class="py-2 px-2 w-16 hidden md:table-cell">
-                                                        <x-ability-bar :value="$player->physical_ability" size="sm" class="text-xs font-medium justify-center @if($player->physical_ability >= 80) text-green-600 @elseif($player->physical_ability >= 70) text-lime-600 @elseif($player->physical_ability < 60) text-slate-400 @endif" />
-                                                    </td>
                                                     {{-- Fitness --}}
                                                     <td class="py-2 px-2 w-16">
                                                         <x-ability-bar :value="$player->fitness" :max="100" size="sm" class="text-xs font-medium justify-center @if($player->fitness >= 90) text-green-600 @elseif($player->fitness >= 80) text-lime-600 @elseif($player->fitness < 70) text-amber-600 @endif" />
@@ -533,6 +459,77 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+
+                        {{-- ─────────────────────────────────────── --}}
+                        {{-- RIGHT COLUMN: Compact Tactical Controls --}}
+                        {{-- ─────────────────────────────────────── --}}
+                        <div :class="{ 'hidden lg:block': activeLineupTab !== 'tactics' }">
+                            <div class="space-y-4">
+
+                                {{-- ── Formation ── --}}
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ __('squad.formation') }}</h4>
+                                        {{-- Formation modifier badge --}}
+                                        <template x-if="formationModifiers[selectedFormation]">
+                                            <div class="flex items-center gap-2 text-[10px] font-medium">
+                                                <span :class="formationModifiers[selectedFormation]?.attack > 0 ? 'text-emerald-600' : formationModifiers[selectedFormation]?.attack < 0 ? 'text-red-500' : 'text-slate-400'">
+                                                    ATK <span x-text="(formationModifiers[selectedFormation]?.attack > 0 ? '+' : '') + formationModifiers[selectedFormation]?.attack + '%'"></span>
+                                                </span>
+                                                <span :class="formationModifiers[selectedFormation]?.defense > 0 ? 'text-emerald-600' : formationModifiers[selectedFormation]?.defense < 0 ? 'text-red-500' : 'text-slate-400'">
+                                                    DEF <span x-text="(formationModifiers[selectedFormation]?.defense > 0 ? '+' : '') + formationModifiers[selectedFormation]?.defense + '%'"></span>
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <x-tactical-select model="selectedFormation" options="formationOptions" label="{{ __('squad.formation') }}" callback="updateAutoLineup()" />
+                                </div>
+
+                                {{-- ── Mentality ── --}}
+                                <div>
+                                    <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">{{ __('squad.mentality') }}</h4>
+                                    <x-tactical-select model="selectedMentality" options="mentalityOptions" label="{{ __('squad.mentality') }}" />
+                                </div>
+
+                                {{-- ── Divider ── --}}
+                                <div class="border-t border-slate-200"></div>
+
+                                {{-- ── Team Instructions ── --}}
+                                <div class="space-y-3">
+                                    <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ __('game.instructions_title') }}</h4>
+
+                                    {{-- Playing Style (In Possession) --}}
+                                    <div>
+                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1">{{ __('game.instructions_in_possession') }}</div>
+                                        <x-tactical-select model="selectedPlayingStyle" options="playingStyles" label="{{ __('game.instructions_in_possession') }}" summary-field="summary" />
+                                    </div>
+
+                                    {{-- Pressing Intensity (Out of Possession) --}}
+                                    <div>
+                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1">{{ __('game.instructions_out_of_possession') }}</div>
+                                        <x-tactical-select model="selectedPressing" options="pressingOptions" label="{{ __('game.instructions_out_of_possession') }}" summary-field="summary" />
+                                    </div>
+
+                                    {{-- Defensive Line Height --}}
+                                    <div>
+                                        <div class="text-[10px] font-medium text-slate-400 uppercase tracking-wide mb-1">{{ __('squad.defensive_line') }}</div>
+                                        <x-tactical-select model="selectedDefLine" options="defensiveLineOptions" label="{{ __('squad.defensive_line') }}" summary-field="summary" />
+                                    </div>
+                                </div>
+
+                                {{-- Tactical guide link --}}
+                                <div class="pt-1">
+                                    <button type="button" x-on:click="$dispatch('open-modal', 'tactical-guide')" class="text-xs text-sky-600 hover:text-sky-800 font-medium transition-colors">
+                                        {{ __('game.tactical_guide_link') }} &rarr;
+                                    </button>
+                                </div>
+
+                                {{-- Coach Assistant (mobile: inside tactics tab) --}}
+                                <div class="lg:hidden mt-4">
+                                    @include('partials.lineup-coach-panel')
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
