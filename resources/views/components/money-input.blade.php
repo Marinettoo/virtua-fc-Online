@@ -69,7 +69,7 @@
     <input type="text"
         readonly
         :value="display"
-        class="{{ $inputClasses }} text-center font-semibold text-slate-800 bg-white border-x border-y-0 border-slate-300 outline-none cursor-default focus:outline-none focus:ring-0 focus:border-slate-300"
+        class="{{ $inputClasses }} text-center font-semibold text-slate-900 bg-white border-x border-y-0 border-slate-300 outline-none cursor-default focus:outline-none focus:ring-0 focus:border-slate-300"
     >
 
     {{-- Plus button --}}

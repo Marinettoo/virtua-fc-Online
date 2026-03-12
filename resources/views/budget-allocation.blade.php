@@ -13,7 +13,7 @@
             <div class="flex items-center gap-4">
                 <x-team-crest :team="$game->team" class="w-12 h-12" />
                 <div>
-                    <h2 class="font-semibold text-xl text-slate-800">{{ __('finances.budget_allocation') }}</h2>
+                    <h2 class="font-semibold text-xl text-slate-900">{{ __('finances.budget_allocation') }}</h2>
                     <p class="text-sm text-slate-500">{{ __('finances.season_budget', ['season' => $game->formatted_season]) }}</p>
                 </div>
             </div>

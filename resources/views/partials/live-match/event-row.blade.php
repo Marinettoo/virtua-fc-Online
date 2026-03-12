@@ -5,7 +5,7 @@
      class="w-6 h-6 shrink-0 object-contain"
      :alt="getEventSide(event) === 'home' ? 'Home' : 'Away'">
 <div class="flex-1 min-w-0">
-    <span class="font-semibold text-sm text-slate-800" x-text="event.type === 'substitution' ? event.playerInName : event.playerName"></span>
+    <span class="font-semibold text-sm text-slate-900" x-text="event.type === 'substitution' ? event.playerInName : event.playerName"></span>
     <template x-if="event.type === 'goal'">
         <span class="text-xs text-slate-500 ml-1">{{ __('game.live_goal') }}</span>
     </template>

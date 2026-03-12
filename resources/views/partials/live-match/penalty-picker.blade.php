@@ -52,7 +52,7 @@
                             <span class="text-xs font-semibold rounded px-1.5 py-0.5 text-white shrink-0"
                                   :class="getPositionBadgeColor(kicker.positionGroup)"
                                   x-text="kicker.positionAbbr"></span>
-                            <span class="text-sm font-semibold text-slate-800 flex-1 truncate" x-text="kicker.name"></span>
+                            <span class="text-sm font-semibold text-slate-900 flex-1 truncate" x-text="kicker.name"></span>
                             <span class="text-xs text-slate-400 shrink-0" x-text="'⭐ ' + kicker.technicalAbility"></span>
                             <button @click="removePenaltyKicker(idx)"
                                     class="text-slate-400 hover:text-red-500 transition-colors p-1 shrink-0 min-h-[44px] flex items-center">
@@ -83,7 +83,7 @@
                             <span class="text-xs font-semibold rounded px-1.5 py-0.5 text-white shrink-0"
                                   :class="getPositionBadgeColor(player.positionGroup)"
                                   x-text="player.positionAbbr"></span>
-                            <span class="text-sm text-slate-800 flex-1 truncate" x-text="player.name"></span>
+                            <span class="text-sm text-slate-900 flex-1 truncate" x-text="player.name"></span>
                             <span class="text-xs text-slate-400 shrink-0" x-text="'⭐ ' + player.technicalAbility"></span>
                         </button>
                     </template>

@@ -30,10 +30,10 @@
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-slate-800">
+                    <p class="text-sm mt-2 text-slate-900">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                        <button form="send-verification" class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -49,7 +49,7 @@
 
         <div>
             <x-input-label for="locale" :value="__('Language')" />
-            <select id="locale" name="locale" class="mt-1 block w-full border-slate-300 focus:border-sky-500 focus:ring-sky-500 rounded-md shadow-sm min-h-[44px]">
+            <select id="locale" name="locale" class="mt-1 block w-full border-slate-300 focus:border-slate-400 focus:ring-slate-400 rounded-md shadow-sm min-h-[44px]">
                 @foreach (config('app.supported_locales') as $locale)
                     <option value="{{ $locale }}" {{ old('locale', $user->locale) === $locale ? 'selected' : '' }}>
                         {{ $locale === 'es' ? 'Español' : 'English' }}

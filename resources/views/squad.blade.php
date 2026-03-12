@@ -492,7 +492,7 @@
                                                                 @blur="saveNumber('{{ $gp->id }}', '{{ route('game.squad.number', [$game->id, $gp->id]) }}', localVal)"
                                                                 @keydown.enter.prevent="$el.blur()"
                                                                 :disabled="numberSaving['{{ $gp->id }}']"
-                                                                class="w-14 h-8 text-sm font-medium text-center border rounded tabular-nums focus:ring-2 focus:ring-sky-500 focus:border-sky-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                                class="w-14 h-8 text-sm font-medium text-center border rounded tabular-nums focus:ring-2 focus:ring-slate-400 focus:border-slate-400 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                                 :class="numberErrors['{{ $gp->id }}'] ? 'border-red-300 bg-red-50' : 'border-slate-200'">
                                                         </div>
                                                     </td>
@@ -599,7 +599,7 @@
                                                             @blur="saveNumber('{{ $gp->id }}', '{{ route('game.squad.number', [$game->id, $gp->id]) }}', localVal)"
                                                             @keydown.enter.prevent="$el.blur()"
                                                             :disabled="numberSaving['{{ $gp->id }}']"
-                                                            class="w-14 h-9 text-sm font-medium text-center border rounded tabular-nums focus:ring-2 focus:ring-sky-500 focus:border-sky-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                            class="w-14 h-9 text-sm font-medium text-center border rounded tabular-nums focus:ring-2 focus:ring-slate-400 focus:border-slate-400 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                             :class="numberErrors['{{ $gp->id }}'] ? 'border-red-300 bg-red-50' : 'border-slate-200'">
                                                     </div>
                                                     <span class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full text-xs font-bold

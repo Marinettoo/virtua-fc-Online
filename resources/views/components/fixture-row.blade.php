@@ -57,7 +57,7 @@
     {{-- Result/Status --}}
     <div class="w-20 text-center">
         @if($showScore && $match->played)
-            <span class="{{ $resultClass }} font-semibold">{{ $resultText }}</span>
+            <span class="{{ $resultClass }} font-semibold tabular-nums">{{ $resultText }}</span>
         @elseif($isNextMatch)
             <span class="text-yellow-600 font-semibold text-sm">{{ mb_strtoupper(__('game.next')) }}</span>
         @else

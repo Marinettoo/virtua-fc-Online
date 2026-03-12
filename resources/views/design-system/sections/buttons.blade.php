@@ -105,7 +105,7 @@
             <div class="flex flex-wrap gap-3">
                 <x-primary-button disabled>Disabled Primary</x-primary-button>
                 <x-secondary-button disabled>Disabled Secondary</x-secondary-button>
-                <x-danger-button disabled>Disabled Danger</x-danger-button>
+                <x-primary-button color="red" disabled>Disabled Danger</x-primary-button>
             </div>
         </div>
 
@@ -138,13 +138,13 @@
         </div>
     </div>
 
-    {{-- Danger Button --}}
+    {{-- Danger / Destructive Actions --}}
     <div class="mb-12">
-        <h3 class="text-lg font-semibold text-slate-900 mb-2">Danger Button</h3>
-        <p class="text-sm text-slate-500 mb-4">For destructive actions. Red background matches the primary button's default, but semantically distinct.</p>
+        <h3 class="text-lg font-semibold text-slate-900 mb-2">Danger / Destructive Actions</h3>
+        <p class="text-sm text-slate-500 mb-4">For destructive actions, use the primary button with <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">color="red"</code> (the default).</p>
 
         <div class="border border-slate-200 rounded-lg p-6 mb-3">
-            <x-danger-button>Delete Account</x-danger-button>
+            <x-primary-button color="red">Delete Account</x-primary-button>
         </div>
 
         <div x-data="{ copied: false }" class="relative">
@@ -153,7 +153,7 @@
                 <span x-show="!copied">Copy</span>
                 <span x-show="copied" x-cloak class="text-green-400">Copied!</span>
             </button>
-            <pre class="bg-slate-800 text-slate-300 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code x-ref="code">&lt;x-danger-button&gt;Delete&lt;/x-danger-button&gt;</code></pre>
+            <pre class="bg-slate-800 text-slate-300 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code x-ref="code">&lt;x-primary-button color="red"&gt;Delete&lt;/x-primary-button&gt;</code></pre>
         </div>
     </div>
 

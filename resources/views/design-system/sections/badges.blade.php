@@ -2,19 +2,39 @@
     <h2 class="text-3xl font-bold text-slate-900 mb-2">Badges & Pills</h2>
     <p class="text-slate-500 mb-8">Compact indicators for status, categories, position, and scores. All use rounded shapes and small text sizes.</p>
 
-    {{-- Status Pills --}}
+    {{-- Badge Component --}}
     <div class="mb-12">
-        <h3 class="text-lg font-semibold text-slate-900 mb-2">Status Pills</h3>
-        <p class="text-sm text-slate-500 mb-4">Rounded-full pills for categorization and status labels.</p>
+        <h3 class="text-lg font-semibold text-slate-900 mb-2">Badge Component</h3>
+        <p class="text-sm text-slate-500 mb-4">Reusable <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">x-badge</code> component for status pills, category labels, and inline indicators. Two sizes: default and xs.</p>
 
-        <div class="border border-slate-200 rounded-lg p-6 mb-3">
-            <div class="flex flex-wrap gap-3">
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">Active</span>
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-100 text-amber-800">Pending</span>
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-red-100 text-red-700">Rejected</span>
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-sky-100 text-sky-800">Info</span>
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-700">Default</span>
-                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800">On Loan</span>
+        <div class="border border-slate-200 rounded-lg p-6 mb-3 space-y-4">
+            <div>
+                <div class="text-xs text-slate-400 mb-2">Default size</div>
+                <div class="flex flex-wrap gap-3">
+                    <x-badge color="green">Active</x-badge>
+                    <x-badge color="amber">Pending</x-badge>
+                    <x-badge color="red">Rejected</x-badge>
+                    <x-badge color="sky">Info</x-badge>
+                    <x-badge color="slate">Default</x-badge>
+                    <x-badge color="emerald">On Loan</x-badge>
+                    <x-badge color="blue">Champions League</x-badge>
+                </div>
+            </div>
+            <div>
+                <div class="text-xs text-slate-400 mb-2">XS size</div>
+                <div class="flex flex-wrap gap-3">
+                    <x-badge color="green" size="xs">Free Agent</x-badge>
+                    <x-badge color="amber" size="xs">Expiring</x-badge>
+                    <x-badge color="teal" size="xs">Tracked</x-badge>
+                    <x-badge color="violet" size="xs">Loaned</x-badge>
+                </div>
+            </div>
+            <div>
+                <div class="text-xs text-slate-400 mb-2">Solid variants</div>
+                <div class="flex flex-wrap gap-3">
+                    <x-badge color="green-solid" size="xs">Completed</x-badge>
+                    <x-badge color="red-solid" size="xs">3</x-badge>
+                </div>
             </div>
         </div>
 
@@ -24,23 +44,37 @@
                 <span x-show="!copied">Copy</span>
                 <span x-show="copied" x-cloak class="text-green-400">Copied!</span>
             </button>
-            <pre class="bg-slate-800 text-slate-300 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code x-ref="code">&lt;span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800"&gt;
-    Active
-&lt;/span&gt;</code></pre>
+            <pre class="bg-slate-800 text-slate-300 rounded-lg p-4 overflow-x-auto text-xs leading-relaxed"><code x-ref="code">&lt;x-badge color="green"&gt;Active&lt;/x-badge&gt;
+&lt;x-badge color="amber" size="xs"&gt;Expiring&lt;/x-badge&gt;
+&lt;x-badge color="green-solid" size="xs"&gt;Completed&lt;/x-badge&gt;</code></pre>
         </div>
-    </div>
 
-    {{-- Competition Badges --}}
-    <div class="mb-12">
-        <h3 class="text-lg font-semibold text-slate-900 mb-2">Competition Badges</h3>
-        <p class="text-sm text-slate-500 mb-4">Color-coded by competition role: domestic league, domestic cup, or European.</p>
-
-        <div class="border border-slate-200 rounded-lg p-6 mb-3">
-            <div class="flex flex-wrap gap-3">
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">La Liga</span>
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Copa del Rey</span>
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Champions League</span>
-            </div>
+        {{-- Props table --}}
+        <div class="overflow-x-auto mt-4">
+            <table class="w-full text-sm">
+                <thead class="text-left border-b border-slate-200">
+                    <tr>
+                        <th class="font-semibold py-2 pr-4">Prop</th>
+                        <th class="font-semibold py-2 pr-4">Type</th>
+                        <th class="font-semibold py-2 pr-4">Default</th>
+                        <th class="font-semibold py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-slate-100">
+                        <td class="py-2 pr-4 font-mono text-xs text-sky-600">color</td>
+                        <td class="py-2 pr-4 text-slate-500">string</td>
+                        <td class="py-2 pr-4 font-mono text-xs">'slate'</td>
+                        <td class="py-2 text-slate-500">green | amber | red | sky | slate | emerald | blue | purple | indigo | orange | teal | violet | rose | green-solid | red-solid</td>
+                    </tr>
+                    <tr class="border-b border-slate-100">
+                        <td class="py-2 pr-4 font-mono text-xs text-sky-600">size</td>
+                        <td class="py-2 pr-4 text-slate-500">string</td>
+                        <td class="py-2 pr-4 font-mono text-xs">'default'</td>
+                        <td class="py-2 text-slate-500">default (text-xs, px-2.5) | xs (text-[10px], px-1.5)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

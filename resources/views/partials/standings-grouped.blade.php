@@ -9,9 +9,9 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach($groupedStandings as $groupLabel => $groupStandings)
             <div class="space-y-2">
-                <h4 class="font-semibold text-lg text-slate-800">{{ __('game.group') }} {{ $groupLabel }}</h4>
+                <h4 class="font-semibold text-lg text-slate-900">{{ __('game.group') }} {{ $groupLabel }}</h4>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full table-fixed text-right divide-y divide-slate-300">
+                    <table class="min-w-full table-fixed text-right divide-y divide-slate-300 tabular-nums">
                         <thead>
                         <tr>
                             <th class="font-semibold text-left w-6 p-1.5 text-xs"></th>

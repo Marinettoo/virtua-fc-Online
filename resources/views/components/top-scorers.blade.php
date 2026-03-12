@@ -16,7 +16,7 @@
                     <span class="w-5 text-slate-400 text-xs">{{ $index + 1 }}</span>
                     <x-team-crest :team="$scorerTeam" class="w-4 h-4" title="{{ $scorerTeam?->name }}" />
                     <span class="flex-1 truncate @if($isPlayerTeam) font-medium @endif">{{ $scorer->player->name }}</span>
-                    <span class="font-semibold">{{ $scorer->goals }}</span>
+                    <span class="font-semibold tabular-nums">{{ $scorer->goals }}</span>
                 </div>
             @endforeach
         </div>

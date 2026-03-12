@@ -26,7 +26,7 @@
                     {{-- Post-season results banner --}}
                     @if($finances->actual_total_revenue > 0)
                     <div class="border rounded-lg overflow-hidden bg-slate-50 mb-6">
-                        <div class="px-5 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="px-5 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 tabular-nums">
                             <div class="flex flex-wrap items-center gap-4 md:gap-6">
                                 <div>
                                     <div class="text-xs text-slate-500">{{ __('finances.projected_revenue') }}</div>
@@ -64,7 +64,7 @@
                                     <h4 class="font-semibold text-sm text-slate-900">{{ __('finances.budget_flow') }}</h4>
                                     <span class="text-xs text-slate-400">{{ __('finances.season_budget', ['season' => $game->formatted_season]) }}</span>
                                 </div>
-                                <div class="px-5 py-4 space-y-0 text-sm">
+                                <div class="px-5 py-4 space-y-0 text-sm tabular-nums">
                                     {{-- Revenue line items --}}
                                     <div class="flex items-center justify-between py-2">
                                         <span class="text-slate-500 pl-5 flex items-center gap-1.5">{{ __('finances.tv_rights') }} <svg x-data="" x-tooltip.raw="{{ __('finances.tooltip_tv_rights') }}" class="w-3.5 h-3.5 text-slate-300 hover:text-slate-500 cursor-help flex-shrink-0" fill="currentColor" viewBox="0 0 512 512"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></span>
@@ -236,7 +236,7 @@
                                     </button>
                                 </div>
 
-                                <table class="w-full text-sm">
+                                <table class="w-full text-sm tabular-nums">
                                     <thead>
                                         <tr class="text-left text-xs text-slate-400 border-b">
                                             <th class="px-5 py-2 font-medium">{{ __('finances.date') }}</th>
@@ -286,7 +286,7 @@
                                     <div class="text-xs text-slate-400 uppercase mb-1">{{ __('finances.squad_value') }}</div>
                                     <div class="text-2xl font-bold text-white">{{ \App\Support\Money::format($squadValue) }}</div>
                                 </div>
-                                <div class="divide-y divide-slate-100">
+                                <div class="divide-y divide-slate-100 tabular-nums">
                                     <div class="px-4 py-3 flex items-center justify-between">
                                         <span class="text-sm text-slate-500">{{ __('finances.annual_wage_bill') }}</span>
                                         <span class="text-sm font-semibold text-slate-900">{{ \App\Support\Money::format($wageBill) }}{{ __('squad.per_year') }}</span>

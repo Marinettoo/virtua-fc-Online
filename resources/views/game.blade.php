@@ -28,7 +28,7 @@
 
             {{-- Pre-Season Banner --}}
             @if(!empty($isPreSeason))
-            <div class="mb-4 p-4 bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3" x-data="{ confirmSkip: false }">
+            <div class="mb-4 p-4 bg-sky-50 border border-sky-200 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3" x-data="{ confirmSkip: false }">
                 <div class="flex items-start gap-3">
                     <div class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center shrink-0">
                         <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

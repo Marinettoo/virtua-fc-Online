@@ -52,7 +52,7 @@
         &lt;p class="text-sm text-slate-500 mb-6"&gt;Are you sure?&lt;/p&gt;
         &lt;div class="flex justify-end gap-3"&gt;
             &lt;x-secondary-button @click="$dispatch('close-modal', 'confirm-delete')"&gt;Cancel&lt;/x-secondary-button&gt;
-            &lt;x-danger-button&gt;Delete&lt;/x-danger-button&gt;
+            &lt;x-primary-button color="red"&gt;Delete&lt;/x-primary-button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/x-modal&gt;</code></pre>

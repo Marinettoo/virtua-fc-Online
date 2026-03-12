@@ -40,7 +40,7 @@
 
                     {{-- League Section — Team-Grouped --}}
                     <div class="mb-8">
-                        <h3 class="text-base font-semibold text-slate-800 mb-4">{{ $competitionName }}</h3>
+                        <h3 class="text-base font-semibold text-slate-900 mb-4">{{ $competitionName }}</h3>
 
                         @if(count($leagueTeamActivity) > 0)
                             <div class="columns-1 md:columns-2 gap-6">
@@ -61,7 +61,7 @@
                                                 <div class="flex items-center gap-1.5 md:gap-2 text-sm min-h-[28px]">
                                                     <span class="text-red-500 font-bold w-4 shrink-0 text-center" title="{{ __('transfers.transfer_activity_out') }}">&#x2197;</span>
                                                     <x-position-badge :position="$transfer['position']" size="sm" />
-                                                    <span class="text-slate-800 truncate min-w-0">{{ $transfer['playerName'] }}</span>
+                                                    <span class="text-slate-900 truncate min-w-0">{{ $transfer['playerName'] }}</span>
                                                     <span class="text-slate-400 shrink-0">&rarr;</span>
                                                     <span class="flex items-center gap-1 truncate min-w-0 text-slate-500">
                                                         @if(isset($transfer['toTeamId']) && $teams->has($transfer['toTeamId']))
@@ -78,7 +78,7 @@
                                                 <div class="flex items-center gap-1.5 md:gap-2 text-sm min-h-[28px]">
                                                     <span class="text-emerald-500 font-bold w-4 shrink-0 text-center" title="{{ __('transfers.transfer_activity_in') }}">&#x2199;</span>
                                                     <x-position-badge :position="$transfer['position']" size="sm" />
-                                                    <span class="text-slate-800 truncate min-w-0">{{ $transfer['playerName'] }}</span>
+                                                    <span class="text-slate-900 truncate min-w-0">{{ $transfer['playerName'] }}</span>
                                                     @if($transfer['fromTeamId'])
                                                         <span class="text-slate-400 shrink-0">&larr;</span>
                                                         <span class="flex items-center gap-1 truncate min-w-0 text-slate-500">
@@ -105,7 +105,7 @@
                     {{-- Rest of World Section — Team-Grouped --}}
                     @if(count($restOfWorldTeamActivity) > 0)
                         <div>
-                            <h3 class="text-base font-semibold text-slate-800 mb-4">{{ __('transfers.transfer_activity_other_leagues') }}</h3>
+                            <h3 class="text-base font-semibold text-slate-900 mb-4">{{ __('transfers.transfer_activity_other_leagues') }}</h3>
 
                             <div class="columns-1 md:columns-2 gap-6">
                                 @foreach($restOfWorldTeamActivity as $teamId => $activity)
@@ -125,7 +125,7 @@
                                                 <div class="flex items-center gap-1.5 md:gap-2 text-sm min-h-[28px]">
                                                     <span class="text-red-500 font-bold w-4 shrink-0 text-center" title="{{ __('transfers.transfer_activity_out') }}">&#x2197;</span>
                                                     <x-position-badge :position="$transfer['position']" size="sm" />
-                                                    <span class="text-slate-800 truncate min-w-0">{{ $transfer['playerName'] }}</span>
+                                                    <span class="text-slate-900 truncate min-w-0">{{ $transfer['playerName'] }}</span>
                                                     <span class="text-slate-400 shrink-0">&rarr;</span>
                                                     <span class="flex items-center gap-1 truncate min-w-0 text-slate-500">
                                                         @if(isset($transfer['toTeamId']) && $teams->has($transfer['toTeamId']))
@@ -142,7 +142,7 @@
                                                 <div class="flex items-center gap-1.5 md:gap-2 text-sm min-h-[28px]">
                                                     <span class="text-emerald-500 font-bold w-4 shrink-0 text-center" title="{{ __('transfers.transfer_activity_in') }}">&#x2199;</span>
                                                     <x-position-badge :position="$transfer['position']" size="sm" />
-                                                    <span class="text-slate-800 truncate min-w-0">{{ $transfer['playerName'] }}</span>
+                                                    <span class="text-slate-900 truncate min-w-0">{{ $transfer['playerName'] }}</span>
                                                     @if($transfer['fromTeamId'])
                                                         <span class="text-slate-400 shrink-0">&larr;</span>
                                                         <span class="flex items-center gap-1 truncate min-w-0 text-slate-500">

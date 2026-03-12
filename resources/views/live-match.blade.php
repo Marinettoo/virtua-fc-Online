@@ -266,7 +266,7 @@
                         <div class="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-lg">
                             {{-- Current tactical state --}}
                             <div class="flex items-center gap-2 md:gap-3 min-w-0">
-                                <span class="text-xs font-bold text-slate-800 tabular-nums shrink-0" x-text="activeFormation"></span>
+                                <span class="text-xs font-bold text-slate-900 tabular-nums shrink-0" x-text="activeFormation"></span>
                                 <span class="text-slate-300 shrink-0">&middot;</span>
                                 <span class="text-xs font-semibold shrink-0 truncate"
                                       :class="{
