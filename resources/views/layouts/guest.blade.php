@@ -24,7 +24,7 @@
     <body class="font-sans antialiased bg-surface-900 text-text-primary">
 
     @if(config('beta.enabled'))
-        <div class="bg-amber-500/10 border-b border-amber-500/20 text-amber-400 text-center text-sm py-1.5 px-4">
+        <div class="bg-amber-500 text-amber-950 text-center text-xs py-1.5 px-4">
             <span class="font-semibold">{{ __('beta.badge') }}</span>
             —
             {{ __('beta.login_notice') }}
