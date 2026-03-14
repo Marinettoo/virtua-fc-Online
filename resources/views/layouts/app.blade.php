@@ -23,10 +23,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-surface-900 text-text-primary">
-        <div class="min-h-screen">
+        <div class="min-h-screen flex flex-col">
 
             @if(session('impersonating_from'))
-                <div class="bg-rose-500 text-white text-center text-sm py-1.5 px-4 flex items-center justify-center gap-3">
+                <div class="bg-rose-500 text-white text-center text-xs py-1.5 px-4 flex items-center justify-center gap-3">
                     <span>{{ __('admin.impersonating_banner', ['name' => auth()->user()->name, 'email' => auth()->user()->email]) }}</span>
                     <form method="POST" action="{{ route('admin.stop-impersonation') }}" class="inline">
                         @csrf
@@ -36,7 +36,7 @@
             @endif
 
             @if(config('beta.enabled'))
-                <div class="bg-amber-500/10 border-b border-amber-500/20 text-amber-400 text-center text-sm py-1.5 px-4">
+                <div class="bg-amber-500 text-amber-950 text-center text-xs py-1.5 px-4">
                     <span class="font-semibold">{{ __('beta.badge') }}</span>
                     —
                     {{ __('beta.banner_warning') }}
@@ -56,30 +56,38 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="text-text-body">
+            <main class="text-text-body flex-1">
                 {{ $slot }}
             </main>
             @unless($hideFooter ?? false)
-            <footer>
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-center md:justify-start gap-4 md:gap-0 md:space-x-4">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <a class="text-sm text-text-muted cursor-pointer hover:text-text-secondary" :href="route('logout')"
-                               onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('app.log_out') }}
-                            </a>
-                        </form>
-                        <a class="text-sm text-text-muted hover:text-text-secondary" href="{{ route('select-team') }}">{{ __('app.new_game') }}</a>
-                        <a class="text-sm text-text-muted hover:text-text-secondary" href="{{ route('dashboard') }}">{{ __('app.load_game') }}</a>
-                        @if(auth()->user()?->is_admin)
-                            <a class="text-sm text-text-muted hover:text-text-secondary" href="{{ route('admin.users') }}">Admin</a>
-                        @endif
-                        <x-theme-toggle />
-                    </div>
-                    <div class="mt-4 text-xs text-text-faint text-center md:text-left">
-                        © 2026 Pablo Román · Proyecto Open Source · <a href="{{ route('legal') }}" class="hover:text-text-muted">Aviso Legal</a> · <a href="https://github.com/pabloroman/virtua-fc" target="_blank" class="hover:text-text-muted">GitHub</a>
+            <footer class="mt-12 bg-surface-800/40">
+                <div class="border-t border-border-default/50">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                            {{-- Logo + copyright --}}
+                            <div class="flex flex-col items-center md:items-start gap-3">
+                                <div class="-skew-x-12 bg-text-faint/15 px-3 py-0.5">
+                                    <span class="skew-x-12 inline-block text-lg font-extrabold text-text-faint tracking-tight" style="font-family: 'Barlow Semi Condensed', sans-serif;">Virtua FC</span>
+                                </div>
+                                <p class="text-xs text-text-faint">
+                                    &copy; {{ date('Y') }} Pablo Román &middot; <a href="https://github.com/pabloroman/virtua-fc" target="_blank" class="hover:text-text-muted transition-colors">Proyecto Open Source</a> &middot; <a href="{{ route('legal') }}" class="hover:text-text-muted transition-colors">Aviso Legal</a>
+                                </p>
+                            </div>
+
+                            {{-- Navigation links --}}
+                            <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-text-muted">
+                                <a href="{{ route('select-team') }}" class="hover:text-text-secondary transition-colors">{{ __('app.new_game') }}</a>
+                                <a href="{{ route('dashboard') }}" class="hover:text-text-secondary transition-colors">{{ __('app.load_game') }}</a>
+                                <form method="POST" action="{{ route('logout') }}" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-text-muted hover:text-text-secondary transition-colors cursor-pointer">{{ __('app.log_out') }}</button>
+                                </form>
+                                @if(auth()->user()?->is_admin)
+                                    <a href="{{ route('admin.users') }}" class="hover:text-text-secondary transition-colors">Admin</a>
+                                @endif
+                                <x-theme-toggle />
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </footer>
