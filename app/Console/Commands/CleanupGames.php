@@ -6,23 +6,29 @@ use App\Modules\Season\Services\GameDeletionService;
 use App\Models\Game;
 use Illuminate\Console\Command;
 
-class CleanupUnplayedGames extends Command
+class CleanupGames extends Command
 {
-    protected $signature = 'app:cleanup-unplayed-games
+    protected $signature = 'app:cleanup-games
                             {--dry-run : Preview what would be deleted without actually deleting}
-                            {--days=2 : Number of days after which an unplayed game is considered stale}';
+                            {--days=2 : Number of days of inactivity after which a game is considered stale}
+                            {--all : Include all inactive games, not just unplayed ones (matchday 0)}';
 
-    protected $description = 'Delete games that were never played (matchday 0) and are older than the specified threshold';
+    protected $description = 'Delete stale games based on inactivity. By default only unplayed games (matchday 0); use --all to include any inactive game.';
 
     public function handle(GameDeletionService $service): int
     {
         $days = (int) $this->option('days');
         $dryRun = $this->option('dry-run');
+        $all = $this->option('all');
 
-        $staleGames = Game::where('current_matchday', 0)
-            ->where('season', '2025')
-            ->where('created_at', '<', now()->subDays($days))
-            ->get();
+        $query = Game::where('updated_at', '<', now()->subDays($days));
+
+        if (! $all) {
+            $query->where('current_matchday', 0)
+                ->where('season', '2025');
+        }
+
+        $staleGames = $query->get();
 
         if ($staleGames->isEmpty()) {
             $this->info('No stale games found.');
@@ -33,7 +39,7 @@ class CleanupUnplayedGames extends Command
         $this->info(($dryRun ? '[DRY RUN] ' : '')."Found {$staleGames->count()} stale game(s).");
 
         foreach ($staleGames as $game) {
-            $this->line("  - Game {$game->id} (user: {$game->user_id}, team: {$game->team_id}, created: {$game->created_at})");
+            $this->line("  - Game {$game->id} (user: {$game->user_id}, team: {$game->team_id}, matchday: {$game->current_matchday}, last active: {$game->updated_at})");
 
             if (! $dryRun) {
                 $service->delete($game);
