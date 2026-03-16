@@ -35,6 +35,7 @@
         opponentMentality: @js($opponentData['mentality'] ?? null),
         userTeamAverage: {{ $userTeamAverage ?: 0 }},
         isHome: @js($isHome),
+        presets: @js($presetsConfig),
         translations: {
             natural: '{{ __('squad.natural') }}',
             veryGood: '{{ __('squad.very_good') }}',
@@ -119,6 +120,49 @@
                     </div>
 
                     <div class="border-t border-border-default"></div>
+
+                    {{-- Saved tactical presets --}}
+                    <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide" x-show="presets.length > 0 || {{ $tacticalPresets->count() < 3 ? 'true' : 'false' }}">
+                        <span class="text-[10px] text-text-muted uppercase tracking-wider shrink-0">{{ __('squad.presets') }}</span>
+                        <div class="flex gap-1.5">
+                            <template x-for="preset in presets" :key="preset.id">
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <button type="button"
+                                        @click="loadPreset(preset)"
+                                        class="formation-option flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-surface-700 border border-border-strong text-sm font-medium text-text-body hover:bg-blue-500/10 hover:border-blue-500/50 min-h-[36px]"
+                                        x-bind:class="activePresetId === preset.id && 'active'">
+                                        <span class="text-[10px] font-heading tracking-wide" x-bind:class="activePresetId === preset.id ? 'text-blue-200' : 'text-text-muted'" x-text="preset.formation"></span>
+                                        <span x-text="preset.name"></span>
+                                    </button>
+                                    <button type="button"
+                                        x-bind:data-id="preset.id"
+                                        @click="
+                                            if (!confirm('{{ __('squad.preset_delete_confirm') }}')) return;
+                                            _isSaving = true;
+                                            let f = document.createElement('form');
+                                            f.method = 'POST';
+                                            f.action = '{{ url('game/' . $game->id . '/tactical-presets') }}/' + preset.id;
+                                            f.innerHTML = '<input type=hidden name=_token value={{ csrf_token() }}><input type=hidden name=_method value=DELETE>';
+                                            document.body.appendChild(f);
+                                            f.submit();
+                                        "
+                                        class="p-1 text-text-faint hover:text-accent-red transition-colors rounded-sm min-h-[36px]"
+                                        title="{{ __('app.remove') }}">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                            </template>
+                            @if($tacticalPresets->count() < 3)
+                                <button type="button"
+                                    @click="$dispatch('open-modal', 'save-preset')"
+                                    x-bind:disabled="selectedCount !== 11"
+                                    class="flex items-center gap-1 px-2.5 py-1.5 rounded-md border border-dashed border-border-default text-sm text-text-muted hover:text-text-body hover:border-border-strong transition-colors shrink-0 min-h-[36px] disabled:opacity-40 disabled:cursor-not-allowed">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                                    {{ __('squad.save_preset') }}
+                                </button>
+                            @endif
+                        </div>
+                    </div>
 
                     {{-- Formation inline controls --}}
                     <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide">
@@ -608,6 +652,55 @@
             <div class="p-5 max-h-[80vh] overflow-y-auto">
                 @include('partials.lineup-coach-panel')
             </div>
+        </x-modal>
+
+        {{-- Save Tactical Preset Modal --}}
+        <x-modal name="save-preset" maxWidth="sm">
+        <form method="POST" action="{{ route('game.tactical-presets.save', $game->id) }}"
+              x-data="{ presetName: '', applyNow: false }"
+              @submit="_isSaving = true">
+            @csrf
+            <div class="p-5">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">{{ __('squad.save_preset') }}</h3>
+
+                <div class="mb-4">
+                    <label for="preset-name" class="block text-sm text-text-secondary mb-1.5">{{ __('squad.preset_name') }}</label>
+                    <input type="text" id="preset-name" name="name" x-model="presetName"
+                        class="w-full px-3 py-2 bg-surface-700 border border-border-strong rounded-lg text-sm text-text-body placeholder-text-faint focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
+                        placeholder="{{ __('squad.preset_name_placeholder') }}"
+                        maxlength="30" required autofocus>
+                </div>
+
+                <label class="flex items-center gap-2 mb-4 cursor-pointer select-none">
+                    <input type="checkbox" name="apply_now" value="1" x-model="applyNow"
+                        class="rounded border-border-strong bg-surface-700 text-accent-blue focus:ring-accent-blue focus:ring-offset-0">
+                    <span class="text-sm text-text-secondary">{{ __('squad.preset_apply_now') }}</span>
+                </label>
+
+                {{-- Hidden fields carrying current lineup state --}}
+                <input type="hidden" name="formation" :value="selectedFormation">
+                <input type="hidden" name="mentality" :value="selectedMentality">
+                <input type="hidden" name="playing_style" :value="selectedPlayingStyle">
+                <input type="hidden" name="pressing" :value="selectedPressing">
+                <input type="hidden" name="defensive_line" :value="selectedDefLine">
+                <template x-for="playerId in selectedPlayers" :key="'preset-' + playerId">
+                    <input type="hidden" name="lineup[]" :value="playerId">
+                </template>
+                <input type="hidden" name="slot_assignments" :value="JSON.stringify(
+                    Object.fromEntries(slotAssignments.filter(s => s.player).map(s => [s.id, s.player.id]))
+                )">
+                <input type="hidden" name="pitch_positions" :value="JSON.stringify(pitchPositions)">
+
+                <div class="flex justify-end gap-3">
+                    <x-secondary-button type="button" @click="$dispatch('close-modal', 'save-preset')">
+                        {{ __('app.cancel') }}
+                    </x-secondary-button>
+                    <x-primary-button type="submit" color="blue" x-bind:disabled="!presetName.trim()">
+                        <span x-text="applyNow ? '{{ __('squad.save_and_confirm') }}' : '{{ __('app.confirm') }}'"></span>
+                    </x-primary-button>
+                </div>
+            </div>
+        </form>
         </x-modal>
     </div>
 
