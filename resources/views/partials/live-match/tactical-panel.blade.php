@@ -116,12 +116,12 @@
               <div class="grid [&>div]:col-start-1 [&>div]:row-start-1">
 
                 {{-- Substitutions tab --}}
-                <div class="p-4 sm:p-6 transition-opacity duration-150"
+                <div class="p-3 sm:p-4 transition-opacity duration-150"
                      :class="tacticalTab === 'substitutions' ? 'opacity-100 relative z-10' : 'opacity-0 invisible pointer-events-none'"
                 >
 
                     {{-- Injury alert banner --}}
-                    <div x-show="injuryAlertPlayer" x-transition class="flex items-center gap-2.5 p-3 mb-4 bg-accent-red/10 border border-accent-red/20 rounded-lg">
+                    <div x-show="injuryAlertPlayer" x-transition class="flex items-center gap-2.5 p-3 mb-3 bg-accent-red/10 border border-accent-red/20 rounded-lg">
                         <span class="flex items-center justify-center w-8 h-8 rounded-full bg-accent-red/10 shrink-0">
                             <svg class="w-4 h-4 text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -139,21 +139,21 @@
 
                     {{-- All windows exhausted --}}
                     <template x-if="!hasWindowsLeft && pendingSubs.length === 0">
-                        <div class="text-center py-8">
+                        <div class="text-center py-4">
                             <div class="text-text-secondary text-sm">{{ __('game.sub_error_windows_reached') }}</div>
                         </div>
                     </template>
 
                     {{-- All subs used --}}
                     <template x-if="hasWindowsLeft && !canSubstitute && pendingSubs.length === 0">
-                        <div class="text-center py-8">
+                        <div class="text-center py-4">
                             <div class="text-text-secondary text-sm">{{ __('game.sub_limit_reached') }}</div>
                         </div>
                     </template>
 
                     {{-- Pending subs for this window --}}
                     <template x-if="pendingSubs.length > 0">
-                        <div class="mb-4 space-y-1">
+                        <div class="mb-3 space-y-1">
                             <h4 class="text-xs font-semibold text-text-muted uppercase">{{ __('game.sub_pending') }}</h4>
                             <template x-for="(sub, idx) in pendingSubs" :key="idx">
                                 <div class="flex items-center gap-2 px-3 py-0 bg-accent-blue/10 border border-accent-blue/20 rounded-md text-sm">
@@ -179,85 +179,117 @@
                         </div>
                     </template>
 
-                    {{-- Player picker (shown when there's room for more subs in this window) --}}
-                    <template x-if="canSubstitute && hasWindowsLeft">
-                        <div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {{-- Player Out --}}
-                                <div>
-                                    <h4 class="text-xs font-semibold text-text-muted uppercase mb-2">{{ __('game.sub_player_out') }}</h4>
-                                    <div class="space-y-1">
-                                        <template x-for="player in availableLineupForPicker" :key="player.id">
-                                            <button
-                                                @click="selectedPlayerOut = player"
-                                                class="w-full flex items-center gap-2 px-3 py-2 rounded-md text-left text-sm transition-colors min-h-[44px]"
-                                                :class="selectedPlayerOut?.id === player.id
-                                                    ? 'bg-accent-red/10 border border-accent-red/20 text-accent-red'
-                                                    : 'bg-surface-800 border border-border-strong hover:border-border-strong text-text-body'"
-                                            >
-                                                <span class="inline-flex items-center justify-center w-7 h-7 text-xs -skew-x-12 font-semibold text-white shrink-0"
-                                                      :class="getPositionBadgeColor(player.positionGroup)">
-                                                    <span class="skew-x-12" x-text="player.positionAbbr"></span>
-                                                </span>
-                                                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-semibold shrink-0"
-                                                      :class="getOvrBadgeClasses(player.overallScore)"
-                                                      x-text="player.overallScore"></span>
-                                                <span class="flex-1 truncate font-medium" x-text="player.name"></span>
-                                                {{-- Yellow card indicator --}}
-                                                <span x-show="isPlayerYellowCarded(player.id)"
-                                                      x-tooltip.raw="{{ __('game.player_booked') }}"
-                                                      class="shrink-0 w-2 h-3 rounded-[1px] bg-yellow-400 border border-yellow-500"></span>
-                                                {{-- Energy bar --}}
-                                                <span class="ml-auto flex items-center gap-1 shrink-0">
-                                                    <span class="text-[10px] tabular-nums font-semibold"
-                                                          :class="getEnergyTextColor(getPlayerEnergy(player))"
-                                                          x-text="getPlayerEnergy(player) + '%'"></span>
-                                                    <span class="w-10 h-1.5 rounded-full overflow-hidden"
-                                                          :class="getEnergyBarBg(getPlayerEnergy(player))">
-                                                        <span class="h-full rounded-full block transition-all duration-300"
-                                                              :class="getEnergyColor(getPlayerEnergy(player))"
-                                                              :style="'width:' + getPlayerEnergy(player) + '%'"></span>
-                                                    </span>
-                                                </span>
-                                            </button>
-                                        </template>
+                    {{-- Pitch visualization --}}
+                    <x-pitch-field class="aspect-[3/4] sm:aspect-[2/3] w-full max-w-sm mx-auto mb-3">
+
+                        {{-- Selection hint banner --}}
+                        <div x-show="pitchSelectedPlayerId || selectedPlayerIn" x-cloak x-transition
+                             class="absolute bottom-1 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-surface-800/95 backdrop-blur-xs rounded-lg shadow-lg text-[10px] font-medium text-text-body flex items-center gap-1.5 z-20 whitespace-nowrap">
+                            <span class="w-1.5 h-1.5 rounded-full animate-pulse"
+                                  :class="selectedPlayerIn ? 'bg-accent-green' : 'bg-accent-blue'"></span>
+                            <span x-show="pitchSelectedPlayerId && !selectedPlayerIn">{{ __('game.pitch_tap_player') }}</span>
+                            <span x-show="selectedPlayerIn">{{ __('game.pitch_tap_to_sub') }}</span>
+                        </div>
+
+                        {{-- Player slot badges --}}
+                        <template x-for="slot in pitchSlotData" :key="slot.id">
+                            <div
+                                class="absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 z-10"
+                                :style="(() => { const pos = getSlotPosition(slot); return `left: ${pos.x}%; top: ${100 - pos.y}%`; })()"
+                            >
+                                {{-- Empty slot (player was red-carded) --}}
+                                <div x-show="!slot.player" class="flex flex-col items-center">
+                                    <div class="w-9 h-9 rounded-xl border-2 border-dashed border-white/20 bg-surface-800/20 flex items-center justify-center">
+                                        <span class="text-[9px] font-semibold text-white/30" x-text="slot.displayLabel"></span>
                                     </div>
                                 </div>
 
-                                {{-- Player In --}}
-                                <div>
-                                    <h4 class="text-xs font-semibold text-text-muted uppercase mb-2">{{ __('game.sub_player_in') }}</h4>
-                                    <div class="space-y-1">
-                                        <template x-for="player in availableBenchForPicker" :key="player.id">
-                                            <button
-                                                @click="selectedPlayerIn = player"
-                                                class="w-full flex items-center gap-2 px-3 py-2 rounded-md text-left text-sm transition-colors min-h-[44px]"
-                                                :class="selectedPlayerIn?.id === player.id
-                                                    ? 'bg-accent-green/10 border border-green-300 text-green-800'
-                                                    : 'bg-surface-800 border border-border-strong hover:border-border-strong text-text-body'"
-                                            >
-                                                <span class="inline-flex items-center justify-center w-7 h-7 text-xs -skew-x-12 font-semibold text-white shrink-0"
-                                                      :class="getPositionBadgeColor(player.positionGroup)">
-                                                    <span class="skew-x-12" x-text="player.positionAbbr"></span>
-                                                </span>
-                                                <span class="flex-1 truncate font-medium" x-text="player.name"></span>
-                                                {{-- OVR badge with fitness/morale tooltip --}}
-                                                <span class="ml-auto inline-flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-semibold shrink-0"
-                                                      :class="getOvrBadgeClasses(player.overallScore)"
-                                                      :x-tooltip="'{{ __('game.ovr_fitness') }}: ' + player.fitness + ' · {{ __('game.ovr_morale') }}: ' + player.morale"
-                                                      x-text="player.overallScore"></span>
-                                            </button>
-                                        </template>
+                                {{-- Filled slot --}}
+                                <div x-show="slot.player" class="flex flex-col items-center cursor-pointer"
+                                     @click="onPitchPlayerTap(slot.id)">
+
+                                    {{-- Shirt badge --}}
+                                    <div
+                                        class="relative w-9 h-9 rounded-xl shadow-lg border border-white/20 transform transition-all duration-200 hover:scale-110"
+                                        :class="{
+                                            'ring-2 ring-accent-blue ring-offset-1 ring-offset-surface-800 scale-110': pitchSelectedPlayerId === slot.player?.id,
+                                            'ring-2 ring-accent-red/60': selectedPlayerIn && !pitchSelectedPlayerId,
+                                        }"
+                                        :style="pitchShirtStyle(slot.role)"
+                                    >
+                                        {{-- Number/initials --}}
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <span class="font-bold text-[10px] leading-none inline-flex items-center justify-center w-6 h-6 rounded-full"
+                                                  :style="pitchNumberStyle(slot.role)"
+                                                  x-text="slot.player?.number || pitchGetInitials(slot.player?.name)"></span>
+                                        </div>
+
+                                        {{-- OVR badge --}}
+                                        <span class="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-0.5 rounded-sm text-[8px] font-bold leading-none flex items-center justify-center shadow-sm"
+                                              :class="{
+                                                  'bg-accent-green text-white': slot.player?.overallScore >= 80,
+                                                  'bg-lime-500 text-white': slot.player?.overallScore >= 70 && slot.player?.overallScore < 80,
+                                                  'bg-accent-gold text-white': slot.player?.overallScore >= 60 && slot.player?.overallScore < 70,
+                                                  'bg-accent-orange text-white': slot.player?.overallScore < 60,
+                                              }"
+                                              x-text="slot.player?.overallScore"></span>
+
+                                        {{-- Yellow card indicator --}}
+                                        <span x-show="isPlayerYellowCarded(slot.player?.id)"
+                                              class="absolute -top-1 -left-1 w-2 h-3 rounded-[1px] bg-yellow-400 border border-yellow-500 shadow-sm"></span>
+
+                                        {{-- Energy ring --}}
+                                        <div class="absolute -bottom-0.5 left-1/2 -translate-x-1/2">
+                                            <span class="text-[7px] tabular-nums font-bold leading-none px-1 py-px rounded-sm"
+                                                  :class="{
+                                                      'bg-emerald-500/90 text-white': getPlayerEnergy(slot.player) > 60,
+                                                      'bg-amber-400/90 text-white': getPlayerEnergy(slot.player) > 30 && getPlayerEnergy(slot.player) <= 60,
+                                                      'bg-red-500/90 text-white': getPlayerEnergy(slot.player) <= 30,
+                                                  }"
+                                                  x-text="getPlayerEnergy(slot.player) + '%'"></span>
+                                        </div>
                                     </div>
+
+                                    {{-- Player name --}}
+                                    <span class="mt-0.5 text-[7px] font-semibold text-white uppercase tracking-wide leading-tight text-center max-w-[52px] line-clamp-1 break-words drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                                          x-text="slot.player?.name"></span>
+
+                                    {{-- Slot label --}}
+                                    <span class="text-[7px] font-medium text-white/40 leading-none" x-text="slot.displayLabel"></span>
                                 </div>
                             </div>
+                        </template>
 
+                    </x-pitch-field>
+
+                    {{-- Bench panel --}}
+                    <div class="mb-3">
+                        <h4 class="text-xs font-semibold text-text-muted uppercase mb-1.5">{{ __('game.pitch_bench') }}</h4>
+                        <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+                            <template x-for="player in availableBenchForPicker" :key="player.id">
+                                <button
+                                    @click="onBenchPlayerTap(player)"
+                                    class="shrink-0 flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg text-center transition-colors min-h-[44px] min-w-[68px]"
+                                    :class="selectedPlayerIn?.id === player.id
+                                        ? 'bg-accent-green/15 border border-accent-green/30 ring-1 ring-accent-green/40'
+                                        : 'bg-surface-700/50 border border-border-strong hover:border-text-muted'"
+                                >
+                                    <span class="inline-flex items-center justify-center w-5 h-5 text-[9px] -skew-x-12 font-semibold text-white shrink-0"
+                                          :class="getPositionBadgeColor(player.positionGroup)">
+                                        <span class="skew-x-12" x-text="player.positionAbbr"></span>
+                                    </span>
+                                    <span class="text-[10px] font-medium text-text-body truncate max-w-[60px]" x-text="player.name"></span>
+                                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[9px] font-semibold shrink-0"
+                                          :class="getOvrBadgeClasses(player.overallScore)"
+                                          x-text="player.overallScore"></span>
+                                </button>
+                            </template>
                         </div>
-                    </template>
+                    </div>
 
                     {{-- Made substitutions list --}}
                     <template x-if="substitutionsMade.length > 0">
-                        <div class="mt-4 pt-4 border-t border-border-default">
+                        <div class="pt-3 border-t border-border-default">
                             <h4 class="text-xs font-semibold text-text-secondary uppercase mb-2">{{ __('game.tactical_subs_made') }}</h4>
                             <div class="space-y-1">
                                 <template x-for="(sub, idx) in substitutionsMade" :key="idx">
@@ -338,26 +370,18 @@
                 <div x-show="tacticalTab === 'substitutions'" class="flex items-center gap-2">
                     <x-secondary-button
                         @click="resetSubstitutions()"
-                        x-show="selectedPlayerOut || selectedPlayerIn || pendingSubs.length > 0"
+                        x-show="pitchSelectedPlayerId || selectedPlayerIn || pendingSubs.length > 0"
                         class="gap-1.5"
                     >
                         {{ __('game.sub_reset') }}
-                    </x-secondary-button>
-
-                    <x-secondary-button
-                        @click="addPendingSub()"
-                        x-show="selectedPlayerOut && selectedPlayerIn && canAddMoreToPending && subsRemaining > 1"
-                        class="gap-1.5"
-                    >
-                        {{ __('game.sub_add_another') }}
                     </x-secondary-button>
 
                     <x-primary-button
                         color="sky"
                         type="button"
                         @click="confirmSubstitutions()"
-                        x-bind:disabled="(!selectedPlayerOut || !selectedPlayerIn) && pendingSubs.length === 0 || subProcessing"
-                        x-show="(canSubstitute && hasWindowsLeft) || pendingSubs.length > 0"
+                        x-bind:disabled="pendingSubs.length === 0 || subProcessing"
+                        x-show="pendingSubs.length > 0"
                         class="ml-auto gap-1.5"
                     >
                         <span x-show="!subProcessing">{{ __('game.sub_confirm') }}</span>

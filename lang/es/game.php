@@ -293,6 +293,11 @@ return [
     'sub_error_player_suspended' => 'El jugador está sancionado en esta competición',
     'sub_error_player_injured' => 'El jugador está lesionado',
 
+    // Pitch visualization
+    'pitch_tap_player' => 'Toca otro jugador o un suplente',
+    'pitch_tap_to_sub' => 'Toca un jugador en el campo',
+    'pitch_bench' => 'Banquillo',
+
     'match_not_in_progress' => 'Este partido ya no está en juego',
 
     // Tactical center

@@ -60,6 +60,10 @@
                 processingStatusUrl: {!! $processingStatusUrl ? "'" . $processingStatusUrl . "'" : 'null' !!},
                 homePossession: {{ $homePossession }},
                 awayPossession: {{ $awayPossession }},
+                teamColors: {{ Js::from($teamColors) }},
+                formationSlots: {{ Js::from($formationSlots) }},
+                slotCompatibility: {{ Js::from($slotCompatibility) }},
+                initialSlotAssignments: {{ Js::from($initialSlotAssignments) }},
                 translations: {
                     unsavedTacticalChanges: {!! Js::from(__('game.tactical_unsaved_changes')) !!},
                     extraTime: {!! Js::from(__('game.live_extra_time')) !!},

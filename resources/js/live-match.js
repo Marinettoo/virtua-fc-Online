@@ -1,3 +1,5 @@
+import { getShirtStyle as _getShirtStyle, getNumberStyle as _getNumberStyle, getInitials as _getInitials } from './pitch-helpers.js';
+
 export default function liveMatch(config) {
     return {
         // Config (from server)
@@ -124,6 +126,13 @@ export default function liveMatch(config) {
                 playerInName: '',
             }))
             : [],
+
+        // Pitch visualization state
+        teamColors: config.teamColors || null,
+        formationSlots: config.formationSlots || {},
+        slotCompatibility: config.slotCompatibility || {},
+        liveSlotAssignments: config.initialSlotAssignments || {},
+        pitchSelectedPlayerId: null, // on-field player selected for reposition/sub
 
         // Ticker state for other matches
         otherMatchScores: [],
@@ -926,6 +935,7 @@ export default function liveMatch(config) {
             this.tacticalPanelOpen = true;
             this.selectedPlayerOut = null;
             this.selectedPlayerIn = null;
+            this.pitchSelectedPlayerId = null;
             this.pendingSubs = [];
             this.pendingFormation = null;
             this.pendingMentality = null;
@@ -939,6 +949,7 @@ export default function liveMatch(config) {
             this.tacticalPanelOpen = false;
             this.selectedPlayerOut = null;
             this.selectedPlayerIn = null;
+            this.pitchSelectedPlayerId = null;
             this.pendingSubs = [];
             this.pendingFormation = null;
             this.pendingMentality = null;
@@ -1040,6 +1051,7 @@ export default function liveMatch(config) {
                 // Update active tactics
                 if (result.formation) {
                     this.activeFormation = result.formation;
+                    this.recomputeSlotAssignments(result.formation);
                 }
                 if (result.mentality) {
                     this.activeMentality = result.mentality;
@@ -1215,6 +1227,7 @@ export default function liveMatch(config) {
         resetSubstitutions() {
             this.selectedPlayerOut = null;
             this.selectedPlayerIn = null;
+            this.pitchSelectedPlayerId = null;
             this.pendingSubs = [];
         },
 
@@ -1291,6 +1304,16 @@ export default function liveMatch(config) {
                     if (benchPlayer) {
                         benchPlayer.minuteEntered = subMinute;
                     }
+
+                    // Update pitch slot assignments: incoming player takes outgoing player's slot
+                    const updatedAssignments = { ...this.liveSlotAssignments };
+                    for (const [slotId, playerId] of Object.entries(updatedAssignments)) {
+                        if (playerId === sub.playerOutId) {
+                            updatedAssignments[slotId] = sub.playerInId;
+                            break;
+                        }
+                    }
+                    this.liveSlotAssignments = updatedAssignments;
                 }
 
                 if (isETSub) {
@@ -1407,6 +1430,186 @@ export default function liveMatch(config) {
             }
             this.homeScore = home;
             this.awayScore = away;
+        },
+
+        // =============================
+        // Pitch visualization
+        // =============================
+
+        /** Get the formation slots for the current active formation. */
+        get currentFormationSlots() {
+            return this.formationSlots[this.activeFormation] || [];
+        },
+
+        /** Build pitch slot data: merges slot definitions with live assignments and player data. */
+        get pitchSlotData() {
+            const slots = this.currentFormationSlots;
+            const onFieldPlayers = this.availableLineupForPicker;
+
+            return slots.map(slot => {
+                const playerId = this.liveSlotAssignments[slot.id];
+                const player = playerId
+                    ? onFieldPlayers.find(p => p.id === playerId) || null
+                    : null;
+
+                // Determine the role (position group) from the slot label
+                const slotGroup = this._slotToPositionGroup(slot.label);
+
+                return {
+                    id: slot.id,
+                    col: slot.col,
+                    row: slot.row,
+                    label: slot.label,
+                    displayLabel: slot.displayLabel,
+                    role: player ? player.positionGroup : slotGroup,
+                    player,
+                };
+            });
+        },
+
+        _slotToPositionGroup(slotLabel) {
+            const map = {
+                'GK': 'Goalkeeper',
+                'CB': 'Defender', 'LB': 'Defender', 'RB': 'Defender', 'LWB': 'Defender', 'RWB': 'Defender',
+                'DM': 'Midfielder', 'CM': 'Midfielder', 'AM': 'Midfielder', 'LM': 'Midfielder', 'RM': 'Midfielder',
+                'LW': 'Forward', 'RW': 'Forward', 'CF': 'Forward',
+            };
+            return map[slotLabel] || 'Midfielder';
+        },
+
+        /** Get pitch percentage coordinates for a slot. */
+        getSlotPosition(slot) {
+            const gc = this.currentFormationSlots.length > 0 ? { cols: 9, rows: 11 } : null;
+            if (!gc) return { x: 50, y: 50 };
+            return {
+                x: slot.col * (100 / gc.cols) + (100 / (gc.cols * 2)),
+                y: slot.row * (100 / gc.rows) + (100 / (gc.rows * 2)),
+            };
+        },
+
+        /** Shirt style for pitch badges. */
+        pitchShirtStyle(role) {
+            return _getShirtStyle(role, this.teamColors);
+        },
+
+        /** Number style for pitch badges. */
+        pitchNumberStyle(role) {
+            return _getNumberStyle(role, this.teamColors);
+        },
+
+        /** Get initials for a player name. */
+        pitchGetInitials(name) {
+            return _getInitials(name);
+        },
+
+        /** Get the energy-based border color class for a pitch badge. */
+        getEnergyBorderClass(energy) {
+            if (energy > 60) return 'ring-emerald-500/70';
+            if (energy > 30) return 'ring-amber-400/70';
+            return 'ring-red-500/70';
+        },
+
+        /** Handle tapping an on-field player badge on the pitch. */
+        onPitchPlayerTap(slotId) {
+            const slot = this.pitchSlotData.find(s => s.id === slotId);
+            if (!slot?.player) return;
+
+            const playerId = slot.player.id;
+
+            // Same player: deselect
+            if (this.pitchSelectedPlayerId === playerId) {
+                this.pitchSelectedPlayerId = null;
+                this.selectedPlayerOut = null;
+                return;
+            }
+
+            // A bench player is already selected: complete substitution
+            if (this.selectedPlayerIn) {
+                this.selectedPlayerOut = slot.player;
+                this.addPendingSub();
+                this.pitchSelectedPlayerId = null;
+                return;
+            }
+
+            // Another on-field player is already selected: reposition (swap slots)
+            if (this.pitchSelectedPlayerId) {
+                const otherSlot = this.pitchSlotData.find(s => s.player?.id === this.pitchSelectedPlayerId);
+                if (otherSlot) {
+                    // Swap slot assignments
+                    const newAssignments = { ...this.liveSlotAssignments };
+                    newAssignments[slotId] = this.pitchSelectedPlayerId;
+                    newAssignments[otherSlot.id] = playerId;
+                    this.liveSlotAssignments = newAssignments;
+                }
+                this.pitchSelectedPlayerId = null;
+                this.selectedPlayerOut = null;
+                return;
+            }
+
+            // No selection active: select this on-field player
+            this.pitchSelectedPlayerId = playerId;
+            this.selectedPlayerOut = slot.player;
+        },
+
+        /** Handle tapping a bench player. */
+        onBenchPlayerTap(player) {
+            // Same player: deselect
+            if (this.selectedPlayerIn?.id === player.id) {
+                this.selectedPlayerIn = null;
+                return;
+            }
+
+            // An on-field player is already selected: complete substitution
+            if (this.pitchSelectedPlayerId && this.selectedPlayerOut) {
+                this.selectedPlayerIn = player;
+                this.addPendingSub();
+                this.pitchSelectedPlayerId = null;
+                return;
+            }
+
+            // No on-field selection: just select this bench player
+            this.selectedPlayerIn = player;
+            this.pitchSelectedPlayerId = null;
+            this.selectedPlayerOut = null;
+        },
+
+        /** Recompute slot assignments when formation changes. */
+        recomputeSlotAssignments(formation) {
+            const slots = this.formationSlots[formation] || [];
+            const onFieldPlayers = this.availableLineupForPicker;
+            const compatibility = this.slotCompatibility;
+
+            // Build scored pairs
+            const pairs = [];
+            for (const slot of slots) {
+                for (const player of onFieldPlayers) {
+                    const score = (compatibility[slot.label]?.[player.position]) || 0;
+                    pairs.push({ score, slotId: slot.id, playerId: player.id });
+                }
+            }
+
+            // Sort by score descending
+            pairs.sort((a, b) => b.score - a.score);
+
+            const assignments = {};
+            const assignedPlayers = new Set();
+
+            for (const { slotId, playerId } of pairs) {
+                if (assignments[slotId] || assignedPlayers.has(playerId)) continue;
+                assignments[slotId] = playerId;
+                assignedPlayers.add(playerId);
+            }
+
+            // Assign remaining
+            const emptySlots = slots.filter(s => !assignments[s.id]);
+            const unassigned = onFieldPlayers.filter(p => !assignedPlayers.has(p.id));
+            emptySlots.forEach((slot, i) => {
+                if (unassigned[i]) {
+                    assignments[slot.id] = unassigned[i].id;
+                }
+            });
+
+            this.liveSlotAssignments = assignments;
         },
 
         // =============================

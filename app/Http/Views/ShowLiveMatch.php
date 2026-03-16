@@ -15,6 +15,8 @@ use App\Models\GamePlayer;
 use App\Models\PlayerSuspension;
 use App\Modules\Match\Services\MatchResimulationService;
 use App\Support\PositionMapper;
+use App\Support\PositionSlotMapper;
+use App\Support\TeamColors;
 
 class ShowLiveMatch
 {
@@ -125,6 +127,7 @@ class ShowLiveMatch
             ->map(fn ($p) => [
                 'id' => $p->id,
                 'name' => $p->player->name ?? '',
+                'number' => $p->number,
                 'position' => $p->position,
                 'positionAbbr' => PositionMapper::toAbbreviation($p->position),
                 'positionGroup' => $p->position_group,
@@ -162,6 +165,7 @@ class ShowLiveMatch
             ->map(fn ($p) => [
                 'id' => $p->id,
                 'name' => $p->player->name ?? '',
+                'number' => $p->number,
                 'position' => $p->position,
                 'positionAbbr' => PositionMapper::toAbbreviation($p->position),
                 'positionGroup' => $p->position_group,
@@ -250,6 +254,21 @@ class ShowLiveMatch
             'tooltip' => $d->tooltip(),
         ], DefensiveLineHeight::cases());
 
+        // Pitch visualization data
+        $teamColorsHex = TeamColors::toHex($game->team->colors ?? TeamColors::get($game->team->getRawOriginal('name')));
+
+        $formationSlots = [];
+        foreach (Formation::cases() as $formation) {
+            $formationSlots[$formation->value] = array_map(function ($slot) {
+                $slot['displayLabel'] = PositionMapper::slotToDisplayAbbreviation($slot['label']);
+
+                return $slot;
+            }, $formation->pitchSlots());
+        }
+
+        $slotCompatibility = PositionSlotMapper::SLOT_COMPATIBILITY;
+        $initialSlotAssignments = $this->computeSlotAssignments($lineupPlayers, $userFormation);
+
         return view('live-match', [
             'game' => $game,
             'match' => $playerMatch,
@@ -288,7 +307,59 @@ class ShowLiveMatch
             'awayLineupDisplay' => $awayLineupDisplay,
             'homeFormation' => $playerMatch->home_formation ?? '4-4-2',
             'awayFormation' => $playerMatch->away_formation ?? '4-4-2',
+            'teamColors' => $teamColorsHex,
+            'formationSlots' => $formationSlots,
+            'slotCompatibility' => $slotCompatibility,
+            'initialSlotAssignments' => $initialSlotAssignments,
         ]);
+    }
+
+    /**
+     * Compute initial slot assignments for the pitch visualization.
+     * Uses a greedy best-fit algorithm based on the slot compatibility matrix.
+     *
+     * @return array<string, string> [slotId => playerId]
+     */
+    private function computeSlotAssignments(array $lineupPlayers, string $formation): array
+    {
+        $formationEnum = Formation::tryFrom($formation) ?? Formation::F_4_4_2;
+        $slots = $formationEnum->pitchSlots();
+        $assignments = [];
+        $assignedPlayerIds = [];
+
+        // Build scored pairs: [score, slotId, playerId]
+        $pairs = [];
+        foreach ($slots as $slot) {
+            $slotCode = $slot['label']; // e.g. 'CB', 'LW', 'GK'
+            foreach ($lineupPlayers as $player) {
+                $score = PositionSlotMapper::getCompatibilityScore($player['position'], $slotCode);
+                $pairs[] = [$score, $slot['id'], $player['id']];
+            }
+        }
+
+        // Sort by score descending (greedy best-fit)
+        usort($pairs, fn ($a, $b) => $b[0] <=> $a[0]);
+
+        foreach ($pairs as [$score, $slotId, $playerId]) {
+            if (isset($assignments[$slotId]) || in_array($playerId, $assignedPlayerIds, true)) {
+                continue;
+            }
+            $assignments[$slotId] = $playerId;
+            $assignedPlayerIds[] = $playerId;
+        }
+
+        // Assign any remaining unassigned players to remaining empty slots
+        $emptySlotIds = array_diff(array_column($slots, 'id'), array_keys($assignments));
+        $unassignedPlayers = array_diff(array_column($lineupPlayers, 'id'), $assignedPlayerIds);
+
+        foreach (array_values($emptySlotIds) as $i => $slotId) {
+            $unassigned = array_values($unassignedPlayers);
+            if (isset($unassigned[$i])) {
+                $assignments[$slotId] = $unassigned[$i];
+            }
+        }
+
+        return $assignments;
     }
 
     /**
