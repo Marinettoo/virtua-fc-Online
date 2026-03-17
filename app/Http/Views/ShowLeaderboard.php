@@ -4,94 +4,103 @@ namespace App\Http\Views;
 
 use App\Models\ManagerStats;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Locale;
 
 class ShowLeaderboard
 {
     private const MIN_MATCHES = 10;
     private const PER_PAGE = 50;
+    private const CACHE_TTL = 300; // 5 minutes
 
     public function __invoke(Request $request)
     {
         $country = $request->query('country');
         $province = $request->query('province');
         $sort = $request->query('sort', 'win_percentage');
+        $page = $request->query('page', 1);
 
         $allowedSorts = ['win_percentage', 'longest_unbeaten_streak', 'matches_played', 'seasons_completed'];
         if (! in_array($sort, $allowedSorts)) {
             $sort = 'win_percentage';
         }
 
-        $query = ManagerStats::query()
-            ->join('users', 'users.id', '=', 'manager_stats.user_id')
-            ->leftJoin('teams', 'teams.id', '=', 'manager_stats.team_id')
-            ->where('users.is_profile_public', true)
-            ->where('manager_stats.matches_played', '>=', self::MIN_MATCHES)
-            ->select('manager_stats.*', 'users.name', 'users.username', 'users.avatar', 'users.country', 'users.province', 'teams.name as team_name', 'teams.image as team_image');
+        $cacheKey = "leaderboard:{$sort}:{$country}:{$province}:{$page}";
 
-        if ($country) {
-            $query->where('users.country', $country);
-        }
+        $cached = Cache::remember($cacheKey, self::CACHE_TTL, function () use ($country, $province, $sort, $request) {
+            $query = ManagerStats::query()
+                ->join('users', 'users.id', '=', 'manager_stats.user_id')
+                ->leftJoin('teams', 'teams.id', '=', 'manager_stats.team_id')
+                ->where('users.is_profile_public', true)
+                ->where('manager_stats.matches_played', '>=', self::MIN_MATCHES)
+                ->select('manager_stats.*', 'users.name', 'users.username', 'users.avatar', 'users.country', 'users.province', 'teams.name as team_name', 'teams.image as team_image');
 
-        if ($province && $country) {
-            $query->where('users.province', $province);
-        }
+            if ($country) {
+                $query->where('users.country', $country);
+            }
 
-        $managers = $query->orderByDesc("manager_stats.{$sort}")
-            ->orderByDesc('manager_stats.matches_played')
-            ->paginate(self::PER_PAGE)
-            ->appends($request->query());
+            if ($province && $country) {
+                $query->where('users.province', $province);
+            }
 
-        // Get distinct provinces for the selected country
-        $provinces = [];
-        if ($country) {
-            $provinces = ManagerStats::query()
+            $managers = $query->orderByDesc("manager_stats.{$sort}")
+                ->orderByDesc('manager_stats.matches_played')
+                ->paginate(self::PER_PAGE)
+                ->appends($request->query());
+
+            $provinces = [];
+            if ($country) {
+                $provinces = ManagerStats::query()
+                    ->join('users', 'users.id', '=', 'manager_stats.user_id')
+                    ->where('users.is_profile_public', true)
+                    ->where('users.country', $country)
+                    ->whereNotNull('users.province')
+                    ->where('users.province', '!=', '')
+                    ->distinct()
+                    ->orderBy('users.province')
+                    ->pluck('users.province')
+                    ->toArray();
+            }
+
+            $locale = app()->getLocale();
+            $countryCodes = ManagerStats::query()
                 ->join('users', 'users.id', '=', 'manager_stats.user_id')
                 ->where('users.is_profile_public', true)
-                ->where('users.country', $country)
-                ->whereNotNull('users.province')
-                ->where('users.province', '!=', '')
+                ->where('manager_stats.matches_played', '>=', self::MIN_MATCHES)
+                ->whereNotNull('users.country')
+                ->where('users.country', '!=', '')
                 ->distinct()
-                ->orderBy('users.province')
-                ->pluck('users.province')
-                ->toArray();
-        }
+                ->pluck('users.country');
 
-        $locale = app()->getLocale();
-        $countryCodes = ManagerStats::query()
-            ->join('users', 'users.id', '=', 'manager_stats.user_id')
-            ->where('users.is_profile_public', true)
-            ->where('manager_stats.matches_played', '>=', self::MIN_MATCHES)
-            ->whereNotNull('users.country')
-            ->where('users.country', '!=', '')
-            ->distinct()
-            ->pluck('users.country');
+            $countries = $countryCodes->mapWithKeys(function ($code) use ($locale) {
+                $localized = Locale::getDisplayRegion('und_'.$code, $locale);
 
-        $countries = $countryCodes->mapWithKeys(function ($code) use ($locale) {
-            $localized = Locale::getDisplayRegion('und_'.$code, $locale);
+                return [$code => ($localized !== $code) ? $localized : $code];
+            })->sort()->toArray();
 
-            return [$code => ($localized !== $code) ? $localized : $code];
-        })->sort()->toArray();
+            $totalManagers = ManagerStats::where('matches_played', '>=', self::MIN_MATCHES)
+                ->join('users', 'users.id', '=', 'manager_stats.user_id')
+                ->where('users.is_profile_public', true)
+                ->count();
 
-        // Summary stats
-        $totalManagers = ManagerStats::where('matches_played', '>=', self::MIN_MATCHES)
-            ->join('users', 'users.id', '=', 'manager_stats.user_id')
-            ->where('users.is_profile_public', true)
-            ->count();
+            $totalMatches = ManagerStats::join('users', 'users.id', '=', 'manager_stats.user_id')
+                ->where('users.is_profile_public', true)
+                ->sum('matches_played');
 
-        $totalMatches = ManagerStats::join('users', 'users.id', '=', 'manager_stats.user_id')
-            ->where('users.is_profile_public', true)
-            ->sum('matches_played');
+            return [
+                'managers' => $managers,
+                'countries' => $countries,
+                'provinces' => $provinces,
+                'totalManagers' => $totalManagers,
+                'totalMatches' => (int) $totalMatches,
+            ];
+        });
 
         return view('leaderboard', [
-            'managers' => $managers,
-            'countries' => $countries,
-            'provinces' => $provinces,
+            ...$cached,
             'selectedCountry' => $country,
             'selectedProvince' => $province,
             'currentSort' => $sort,
-            'totalManagers' => $totalManagers,
-            'totalMatches' => (int) $totalMatches,
             'minMatches' => self::MIN_MATCHES,
         ]);
     }
