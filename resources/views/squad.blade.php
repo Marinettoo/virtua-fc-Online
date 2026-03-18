@@ -37,6 +37,52 @@
         sortDir: 'desc',
         sidebarOpen: true,
 
+        allPlayersSort: {{ Js::from($allPlayersSort) }},
+
+        get sortOrder() {
+            if (!this.sortCol) return {};
+            const dir = this.sortDir === 'asc' ? 1 : -1;
+            const sorted = [...this.allPlayersSort].sort((a, b) => {
+                switch (this.sortCol) {
+                    case 'name': return dir * a.name.localeCompare(b.name);
+                    case 'position': return dir * a.posAbbr.localeCompare(b.posAbbr);
+                    case 'age': return dir * (a.age - b.age);
+                    case 'overall': return dir * (a.overall - b.overall);
+                    case 'fitness': return dir * (a.fitness - b.fitness);
+                    case 'morale': return dir * (a.morale - b.morale);
+                    case 'value': return dir * (a.marketValue - b.marketValue);
+                    case 'wage': return dir * (a.wage - b.wage);
+                    case 'contract': return dir * ((a.contractEnd || 0) - (b.contractEnd || 0));
+                    case 'potential': return dir * ((a.potential || 0) - (b.potential || 0));
+                    case 'appearances': return dir * (a.appearances - b.appearances);
+                    case 'goals': return dir * (a.goals - b.goals);
+                    case 'assists': return dir * (a.assists - b.assists);
+                    case 'cleanSheets': return dir * (a.cleanSheets - b.cleanSheets);
+                    case 'goalsPerGame': return dir * (a.goalsPerGame - b.goalsPerGame);
+                    case 'ownGoals': return dir * (a.ownGoals - b.ownGoals);
+                    case 'cards': return dir * ((a.yellowCards + a.redCards) - (b.yellowCards + b.redCards));
+                    default: return 0;
+                }
+            });
+            const order = {};
+            sorted.forEach((p, i) => { order[p.id] = i; });
+            return order;
+        },
+
+        toggleSort(field) {
+            if (this.sortCol === field) {
+                if (this.sortDir === 'desc') {
+                    this.sortDir = 'asc';
+                } else {
+                    this.sortCol = null;
+                    this.sortDir = 'desc';
+                }
+            } else {
+                this.sortCol = field;
+                this.sortDir = (field === 'name' || field === 'position') ? 'asc' : 'desc';
+            }
+        },
+
         numberAssignments: {{ Js::from(json_decode($numberAssignmentsJson, true)) }},
         numberSaving: {},
         numberErrors: {},
@@ -98,6 +144,14 @@
             this.posFilter = 'all';
             this.availFilter = 'all';
             this.statusFilter = 'all';
+            this.sortCol = null;
+            this.sortDir = 'desc';
+        },
+        init() {
+            this.$watch('viewMode', () => {
+                this.sortCol = null;
+                this.sortDir = 'desc';
+            });
         }
     }">
         <div class="max-w-7xl mx-auto px-4 pb-8">
@@ -207,10 +261,10 @@
             <div class="mt-4 flex gap-6">
                 {{-- LEFT: Player List --}}
                 <div class="flex-1 min-w-0">
-                    <div class="bg-surface-800 border border-border-default rounded-xl overflow-hidden">
+                    <div class="bg-surface-800 border border-border-default rounded-xl overflow-hidden flex flex-col">
 
                         {{-- Desktop table header --}}
-                        <div class="hidden lg:block">
+                        <div class="hidden lg:block" :style="sortCol ? 'order: -1' : ''">
                             <div class="grid items-center px-4 py-2 bg-surface-700/30 border-b border-border-default text-[10px] text-text-muted uppercase tracking-widest font-semibold"
                                  :class="{
                                     'grid-cols-[1fr_48px_32px_52px_88px_88px_80px_64px_64px_56px] gap-1.5': viewMode === 'tactical',
@@ -218,44 +272,83 @@
                                     'grid-cols-[1fr_48px_32px_52px_48px_48px_48px_48px_48px_48px_64px] gap-1.5': viewMode === 'stats',
                                     'grid-cols-[1fr_48px_32px_52px_100px] gap-1.5': viewMode === 'numbers',
                                  }">
-                                <span>{{ __('squad.player') }}</span>
-                                <span class="text-center">{{ __('squad.pos') }}</span>
-                                <span class="text-center">{{ __('app.age') }}</span>
-                                <span class="text-center">{{ __('squad.rating') }}</span>
+                                <span class="cursor-pointer select-none inline-flex items-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('name')">
+                                    {{ __('squad.player') }}
+                                    <svg x-show="sortCol === 'name'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                </span>
+                                <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('position')">
+                                    {{ __('squad.pos') }}
+                                    <svg x-show="sortCol === 'position'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                </span>
+                                <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('age')">
+                                    {{ __('app.age') }}
+                                    <svg x-show="sortCol === 'age'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                </span>
+                                <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('overall')">
+                                    {{ __('squad.rating') }}
+                                    <svg x-show="sortCol === 'overall'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                </span>
 
                                 {{-- Tactical headers --}}
                                 <template x-if="viewMode === 'tactical'">
-                                    <span class="text-center">{{ __('squad.fitness_full') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('fitness')">
+                                        {{ __('squad.fitness_full') }}
+                                        <svg x-show="sortCol === 'fitness'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'tactical'">
-                                    <span class="text-center">{{ __('squad.morale_full') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('morale')">
+                                        {{ __('squad.morale_full') }}
+                                        <svg x-show="sortCol === 'morale'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'tactical'">
                                     <span class="text-center">{{ __('squad.key_stats') }}</span>
                                 </template>
                                 <template x-if="viewMode === 'tactical'">
-                                    <span class="text-right">{{ __('app.value') }}</span>
+                                    <span class="text-right cursor-pointer select-none inline-flex items-center justify-end gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('value')">
+                                        {{ __('app.value') }}
+                                        <svg x-show="sortCol === 'value'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'tactical'">
-                                    <span class="text-right">{{ __('app.wage') }}</span>
+                                    <span class="text-right cursor-pointer select-none inline-flex items-center justify-end gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('wage')">
+                                        {{ __('app.wage') }}
+                                        <svg x-show="sortCol === 'wage'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'tactical'">
-                                    <span class="text-center">{{ __('app.contract') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('contract')">
+                                        {{ __('app.contract') }}
+                                        <svg x-show="sortCol === 'contract'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
 
                                 {{-- Planning headers --}}
                                 @if($isCareerMode)
                                 <template x-if="viewMode === 'planning'">
-                                    <span class="text-center">{{ __('squad.potential') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('potential')">
+                                        {{ __('squad.potential') }}
+                                        <svg x-show="sortCol === 'potential'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'planning'">
-                                    <span class="text-right">{{ __('app.value') }}</span>
+                                    <span class="text-right cursor-pointer select-none inline-flex items-center justify-end gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('value')">
+                                        {{ __('app.value') }}
+                                        <svg x-show="sortCol === 'value'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'planning'">
-                                    <span class="text-right">{{ __('app.wage') }}</span>
+                                    <span class="text-right cursor-pointer select-none inline-flex items-center justify-end gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('wage')">
+                                        {{ __('app.wage') }}
+                                        <svg x-show="sortCol === 'wage'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'planning'">
-                                    <span class="text-center">{{ __('app.contract') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('contract')">
+                                        {{ __('app.contract') }}
+                                        <svg x-show="sortCol === 'contract'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'planning'">
                                     <span class="text-center">{{ __('squad.dev_status_label') }}</span>
@@ -264,25 +357,46 @@
 
                                 {{-- Stats headers --}}
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_apps') }}">{{ __('squad.apps') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('appearances')" x-data x-tooltip.raw="{{ __('squad.legend_apps') }}">
+                                        {{ __('squad.apps') }}
+                                        <svg x-show="sortCol === 'appearances'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_goals') }}">{{ __('squad.goals') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('goals')" x-data x-tooltip.raw="{{ __('squad.legend_goals') }}">
+                                        {{ __('squad.goals') }}
+                                        <svg x-show="sortCol === 'goals'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_assists') }}">{{ __('squad.assists') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('assists')" x-data x-tooltip.raw="{{ __('squad.legend_assists') }}">
+                                        {{ __('squad.assists') }}
+                                        <svg x-show="sortCol === 'assists'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.clean_sheets_full') }}">{{ __('squad.clean_sheets') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('cleanSheets')" x-data x-tooltip.raw="{{ __('squad.clean_sheets_full') }}">
+                                        {{ __('squad.clean_sheets') }}
+                                        <svg x-show="sortCol === 'cleanSheets'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_goals') }} / {{ __('squad.legend_apps') }}">{{ __('squad.goals_per_game') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('goalsPerGame')" x-data x-tooltip.raw="{{ __('squad.legend_goals') }} / {{ __('squad.legend_apps') }}">
+                                        {{ __('squad.goals_per_game') }}
+                                        <svg x-show="sortCol === 'goalsPerGame'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_own_goals') }}">{{ __('squad.own_goals') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('ownGoals')" x-data x-tooltip.raw="{{ __('squad.legend_own_goals') }}">
+                                        {{ __('squad.own_goals') }}
+                                        <svg x-show="sortCol === 'ownGoals'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center">{{ __('squad.cards') }}</span>
+                                    <span class="text-center cursor-pointer select-none inline-flex items-center justify-center gap-0.5 hover:text-text-secondary transition-colors" @click="toggleSort('cards')">
+                                        {{ __('squad.cards') }}
+                                        <svg x-show="sortCol === 'cards'" x-transition.opacity class="w-3 h-3 shrink-0 transition-transform" :class="sortDir === 'asc' ? '' : 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
                                 </template>
 
                                 {{-- Numbers header --}}
@@ -295,9 +409,8 @@
                         {{-- Player rows --}}
                         @foreach($positionGroups as $group)
                             @if($group['players']->isNotEmpty())
-                            <div x-show="posFilter === 'all' || posFilter === '{{ $group['group'] }}'">
-                                {{-- Position group header --}}
-                                <div class="px-4 py-2 bg-surface-700/30 border-b border-border-default">
+                                {{-- Position group header (hidden when sorting) --}}
+                                <div x-show="!sortCol && (posFilter === 'all' || posFilter === '{{ $group['group'] }}')" class="px-4 py-2 bg-surface-700/30 border-b border-border-default">
                                     <div class="flex items-center justify-between">
                                         <span class="font-heading text-[11px] font-semibold uppercase tracking-widest text-text-muted">{{ $group['label'] }}</span>
                                         <span class="text-[10px] text-text-faint">{{ $group['players']->count() }} · {{ __('squad.avg_ovr') }} {{ round($group['players']->avg('overall_score')) }}</span>
@@ -321,6 +434,7 @@
                                 @endphp
 
                                 <div x-show="isVisible('{{ $groupKey }}', {{ $isUnavailable ? 'false' : 'true' }}, '{{ $statusKey }}')"
+                                     :style="sortCol ? 'order: ' + (sortOrder['{{ $gp->id }}'] ?? 0) : ''"
                                      class="player-row border-b border-border-default {{ $isUnavailable ? 'opacity-60' : '' }}">
 
                                     {{-- ===== MOBILE ROW ===== --}}
@@ -538,7 +652,6 @@
                                     </div>
                                 </div>
                                 @endforeach
-                            </div>
                             @endif
                         @endforeach
 

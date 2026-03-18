@@ -155,6 +155,31 @@ class ShowSquad
             $academyCount = AcademyPlayer::where('game_id', $gameId)->where('team_id', $game->team_id)->count();
         }
 
+        // Prepare flat player data for client-side sorting
+        $allPlayersSort = $allPlayers->sortByDesc('overall_score')->values()->map(function (GamePlayer $gp) use ($game) {
+            return [
+                'id' => $gp->id,
+                'name' => $gp->player->name,
+                'posAbbr' => PositionMapper::toAbbreviation($gp->position),
+                'age' => $gp->age($game->current_date),
+                'overall' => $gp->overall_score,
+                'fitness' => $gp->fitness,
+                'morale' => $gp->morale,
+                'marketValue' => $gp->market_value_cents,
+                'wage' => $gp->annual_wage,
+                'contractEnd' => $gp->contract_until?->year,
+                'potential' => $gp->potential_high,
+                'appearances' => $gp->appearances,
+                'goals' => $gp->goals,
+                'assists' => $gp->assists,
+                'cleanSheets' => $gp->clean_sheets,
+                'goalsPerGame' => $gp->appearances > 0 ? round($gp->goals / $gp->appearances, 2) : 0,
+                'ownGoals' => $gp->own_goals,
+                'yellowCards' => $gp->yellow_cards,
+                'redCards' => $gp->red_cards,
+            ];
+        })->toArray();
+
         return view('squad', [
             'game' => $game,
             'goalkeepers' => $goalkeepers,
@@ -185,6 +210,7 @@ class ShowSquad
             // Renewal data
             'renewalData' => $renewalData,
             'academyCount' => $academyCount,
+            'allPlayersSort' => $allPlayersSort,
         ]);
     }
 
