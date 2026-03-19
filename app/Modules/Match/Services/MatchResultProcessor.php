@@ -146,7 +146,7 @@ class MatchResultProcessor
             $awayPossCases[] = "WHEN id = '{$id}' THEN {$awayPoss}";
             $mvpId = $result['mvpPlayerId'] ?? null;
             $mvpCases[] = $mvpId
-                ? "WHEN id = '{$id}' THEN '{$mvpId}'"
+                ? "WHEN id = '{$id}' THEN '{$mvpId}'::uuid"
                 : "WHEN id = '{$id}' THEN NULL";
         }
 
