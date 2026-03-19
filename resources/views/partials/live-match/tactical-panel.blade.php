@@ -210,15 +210,11 @@
                                     </div>
                                 </template>
 
-                                {{-- Inline sub actions: reset + add another --}}
+                                {{-- Inline sub actions: reset --}}
                                 <div x-show="pendingSubs.length > 0 || (selectedPlayerOut && selectedPlayerIn)"
                                      class="flex items-center gap-2 mb-3">
                                     <button @click="resetSubstitutions()" class="text-xs text-text-secondary hover:text-text-primary transition-colors">
                                         {{ __('game.sub_reset') }}
-                                    </button>
-                                    <button x-show="selectedPlayerOut && selectedPlayerIn && canAddMoreToPending && subsRemaining > 1"
-                                            @click="addPendingSub()" class="ml-auto text-xs text-accent-blue hover:underline transition-colors">
-                                        {{ __('game.sub_add_another') }}
                                     </button>
                                 </div>
 
@@ -470,17 +466,28 @@
                         <span x-show="showingConfirmation">{{ __('game.confirm_back') }}</span>
                     </x-secondary-button>
 
-                    <x-primary-button
-                        color="sky"
-                        type="button"
-                        @click="showingConfirmation ? confirmAllChanges() : showConfirmation()"
-                        x-bind:disabled="applyingChanges"
-                        class="ml-auto gap-1.5"
-                    >
-                        <span x-show="!applyingChanges && !showingConfirmation">{{ __('game.tactical_apply_all') }}</span>
-                        <span x-show="!applyingChanges && showingConfirmation">{{ __('game.confirm_apply') }}</span>
-                        <span x-show="applyingChanges">{{ __('game.sub_processing') }}</span>
-                    </x-primary-button>
+                    <div class="ml-auto flex items-center gap-2">
+                        {{-- Add another sub button (only when a complete selection is ready and more subs available) --}}
+                        <x-secondary-button
+                            x-show="!showingConfirmation && selectedPlayerOut && selectedPlayerIn && canAddMoreToPending && subsRemaining > 1"
+                            @click="addPendingSub()"
+                            class="gap-1.5"
+                        >
+                            {{ __('game.sub_add_another') }}
+                        </x-secondary-button>
+
+                        <x-primary-button
+                            color="sky"
+                            type="button"
+                            @click="showingConfirmation ? confirmAllChanges() : showConfirmation()"
+                            x-bind:disabled="applyingChanges"
+                            class="gap-1.5"
+                        >
+                            <span x-show="!applyingChanges && !showingConfirmation">{{ __('game.tactical_apply_all') }}</span>
+                            <span x-show="!applyingChanges && showingConfirmation">{{ __('game.confirm_apply') }}</span>
+                            <span x-show="applyingChanges">{{ __('game.sub_processing') }}</span>
+                        </x-primary-button>
+                    </div>
                 </div>
 
                 {{-- Position just changed: noop confirm (only when no subs/tactics pending) --}}
