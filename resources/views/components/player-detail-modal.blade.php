@@ -23,4 +23,5 @@
         {{-- Server-rendered content --}}
         <div x-show="!loading" x-html="content"></div>
     </x-modal>
+    <x-negotiation-chat-modal />
 </div>
