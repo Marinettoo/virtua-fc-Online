@@ -4,29 +4,29 @@ return [
     // Annual operating expenses by reputation level (in cents)
     // Covers: non-playing staff, admin, travel, insurance, legal, etc.
     'operating_expenses' => [
-        'elite'        => 12_000_000_000, // €120M
-        'continental'  =>  7_000_000_000, // €70M
-        'established'  =>  3_500_000_000, // €35M
-        'modest'       =>  1_800_000_000, // €18M
-        'local'        =>    750_000_000, // €7.5M
+        'elite'        =>  9_500_000_000, // €95M
+        'continental'  =>  5_500_000_000, // €55M
+        'established'  =>  2_700_000_000, // €27M
+        'modest'       =>  1_500_000_000, // €15M
+        'local'        =>    600_000_000, // €6M
     ],
 
     // Commercial revenue per seat per season by reputation level (in cents).
     'commercial_per_seat' => [
-        'elite'        => 120_000, // €1,200/seat
-        'continental'  =>  65_000, // €650/seat
-        'established'  =>  45_000, // €450/seat
-        'modest'       =>  35_000, // €350/seat
-        'local'        =>  18_000, // €180/seat
+        'elite'        => 170_000, // €1,700/seat
+        'continental'  =>  87_500, // €875/seat
+        'established'  =>  62_500, // €625/seat
+        'modest'       =>  45_000, // €450/seat
+        'local'        =>  24_000, // €240/seat
     ],
 
     // Matchday revenue per seat per season by reputation level (in cents).
     'revenue_per_seat' => [
-        'elite'        => 60_000, // €600/seat
-        'continental'  => 38_000, // €380/seat
-        'established'  => 27_000, // €270/seat
-        'modest'       => 18_000, // €180/seat
-        'local'        =>  8_000, // €80/seat
+        'elite'        => 70_000, // €700/seat
+        'continental'  => 44_000, // €440/seat
+        'established'  => 31_000, // €310/seat
+        'modest'       => 21_000, // €210/seat
+        'local'        =>  9_000, // €90/seat
     ],
 
     // Operating expense multiplier by competition tier.
@@ -39,10 +39,10 @@ return [
     // Position-based commercial revenue growth multipliers.
     // Key = max position (inclusive), value = multiplier applied to projected commercial revenue.
     'commercial_growth' => [
-        4  => 1.05,  // 1st-4th: +5%
-        8  => 1.02,  // 5th-8th: +2%
+        4  => 1.03,  // 1st-4th: +3%
+        8  => 1.01,  // 5th-8th: +1%
         14 => 1.00,  // 9th-14th: flat
-        17 => 0.97,  // 15th-17th: -3%
-        20 => 0.93,  // 18th-20th: -7%
+        17 => 0.98,  // 15th-17th: -2%
+        20 => 0.95,  // 18th-20th: -5%
     ],
 ];
