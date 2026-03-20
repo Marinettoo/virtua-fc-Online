@@ -48,11 +48,14 @@ class RegisteredUserController extends Controller
         $request->validate($rules);
 
         $invite = null;
+        $hasCareerAccess = false;
 
-        if (config('beta.enabled')) {
+        if ($request->filled('invite_code')) {
             $invite = InviteCode::findByCode($request->input('invite_code'));
 
-            if (! $invite || ! $invite->isValidForEmail($request->input('email'))) {
+            if ($invite && $invite->isValidForEmail($request->input('email'))) {
+                $hasCareerAccess = true;
+            } elseif (config('beta.enabled') && (! $invite || ! $invite->isValid())) {
                 return back()->withErrors([
                     'invite_code' => __('beta.invalid_invite'),
                 ])->withInput();
@@ -70,15 +73,19 @@ class RegisteredUserController extends Controller
             }
 
             // Update name for existing unactivated user and resend activation
-            $existingUser->update(['name' => $request->name]);
+            $existingUser->update([
+                'name' => $request->name,
+                'has_career_access' => $hasCareerAccess || $existingUser->has_career_access,
+            ]);
             $user = $existingUser;
         } else {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'has_career_access' => $hasCareerAccess,
             ]);
 
-            if ($invite) {
+            if ($hasCareerAccess) {
                 $invite->consume();
                 $user->forceFill(['email_verified_at' => now()])->save();
             }
