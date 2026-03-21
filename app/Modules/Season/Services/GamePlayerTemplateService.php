@@ -3,7 +3,6 @@
 namespace App\Modules\Season\Services;
 
 use App\Models\Player;
-use App\Models\Team;
 use App\Modules\Competition\Services\CountryConfig;
 use App\Support\Money;
 use Carbon\Carbon;
@@ -50,8 +49,14 @@ class GamePlayerTemplateService
      */
     public function generateTemplates(string $season, string $countryCode): int
     {
-        $allTeams = Team::whereNotNull('transfermarkt_id')->get()->keyBy('transfermarkt_id');
-        $allPlayers = Player::all()->keyBy('transfermarkt_id');
+        $allTeamIds = DB::table('teams')
+            ->whereNotNull('transfermarkt_id')
+            ->pluck('id', 'transfermarkt_id')
+            ->toArray();
+
+        $allPlayers = Player::select('id', 'transfermarkt_id', 'date_of_birth', 'technical_ability', 'physical_ability')
+            ->get()
+            ->keyBy('transfermarkt_id');
 
         $countryConfig = app(CountryConfig::class);
         $competitionIds = $countryConfig->playerInitializationOrder($countryCode);
@@ -81,7 +86,7 @@ class GamePlayerTemplateService
                 continue;
             }
 
-            $rows = $this->generateForCompetition($competitionId, $season, $allTeams, $allPlayers, $processedTeamIds, $processedPlayerIds);
+            $rows = $this->generateForCompetition($competitionId, $season, $allTeamIds, $allPlayers, $processedTeamIds, $processedPlayerIds);
             foreach ($rows as $row) {
                 $templateRows[] = $row;
                 $processedTeamIds[$row['team_id']] = true;
@@ -92,7 +97,7 @@ class GamePlayerTemplateService
         // Swiss format gap teams (UCL, UEL — teams not already covered)
         $swissIds = $countryConfig->swissFormatCompetitionIds($countryCode);
         foreach ($swissIds as $competitionId) {
-            $rows = $this->generateForSwissGapTeams($competitionId, $season, $allTeams, $allPlayers, $processedTeamIds, $processedPlayerIds);
+            $rows = $this->generateForSwissGapTeams($competitionId, $season, $allTeamIds, $allPlayers, $processedTeamIds, $processedPlayerIds);
             foreach ($rows as $row) {
                 $templateRows[] = $row;
                 $processedTeamIds[$row['team_id']] = true;
@@ -113,7 +118,7 @@ class GamePlayerTemplateService
     private function generateForCompetition(
         string $competitionId,
         string $season,
-        Collection $allTeams,
+        array $allTeamIds,
         Collection $allPlayers,
         array $processedTeamIds = [],
         array $processedPlayerIds = [],
@@ -140,18 +145,18 @@ class GamePlayerTemplateService
                 continue;
             }
 
-            $team = $allTeams->get($transfermarktId);
-            if (!$team) {
+            $teamId = $allTeamIds[$transfermarktId] ?? null;
+            if (!$teamId) {
                 continue;
             }
 
             // Skip teams already processed by a prior country run
-            if (isset($processedTeamIds[$team->id])) {
+            if (isset($processedTeamIds[$teamId])) {
                 continue;
             }
 
             foreach ($club['players'] ?? [] as $playerData) {
-                $row = $this->prepareTemplateRow($season, $team, $playerData, $minimumWage, $allPlayers);
+                $row = $this->prepareTemplateRow($season, $teamId, $playerData, $minimumWage, $allPlayers);
                 if ($row && !isset($processedPlayerIds[$row['player_id']])) {
                     $rows[] = $row;
                     $processedPlayerIds[$row['player_id']] = true;
@@ -168,7 +173,7 @@ class GamePlayerTemplateService
     private function generateForSwissGapTeams(
         string $competitionId,
         string $season,
-        Collection $allTeams,
+        array $allTeamIds,
         Collection $allPlayers,
         array $processedTeamIds,
         array $processedPlayerIds = [],
@@ -189,18 +194,18 @@ class GamePlayerTemplateService
                 continue;
             }
 
-            $team = $allTeams->get($transfermarktId);
-            if (!$team) {
+            $teamId = $allTeamIds[$transfermarktId] ?? null;
+            if (!$teamId) {
                 continue;
             }
 
             // Skip teams already processed from tier/pool competitions
-            if (isset($processedTeamIds[$team->id])) {
+            if (isset($processedTeamIds[$teamId])) {
                 continue;
             }
 
             foreach ($club['players'] ?? [] as $playerData) {
-                $row = $this->prepareTemplateRow($season, $team, $playerData, $minimumWage, $allPlayers);
+                $row = $this->prepareTemplateRow($season, $teamId, $playerData, $minimumWage, $allPlayers);
                 if ($row && !isset($processedPlayerIds[$row['player_id']])) {
                     $rows[] = $row;
                     $processedPlayerIds[$row['player_id']] = true;
@@ -217,7 +222,7 @@ class GamePlayerTemplateService
      */
     private function prepareTemplateRow(
         string $season,
-        Team $team,
+        string $teamId,
         array $playerData,
         int $minimumWage,
         Collection $allPlayers,
@@ -252,7 +257,7 @@ class GamePlayerTemplateService
         return [
             'season' => $season,
             'player_id' => $player->id,
-            'team_id' => $team->id,
+            'team_id' => $teamId,
             'number' => isset($playerData['number']) ? (int) $playerData['number'] : null,
             'position' => $playerData['position'] ?? 'Unknown',
             'market_value' => $playerData['marketValue'] ?? null,
