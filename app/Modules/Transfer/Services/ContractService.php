@@ -96,6 +96,9 @@ class ContractService
         $variance = 0.90 + (mt_rand(0, 2000) / 10000); // 0.90 to 1.10
         $wage = (int) ($baseWage * $variance);
 
+        // Round to nearest €10k (1_000_000 cents)
+        $wage = (int) (round($wage / 1_000_000) * 1_000_000);
+
         // Enforce minimum wage
         return max($wage, $minimumWageCents);
     }
