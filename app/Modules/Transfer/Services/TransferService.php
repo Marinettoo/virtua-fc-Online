@@ -1486,8 +1486,9 @@ class TransferService
             ]);
         }
 
-        // Immediately evaluate
-        $evaluation = $scoutingService->evaluateBid($player, $offer->transfer_fee, $game);
+        // Immediately evaluate — pass previous counter as ceiling so the club never raises
+        $previousCounter = $existing ? $existing->asking_price : null;
+        $evaluation = $scoutingService->evaluateBid($player, $offer->transfer_fee, $game, $previousCounter);
 
         if ($evaluation['result'] === 'accepted') {
             $offer->update([
