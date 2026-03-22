@@ -296,8 +296,14 @@ class ContractService
         $currentWageWithPremium = (int) ($player->annual_wage * self::RENEWAL_PREMIUM);
         $demandedWage = max($currentWageWithPremium, $marketWage);
 
-        // Round to nearest 100K (cents)
-        $demandedWage = (int) (round($demandedWage / 10_000_000) * 10_000_000);
+        // Round to nearest €10K for wages under €1M, €100K otherwise
+        $roundingUnit = $demandedWage < 100_000_000 ? 1_000_000 : 10_000_000;
+        $demandedWage = (int) (round($demandedWage / $roundingUnit) * $roundingUnit);
+
+        // Ensure the demand is at least above the current wage
+        if ($demandedWage <= $player->annual_wage) {
+            $demandedWage = $player->annual_wage + $roundingUnit;
+        }
 
         // Contract length based on age
         $contractYears = $this->calculateRenewalYears($player->age($player->game->current_date));
