@@ -491,6 +491,11 @@ class GamePlayer extends Model
             return false;
         }
 
+        // Loaned-in players belong to another club — we can't renew them
+        if ($this->isOnLoan()) {
+            return false;
+        }
+
         // Retiring players won't renew
         if ($this->isRetiring()) {
             return false;
