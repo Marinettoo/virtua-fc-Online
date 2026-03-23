@@ -58,6 +58,7 @@ class ShowGame
         }
 
         // Matchday advance completed — consume result and redirect
+        // (checked before AI batches so live_match redirect isn't blocked by background processing)
         if ($advanceResult = $game->matchday_advance_result) {
             $game->update(['matchday_advance_result' => null]);
             $result = MatchdayAdvanceResult::fromArray($advanceResult);
