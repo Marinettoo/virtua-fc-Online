@@ -117,6 +117,7 @@ class MatchResultProcessor
         foreach ($leagueResultsByCompetition as $competitionId => $results) {
             $this->standingsCalculator->bulkUpdateAfterMatches($gameId, $competitionId, $results);
         }
+
     }
 
     /**

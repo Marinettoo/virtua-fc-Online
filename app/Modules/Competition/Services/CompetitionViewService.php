@@ -35,7 +35,7 @@ class CompetitionViewService
 
     private function backfillMissingForms(Collection $standings): void
     {
-        $needsBackfill = $standings->filter(fn ($s) => $s->form === null && $s->played > 0);
+        $needsBackfill = $standings->filter(fn ($s) => $s->played > 0 && strlen($s->form ?? '') < min($s->played, 5));
 
         if ($needsBackfill->isEmpty()) {
             return;
