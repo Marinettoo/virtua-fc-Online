@@ -127,7 +127,6 @@ class Game extends Model
         'season_transition_step',
         'season_transition_data',
         'career_actions_processing_at',
-
         'pending_finalization_match_id',
         'matchday_advancing_at',
         'matchday_advance_result',
@@ -147,7 +146,6 @@ class Game extends Model
         'season_transition_step' => 'integer',
         'season_transition_data' => 'json',
         'career_actions_processing_at' => 'datetime',
-
         'matchday_advancing_at' => 'datetime',
         'matchday_advance_result' => 'array',
         'deleting_at' => 'datetime',
