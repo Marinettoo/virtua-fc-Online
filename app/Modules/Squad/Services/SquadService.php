@@ -10,7 +10,7 @@ use App\Modules\Player\PlayerAge;
 use App\Modules\Player\Services\InjuryService;
 use App\Modules\Player\Services\PlayerDevelopmentService;
 use App\Modules\Transfer\Services\ContractService;
-use App\Support\PositionMapper;
+use App\Support\PositionSlotMapper;
 
 class SquadService
 {
@@ -112,8 +112,7 @@ class SquadService
         }
 
         // --- Position Depth Chart ---
-        $positionSlots = ['GK', 'CB', 'LB', 'RB', 'DM', 'CM', 'AM', 'LW', 'RW', 'CF'];
-        $depthChart = $this->buildDepthChart($allPlayers, $positionSlots);
+        $depthChart = $this->buildDepthChart($allPlayers);
 
         // --- Contract Watchlist (career mode) ---
         $expiringThisSeason = collect();
@@ -201,27 +200,12 @@ class SquadService
         ];
     }
 
-    private function buildDepthChart($players, array $slots): array
+    private function buildDepthChart($players): array
     {
-        // Map canonical positions to their primary slot
-        $positionToSlot = [
-            'Goalkeeper' => 'GK',
-            'Centre-Back' => 'CB',
-            'Left-Back' => 'LB',
-            'Right-Back' => 'RB',
-            'Defensive Midfield' => 'DM',
-            'Central Midfield' => 'CM',
-            'Attacking Midfield' => 'AM',
-            'Left Midfield' => 'LW',   // Group with LW
-            'Right Midfield' => 'RW',  // Group with RW
-            'Left Winger' => 'LW',
-            'Right Winger' => 'RW',
-            'Centre-Forward' => 'CF',
-            'Second Striker' => 'CF',   // Group with CF
-        ];
+        $positionToSlot = PositionSlotMapper::getPositionToSlotMap();
 
         $depth = [];
-        foreach ($slots as $slot) {
+        foreach (PositionSlotMapper::getAllSlots() as $slot) {
             $depth[$slot] = [
                 'count' => 0,
                 'players' => [],
@@ -269,13 +253,23 @@ class SquadService
             if ($slot === 'GK' && $data['count'] < 2) {
                 $alerts[] = [
                     'type' => 'danger',
-                    'message' => __('squad.alert_thin_position', ['position' => PositionMapper::slotToDisplayAbbreviation($slot), 'count' => $data['count']]),
+                    'message' => __('squad.alert_thin_position', ['position' => PositionSlotMapper::getSlotDisplayName($slot), 'count' => $data['count']]),
                 ];
             } elseif ($slot !== 'GK' && $data['count'] === 0) {
-                $alerts[] = [
-                    'type' => 'danger',
-                    'message' => __('squad.alert_no_cover', ['position' => PositionMapper::slotToDisplayAbbreviation($slot)]),
-                ];
+                $hasCompatibleCover = $players->contains(fn ($p) => PositionSlotMapper::getCompatibilityScore($p->position, $slot) >= 60);
+                $positionName = PositionSlotMapper::getSlotDisplayName($slot);
+
+                if ($hasCompatibleCover) {
+                    $alerts[] = [
+                        'type' => 'warning',
+                        'message' => __('squad.alert_no_natural_cover', ['position' => $positionName]),
+                    ];
+                } else {
+                    $alerts[] = [
+                        'type' => 'danger',
+                        'message' => __('squad.alert_no_cover', ['position' => $positionName]),
+                    ];
+                }
             }
         }
 
