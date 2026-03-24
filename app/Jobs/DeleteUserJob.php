@@ -25,8 +25,7 @@ class DeleteUserJob implements ShouldQueue
             return;
         }
 
-        Game::where('user_id', $this->userId)
-            ->each(fn (Game $game) => DeleteGameJob::dispatchSync($game->id));
+        Game::where('user_id', $this->userId)->each(fn (Game $game) => $game->delete());
 
         $user->delete();
     }
