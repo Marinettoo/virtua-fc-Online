@@ -18,6 +18,8 @@
  * @param {Function} options.getPositions - Returns current pitch positions object
  * @param {Function} options.setPositions - Sets pitch positions object
  * @param {Function|null} options.getFormationGuard - Returns {effective, tracked} for formation mismatch checks (live only)
+ * @param {Function|null} options.onSwap - Called with (draggedSlot, occupyingSlot) when dropping onto an occupied cell.
+ *        If provided, the swap is handled by the caller (e.g. swap player assignments) instead of swapping grid positions.
  */
 
 import {
@@ -146,6 +148,13 @@ export function createPitchGrid(ctx, options) {
 
         // Start with current positions (respecting formation guard)
         const newPositions = { ..._getGuardedPositions() };
+
+        if (occupying && options.onSwap) {
+            // Caller handles the swap (e.g. swap player assignments, not grid positions)
+            options.onSwap(slot, occupying);
+            state.positioningSlotId = null;
+            return;
+        }
 
         if (occupying) {
             // Move occupying slot to dragged slot's old cell (validate reverse direction)

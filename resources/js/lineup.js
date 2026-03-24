@@ -13,6 +13,23 @@ import { calculateXgPreview } from './modules/xg-calculator.js';
 import { generateCoachTips } from './modules/coach-tips.js';
 import { assignPlayersToSlots } from './modules/slot-assignment.js';
 
+/**
+ * Copy all own properties from source to target. Regular properties are
+ * assigned normally (compatible with Alpine's reactive proxy), while
+ * getter/setter descriptors are defined via Object.defineProperty so
+ * they remain live computed properties instead of being evaluated once.
+ */
+function mixinModule(target, source) {
+    for (const key of Object.keys(source)) {
+        const desc = Object.getOwnPropertyDescriptor(source, key);
+        if (desc.get || desc.set) {
+            Object.defineProperty(target, key, desc);
+        } else {
+            target[key] = desc.value;
+        }
+    }
+}
+
 export default function lineupManager(config) {
     return {
         // State
@@ -124,12 +141,24 @@ export default function lineupManager(config) {
                 dragThreshold: 0,
                 onTapFallback: null,
                 onPositionChanged: null,
+                onSwap: (draggedSlot, occupyingSlot) => {
+                    // Swap player assignments: each player takes the other's slot.
+                    // Snapshot current assignments first so auto-assigned players
+                    // don't reshuffle when we update manualAssignments.
+                    this._preserveCurrentAssignments(null);
+                    const newAssignments = { ...this.manualAssignments };
+                    const draggedPlayer = draggedSlot.player?.id;
+                    const occupyingPlayer = occupyingSlot.player?.id;
+                    if (draggedPlayer) newAssignments[occupyingSlot.id] = draggedPlayer;
+                    if (occupyingPlayer) newAssignments[draggedSlot.id] = occupyingPlayer;
+                    this.manualAssignments = newAssignments;
+                },
                 pitchElementId: 'pitch-field',
                 getPositions: () => this.pitchPositions,
                 setPositions: (p) => { this.pitchPositions = p },
                 getFormationGuard: null,
             });
-            Object.assign(this, grid);
+            mixinModule(this, grid);
 
             // Bound list-to-pitch drag handlers
             this._boundListDragMove = (e) => this._onListDragMove(e);

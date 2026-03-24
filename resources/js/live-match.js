@@ -19,8 +19,34 @@ import { createPenaltyShootout } from './modules/penalty-shootout.js';
 import { createSubstitutionManager } from './modules/substitution-manager.js';
 import { createMatchSimulation } from './modules/match-simulation.js';
 
+/**
+ * Copy all own properties from source to target. Regular properties are
+ * assigned normally (compatible with Alpine's reactive proxy), while
+ * getter/setter descriptors are defined via Object.defineProperty so
+ * they remain live computed properties instead of being evaluated once.
+ */
+function mixinModule(target, source) {
+    for (const key of Object.keys(source)) {
+        const desc = Object.getOwnPropertyDescriptor(source, key);
+        if (desc.get || desc.set) {
+            Object.defineProperty(target, key, desc);
+        } else {
+            target[key] = desc.value;
+        }
+    }
+}
+
 export default function liveMatch(config) {
-    return {
+    // Create modules early with a deferred context reference so their
+    // getters are defined on the raw data object BEFORE Alpine wraps it.
+    // This ensures Alpine's reactivity system sees them as native getters.
+    let _self = null;
+    const ctx = () => _self;
+    const subs = createSubstitutionManager(ctx);
+    const penalties = createPenaltyShootout(ctx);
+    const sim = createMatchSimulation(ctx);
+
+    const component = {
         // Config (from server)
         events: config.events || [],
         homeTeamId: config.homeTeamId,
@@ -187,7 +213,12 @@ export default function liveMatch(config) {
         },
 
         init() {
-            // Integrate shared pitch grid module (positioning + drag-and-drop)
+            // Bind the deferred context so all module functions can access
+            // the Alpine component instance from this point forward.
+            _self = this;
+
+            // Integrate shared pitch grid module (positioning + drag-and-drop).
+            // Created here because its options reference `this` for callbacks.
             const grid = createPitchGrid(() => this, {
                 allowGkDrag: false,
                 allowGkReposition: false,
@@ -208,18 +239,6 @@ export default function liveMatch(config) {
                 }),
             });
             Object.assign(this, grid);
-
-            // Integrate penalty shootout module
-            const penalties = createPenaltyShootout(() => this);
-            Object.assign(this, penalties);
-
-            // Integrate substitution manager module
-            const subs = createSubstitutionManager(() => this);
-            Object.assign(this, subs);
-
-            // Integrate match simulation module (clock, events, ET, possession)
-            const sim = createMatchSimulation(() => this);
-            Object.assign(this, sim);
 
             // Start polling for career actions completion
             this.startProcessingPoll();
@@ -971,7 +990,7 @@ export default function liveMatch(config) {
          */
         getPitchEnergyColor(player) {
             const energy = this.getPitchPlayerEnergy(player);
-            return getEnergyColor(energy);
+            return _getEnergyColor(energy);
         },
 
         getPositionBadgeColor(group) {
@@ -1103,4 +1122,12 @@ export default function liveMatch(config) {
             document.body.classList.remove('overflow-y-hidden');
         },
     };
+
+    // Mix module members (including getters) into the raw component object
+    // BEFORE Alpine wraps it, so Alpine's reactivity sees them natively.
+    mixinModule(component, subs);
+    mixinModule(component, penalties);
+    mixinModule(component, sim);
+
+    return component;
 }
