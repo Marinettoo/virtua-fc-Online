@@ -367,16 +367,14 @@ class SeasonArchiveProcessor implements SeasonProcessor
     private function deleteArchivedData(Game $game): void
     {
         // Delete match events in batches (largest table, thousands of rows per season)
-        do {
-            $deleted = DB::table('match_events')
-                ->whereIn('id', function ($query) use ($game) {
-                    $query->select('id')
-                        ->from('match_events')
-                        ->where('game_id', $game->id)
-                        ->limit(1000);
-                })
-                ->delete();
-        } while ($deleted > 0);
+        DB::table('match_events')
+            ->where('game_id', $game->id)
+            ->orderBy('id')
+            ->chunk(1000, function ($rows) {
+                DB::table('match_events')
+                    ->whereIn('id', $rows->pluck('id'))
+                    ->delete();
+            });
 
         // Delete played matches (keep unplayed fixtures for potential reference)
         GameMatch::where('game_id', $game->id)
