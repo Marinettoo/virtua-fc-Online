@@ -69,10 +69,158 @@ $formatGoalGroup = function ($goals) {
 
 $homeGoalLines = $formatGoalGroup($homeGoals);
 $awayGoalLines = $formatGoalGroup($awayGoals);
+
+// Prepare squad data for image download
+$positionGroupOrder = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
+$positionGroupLabels = [
+    'Goalkeeper' => __('squad.goalkeepers'),
+    'Defender' => __('squad.defenders'),
+    'Midfielder' => __('squad.midfielders'),
+    'Forward' => __('squad.forwards'),
+];
+$squadByGroup = [];
+foreach ($positionGroupOrder as $group) {
+    $players = $yourAppearances->filter(fn($gp) => $gp->position_group === $group);
+    if ($players->isNotEmpty()) {
+        $squadByGroup[$group] = $players->map(fn($gp) => [
+            'name' => $gp->player->name,
+            'appearances' => $gp->appearances,
+            'goals' => $gp->goals,
+            'assists' => $gp->assists,
+        ])->values()->toArray();
+    }
+}
 @endphp
 
 <x-app-layout :hide-footer="true">
-    <div class="min-h-screen bg-surface-900">
+    <div class="min-h-screen bg-surface-900" x-data="{
+        teamName: @js($game->team->name),
+        teamCrestUrl: @js($game->team->image),
+        resultLabel: @js(__('season.result_' . $resultLabel)),
+        isChampion: @js($isChampion),
+        record: @js($yourRecord),
+        squadByGroup: @js($squadByGroup),
+        groupLabels: @js($positionGroupLabels),
+        statLabels: @js([
+            'played' => __('season.played_abbr'),
+            'won' => __('season.won'),
+            'drawn' => __('season.drawn'),
+            'lost' => __('season.lost'),
+            'gf' => __('season.goals_for'),
+            'ga' => __('season.goals_against'),
+            'gd' => __('season.goal_diff_abbr'),
+            'apps' => __('squad.appearances'),
+            'goals' => __('squad.goals'),
+            'assists' => __('squad.assists'),
+        ]),
+
+        async downloadTournamentImage() {
+            const ci = window.canvasImage;
+            const { canvas, ctx, width, padding, contentWidth } = ci.createCanvasContext(800, 2000);
+            ci.fillBackground(ctx, width, 2000);
+
+            await document.fonts.ready;
+
+            let y = padding;
+            const crestHeight = 52;
+            const crestWidth = 69; // 4:3 flag ratio
+            const crest = await ci.drawTeamCrest(ctx, this.teamCrestUrl, padding, y, crestWidth, crestHeight);
+
+            const textX = crest.loaded ? padding + crestWidth + 16 : padding;
+            ci.drawTeamName(ctx, this.teamName, textX, y + 22);
+
+            // Result badge
+            ctx.fillStyle = this.isChampion ? '#f59e0b' : '#94a3b8';
+            ctx.font = '700 12px Inter, sans-serif';
+            ctx.fillText(this.resultLabel.toUpperCase(), textX, y + 44);
+
+            y += crestHeight + 28;
+            ci.drawDivider(ctx, padding, width - padding, y);
+            y += 20;
+
+            // Stats row
+            const gd = this.record.goalsFor - this.record.goalsAgainst;
+            const stats = [
+                { label: this.statLabels.played, value: this.record.played, color: '#ffffff' },
+                { label: this.statLabels.won, value: this.record.won, color: '#22c55e' },
+                { label: this.statLabels.drawn, value: this.record.drawn, color: '#94a3b8' },
+                { label: this.statLabels.lost, value: this.record.lost, color: '#ef4444' },
+                { label: this.statLabels.gf, value: this.record.goalsFor, color: '#ffffff' },
+                { label: this.statLabels.ga, value: this.record.goalsAgainst, color: '#ffffff' },
+                { label: this.statLabels.gd, value: (gd >= 0 ? '+' : '') + gd, color: gd >= 0 ? '#22c55e' : '#ef4444' },
+            ];
+
+            const colWidth = contentWidth / stats.length;
+            for (let i = 0; i < stats.length; i++) {
+                const cx = padding + colWidth * i + colWidth / 2;
+
+                ctx.fillStyle = stats[i].color;
+                ctx.font = 'bold 22px Inter, sans-serif';
+                const valText = String(stats[i].value);
+                ctx.fillText(valText, cx - ctx.measureText(valText).width / 2, y + 4);
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '600 9px Inter, sans-serif';
+                const lblText = stats[i].label.toUpperCase();
+                ctx.fillText(lblText, cx - ctx.measureText(lblText).width / 2, y + 20);
+            }
+            y += 40;
+
+            ci.drawDivider(ctx, padding, width - padding, y);
+            y += 20;
+
+            // Column headers for squad
+            const nameColX = padding;
+            const appsColX = width - padding - 120;
+            const goalsColX = width - padding - 70;
+            const assistsColX = width - padding - 20;
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '600 9px Inter, sans-serif';
+            let hdr = this.statLabels.apps.toUpperCase();
+            ctx.fillText(hdr, appsColX - ctx.measureText(hdr).width / 2, y);
+            hdr = this.statLabels.goals.toUpperCase();
+            ctx.fillText(hdr, goalsColX - ctx.measureText(hdr).width / 2, y);
+            hdr = this.statLabels.assists.toUpperCase();
+            ctx.fillText(hdr, assistsColX - ctx.measureText(hdr).width / 2, y);
+            y += 18;
+
+            // Squad by position group
+            const groupOrder = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
+            for (const group of groupOrder) {
+                const players = this.squadByGroup[group];
+                if (!players || players.length === 0) continue;
+
+                ci.drawSectionLabel(ctx, this.groupLabels[group] || group, padding, y);
+                y += 18;
+
+                for (const p of players) {
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.font = '400 14px Inter, sans-serif';
+                    ctx.fillText(p.name, nameColX, y);
+
+                    ctx.fillStyle = '#cbd5e1';
+                    ctx.font = '600 13px Inter, sans-serif';
+                    let val = String(p.appearances);
+                    ctx.fillText(val, appsColX - ctx.measureText(val).width / 2, y);
+
+                    ctx.fillStyle = p.goals > 0 ? '#cbd5e1' : '#475569';
+                    val = String(p.goals);
+                    ctx.fillText(val, goalsColX - ctx.measureText(val).width / 2, y);
+
+                    ctx.fillStyle = p.assists > 0 ? '#cbd5e1' : '#475569';
+                    val = String(p.assists);
+                    ctx.fillText(val, assistsColX - ctx.measureText(val).width / 2, y);
+
+                    y += 20;
+                }
+                y += 10;
+            }
+
+            y = ci.drawBrandFooter(ctx, width, y);
+            ci.trimAndDownload(canvas, y, this.teamName.replace(/[^a-zA-Z0-9]/g, '_') + '_tournament.png');
+        },
+    }">
 
         {{-- ============================================ --}}
         {{-- SECTION 1: Hero Header + Final Scoreboard    --}}
@@ -641,7 +789,15 @@ $awayGoalLines = $formatGoalGroup($awayGoals);
             {{-- ============================================ --}}
             {{-- SECTION 4: Bottom CTAs                       --}}
             {{-- ============================================ --}}
-            <div class="mt-10 mb-10 text-center">
+            <div class="mt-10 mb-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <x-secondary-button
+                    type="button"
+                    @click="downloadTournamentImage()"
+                    class="px-6 py-4 text-base"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                    <span class="ml-1.5">{{ __('squad.download_squad') }}</span>
+                </x-secondary-button>
                 <x-primary-button-link href="{{ route('select-team') }}" color="green" class="px-8 py-4 text-lg font-bold">
                     {{ __('season.play_again') }}
                 </x-primary-button-link>
