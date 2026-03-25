@@ -279,7 +279,7 @@
                                     <span class="text-center" x-data x-tooltip.raw="{{ __('squad.legend_assists') }}">{{ __('squad.assists') }}</span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
-                                    <span class="text-center text-accent-yellow" x-data x-tooltip.raw="{{ __('squad.legend_mvp') }}">{{ __('squad.mvp') }}</span>
+                                    <span class="text-center text-accent-gold" x-data x-tooltip.raw="{{ __('squad.legend_mvp') }}">{{ __('squad.mvp') }}</span>
                                 </template>
                                 <template x-if="viewMode === 'stats'">
                                     <span class="text-center" x-data x-tooltip.raw="{{ __('squad.clean_sheets_full') }}">{{ __('squad.clean_sheets') }}</span>
@@ -514,7 +514,7 @@
                                         </template>
                                         <template x-if="viewMode === 'stats'">
                                             @php $mvpCount = $mvpCounts[$gp->id] ?? 0; @endphp
-                                            <span class="text-xs text-center tabular-nums {{ $mvpCount > 0 ? 'font-medium text-accent-yellow' : 'text-text-muted' }}">{{ $mvpCount }}</span>
+                                            <span class="text-xs text-center tabular-nums {{ $mvpCount > 0 ? 'font-medium text-accent-gold' : 'text-text-muted' }}">{{ $mvpCount }}</span>
                                         </template>
                                         <template x-if="viewMode === 'stats'">
                                             <span class="text-xs text-text-secondary text-center tabular-nums">{{ $gp->clean_sheets }}</span>

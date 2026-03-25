@@ -809,8 +809,8 @@
 
                         {{-- MVP of the match --}}
                         <template x-if="mvpPlayerName">
-                            <div class="flex items-center justify-center gap-2 text-sm mb-3 py-2 px-3 rounded-lg bg-accent-yellow/10">
-                                <span class="text-accent-yellow text-base">&#9733;</span>
+                            <div class="flex items-center justify-center gap-2 text-sm mb-3 py-2 px-3 rounded-lg bg-accent-gold/10">
+                                <span class="text-accent-gold text-base">&#9733;</span>
                                 <span class="text-text-secondary" x-text="translations.mvpOfTheMatch"></span>
                                 <span class="font-semibold text-text-primary" x-text="mvpPlayerName"></span>
                                 <span class="text-xs px-1.5 py-0.5 rounded bg-surface-700 text-text-muted"
