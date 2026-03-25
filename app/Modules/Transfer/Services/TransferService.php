@@ -514,7 +514,7 @@ class TransferService
         $completedTransfers = collect();
 
         foreach ($agreedIncoming as $offer) {
-            $this->completeIncomingTransfer($offer, $game);
+            $this->completeIncomingTransfer($offer, $game, skipSquadCheck: true);
             $completedTransfers->push($offer);
         }
 
@@ -1251,11 +1251,14 @@ class TransferService
 
     /**
      * Complete a single incoming transfer (user buys player).
+     *
+     * @param  bool  $skipSquadCheck  Skip squad-full check (used for season-close pre-contracts
+     *                                where SquadCapEnforcementProcessor handles trimming)
      */
-    private function completeIncomingTransfer(TransferOffer $offer, Game $game): void
+    private function completeIncomingTransfer(TransferOffer $offer, Game $game, bool $skipSquadCheck = false): void
     {
-        // Safety net: reject if squad is full
-        if (ContractService::isSquadFull($game)) {
+        // Safety net: reject if squad is full (skipped for season-close pre-contracts)
+        if (!$skipSquadCheck && ContractService::isSquadFull($game)) {
             $offer->update(['status' => TransferOffer::STATUS_REJECTED, 'resolved_at' => $game->current_date]);
 
             $playerName = $offer->gamePlayer->player->name ?? $offer->gamePlayer->name;
