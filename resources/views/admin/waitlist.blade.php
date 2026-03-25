@@ -25,6 +25,20 @@
         </div>
     </div>
 
+    @if($pending > 0 && config('beta.enabled'))
+        <form method="POST" action="{{ route('admin.bulk-waitlist-invite') }}" class="mb-4">
+            @csrf
+            <x-ghost-button
+                type="submit"
+                color="green"
+                size="xs"
+                x-on:click.prevent="if (confirm(@js(__('admin.waitlist_bulk_invite_confirm')))) $el.closest('form').submit()"
+            >
+                {{ __('admin.waitlist_bulk_invite') }}
+            </x-ghost-button>
+        </form>
+    @endif
+
     <form method="GET" action="{{ route('admin.waitlist') }}" class="mb-4">
         <div class="relative max-w-xs">
             <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">

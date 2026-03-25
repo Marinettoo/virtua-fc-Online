@@ -87,6 +87,10 @@ return [
     'waitlist_status_pending' => 'Pendiente',
     'waitlist_status_invited' => 'Invitado',
     'waitlist_status_registered' => 'Registrado',
+    'waitlist_bulk_invite' => 'Enviar 50 invitaciones',
+    'waitlist_bulk_invite_started' => 'Enviando :count invitaciones en segundo plano...',
+    'waitlist_bulk_invite_confirm' => 'Se enviarán hasta 50 invitaciones. ¿Continuar?',
+    'waitlist_no_pending' => 'No hay entradas pendientes en la lista de espera.',
     'search_waitlist_placeholder' => 'Buscar por nombre o email...',
 
     // Game stats
