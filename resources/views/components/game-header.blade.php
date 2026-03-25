@@ -95,7 +95,7 @@
                         @elseif($continueToHome)
                             <x-primary-button-link :href="route('show-game', $game->id)">{{ __('app.continue') }}</x-primary-button-link>
                         @else
-                            <x-primary-button type="button" @click="$dispatch('show-pre-match', @js(route('game.pre-match-data', $game->id)))">
+                            <x-primary-button type="button" @click="$dispatch('show-pre-match', '{{ route('game.pre-match-data', $game->id) }}')">
                                 {{ __('app.continue') }}
                             </x-primary-button>
                         @endif
