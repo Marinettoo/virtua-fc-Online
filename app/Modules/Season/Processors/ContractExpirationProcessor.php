@@ -26,7 +26,7 @@ class ContractExpirationProcessor implements SeasonProcessor
 
     public function priority(): int
     {
-        return 5; // Before ContractRenewalProcessor (6)
+        return 4; // Before PreContractTransferProcessor (5) and ContractRenewalProcessor (6)
     }
 
     public function process(Game $game, SeasonTransitionData $data): SeasonTransitionData
