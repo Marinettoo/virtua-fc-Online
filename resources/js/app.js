@@ -9,6 +9,7 @@ import negotiationChat from './negotiation-chat';
 import squadSelection from './squad-selection';
 import tournamentSummary from './tournament-summary';
 import seasonSummary from './season-summary';
+import tournamentHubComponent from './tournament/tournament-hub';
 
 Alpine.plugin(Collapse);
 Alpine.plugin(Tooltip);
@@ -19,6 +20,7 @@ Alpine.data('negotiationChat', negotiationChat);
 Alpine.data('squadSelection', squadSelection);
 Alpine.data('tournamentSummary', tournamentSummary);
 Alpine.data('seasonSummary', seasonSummary);
+Alpine.data('tournamentHub', tournamentHubComponent);
 
 window.Alpine = Alpine;
 

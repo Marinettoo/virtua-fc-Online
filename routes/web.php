@@ -107,6 +107,13 @@ use App\Http\Views\ShowTournamentSummary;
 use App\Http\Actions\ProcessTacticalActions;
 use App\Http\Actions\PromoteAcademyPlayer;
 use App\Http\Actions\StartNewSeason;
+use App\Http\Actions\Tournament\AutoLineup as TournamentAutoLineup;
+use App\Http\Actions\Tournament\CompleteTournament;
+use App\Http\Actions\Tournament\CreateTournament;
+use App\Http\Actions\Tournament\SimulateBatch;
+use App\Http\Actions\Tournament\SimulateExtraTime as TournamentSimulateExtraTime;
+use App\Http\Actions\Tournament\SimulateMatch as TournamentSimulateMatch;
+use App\Http\Actions\Tournament\SimulatePenalties as TournamentSimulatePenalties;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -241,6 +248,21 @@ Route::middleware('auth')->group(function () {
         Route::post('/game/{gameId}/notifications/{notificationId}/read', MarkNotificationRead::class)->name('game.notifications.read');
         Route::post('/game/{gameId}/notifications/read-all', MarkAllNotificationsRead::class)->name('game.notifications.read-all');
     });
+});
+
+// Client-side tournament API (stateless endpoints)
+Route::middleware('auth')->prefix('tournament')->name('tournament.')->group(function () {
+    Route::post('/create', CreateTournament::class)->name('create');
+    Route::post('/simulate', TournamentSimulateMatch::class)->name('simulate');
+    Route::post('/simulate-extra-time', TournamentSimulateExtraTime::class)->name('simulate-extra-time');
+    Route::post('/simulate-penalties', TournamentSimulatePenalties::class)->name('simulate-penalties');
+    Route::post('/simulate-batch', SimulateBatch::class)->name('simulate-batch');
+    Route::post('/auto-lineup', TournamentAutoLineup::class)->name('auto-lineup');
+    Route::post('/complete', CompleteTournament::class)->name('complete');
+
+    // Blade shell pages (Alpine hydrates from IndexedDB)
+    Route::get('/{tournamentId}', fn (string $tournamentId) => view('tournament.hub', compact('tournamentId')))->name('hub');
+    Route::get('/{tournamentId}/match/{matchId}', fn (string $tournamentId, string $matchId) => view('tournament.match', compact('tournamentId', 'matchId')))->name('match');
 });
 
 Route::middleware('auth')->group(function () {
