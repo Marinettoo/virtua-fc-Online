@@ -10,6 +10,8 @@ import squadSelection from './squad-selection';
 import tournamentSummary from './tournament-summary';
 import seasonSummary from './season-summary';
 import tournamentHubComponent from './tournament/tournament-hub';
+import tournamentMatchComponent from './tournament/tournament-match';
+import tournamentIndexComponent from './tournament/tournament-index';
 
 Alpine.plugin(Collapse);
 Alpine.plugin(Tooltip);
@@ -21,6 +23,8 @@ Alpine.data('squadSelection', squadSelection);
 Alpine.data('tournamentSummary', tournamentSummary);
 Alpine.data('seasonSummary', seasonSummary);
 Alpine.data('tournamentHub', tournamentHubComponent);
+Alpine.data('tournamentMatch', tournamentMatchComponent);
+Alpine.data('tournamentIndex', tournamentIndexComponent);
 
 window.Alpine = Alpine;
 

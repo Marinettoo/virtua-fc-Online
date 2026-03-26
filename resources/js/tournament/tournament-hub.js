@@ -2,7 +2,7 @@
  * Alpine.js component for the tournament hub view.
  *
  * Loads tournament state from IndexedDB and provides
- * reactive data for the bracket, groups, and match list.
+ * reactive data for the bracket, groups, match list, and stats.
  */
 
 import { loadTournamentState, checkGroupStageTransition } from './state.js';
@@ -29,6 +29,14 @@ export default function tournamentHub(config) {
         activeTab: 'groups',
         selectedGroup: 'A',
 
+        // Stats
+        topScorers: [],
+        topAssists: [],
+        statsLoaded: false,
+
+        // Simulate day
+        simulatingDay: false,
+
         async init() {
             try {
                 const state = await loadTournamentState(this.tournamentId);
@@ -45,6 +53,17 @@ export default function tournamentHub(config) {
                 // Auto-switch to knockout tab if group stage is done
                 if (this.tournament.currentPhase === 'knockout') {
                     this.activeTab = 'knockout';
+                }
+                if (this.tournament.status === 'completed') {
+                    this.activeTab = 'knockout';
+                }
+
+                // Find user's group for initial selection
+                const userGroup = this.allMatches.find(m =>
+                    m.groupLetter && (m.homeTeamId === this.userTeamId || m.awayTeamId === this.userTeamId)
+                );
+                if (userGroup) {
+                    this.selectedGroup = userGroup.groupLetter;
                 }
             } catch (err) {
                 this.error = err.message;
@@ -94,16 +113,25 @@ export default function tournamentHub(config) {
                 .sort((a, b) => a.roundNumber - b.roundNumber);
         },
 
+        get currentGroupRound() {
+            // Current round = first unplayed round in user's group
+            const userMatches = this.groupMatches.filter(m =>
+                m.homeTeamId === this.userTeamId || m.awayTeamId === this.userTeamId
+            );
+            const unplayed = userMatches.find(m => !m.played);
+            return unplayed?.roundNumber || 3;
+        },
+
         // --- Knockout helpers ---
 
         get knockoutRounds() {
             const ROUND_NAMES = {
-                1: 'cup.round_of_32',
-                2: 'cup.round_of_16',
-                3: 'cup.quarter_finals',
-                4: 'cup.semi_finals',
-                5: 'cup.third_place',
-                6: 'cup.final',
+                1: 'Round of 32',
+                2: 'Round of 16',
+                3: 'Quarter-Finals',
+                4: 'Semi-Finals',
+                5: 'Third Place',
+                6: 'Final',
             };
 
             const rounds = {};
@@ -119,6 +147,23 @@ export default function tournamentHub(config) {
             }
 
             return Object.values(rounds).sort((a, b) => a.round - b.round);
+        },
+
+        getTieMatch(tie) {
+            return this.knockoutMatches.find(m => m.cupTieId === tie.id);
+        },
+
+        getTieScore(tie) {
+            const match = this.getTieMatch(tie);
+            if (!match || !match.played) return null;
+            let score = `${match.homeScore} - ${match.awayScore}`;
+            if (match.isExtraTime && (match.homeScoreEt > 0 || match.awayScoreEt > 0)) {
+                score += ` (ET: ${match.homeScoreEt}-${match.awayScoreEt})`;
+            }
+            if (match.homeScorePenalties !== null && match.homeScorePenalties !== undefined) {
+                score += ` (PEN: ${match.homeScorePenalties}-${match.awayScorePenalties})`;
+            }
+            return score;
         },
 
         // --- Navigation ---
@@ -138,10 +183,47 @@ export default function tournamentHub(config) {
             return this.getNextUserMatch();
         },
 
+        // --- Stats ---
+
+        async loadStats() {
+            if (this.statsLoaded) return;
+            try {
+                const stats = await TournamentDB.getStatsForTournament(this.tournamentId);
+                const players = await TournamentDB.getPlayersForTournament(this.tournamentId);
+                const playerMap = {};
+                players.forEach(p => { playerMap[p.id] = p; });
+
+                // Enrich stats with player info
+                const enriched = stats
+                    .filter(s => s.appearances > 0)
+                    .map(s => ({
+                        ...s,
+                        playerName: playerMap[s.playerId]?.name || 'Unknown',
+                        teamName: this.teamMap[s.teamId]?.name || 'Unknown',
+                        teamCode: this.teamMap[s.teamId]?.fifaCode || '???',
+                    }));
+
+                this.topScorers = [...enriched]
+                    .filter(s => s.goals > 0)
+                    .sort((a, b) => b.goals - a.goals || a.appearances - b.appearances)
+                    .slice(0, 20);
+
+                this.topAssists = [...enriched]
+                    .filter(s => s.assists > 0)
+                    .sort((a, b) => b.assists - a.assists || a.appearances - b.appearances)
+                    .slice(0, 20);
+
+                this.statsLoaded = true;
+            } catch (e) {
+                console.error('Failed to load stats:', e);
+            }
+        },
+
         // --- Actions ---
 
         async refresh() {
             this.loading = true;
+            this.statsLoaded = false;
             const state = await loadTournamentState(this.tournamentId);
             if (state) Object.assign(this, state);
             this.loading = false;
@@ -153,6 +235,12 @@ export default function tournamentHub(config) {
                 await this.refresh();
                 this.activeTab = 'knockout';
             }
+        },
+
+        async deleteTournament() {
+            if (!confirm('Delete this tournament? This cannot be undone.')) return;
+            await TournamentDB.deleteTournament(this.tournamentId);
+            window.location.href = '/tournament';
         },
     };
 }

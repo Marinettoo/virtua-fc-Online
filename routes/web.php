@@ -252,6 +252,19 @@ Route::middleware('auth')->group(function () {
 
 // Client-side tournament API (stateless endpoints)
 Route::middleware('auth')->prefix('tournament')->name('tournament.')->group(function () {
+    // Landing page: team picker + start tournament
+    Route::get('/', function () {
+        $groupsData = json_decode(file_get_contents(base_path('data/2025/WC2026/groups.json')), true);
+        $fifaCodes = collect($groupsData)->flatMap(fn ($g) => $g['teams'])->unique()->values();
+
+        $teams = \App\Models\Team::where('type', 'national')
+            ->whereIn('fifa_code', $fifaCodes)
+            ->orderBy('name')
+            ->get(['id', 'name', 'fifa_code', 'image', 'country', 'type']);
+
+        return view('tournament.index', compact('teams'));
+    })->name('index');
+
     Route::post('/create', CreateTournament::class)->name('create');
     Route::post('/simulate', TournamentSimulateMatch::class)->name('simulate');
     Route::post('/simulate-extra-time', TournamentSimulateExtraTime::class)->name('simulate-extra-time');
