@@ -661,16 +661,12 @@ $getZoneClass = function($position) use ($standingsZones, $borderColorMap) {
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
                 <span class="ml-1.5">{{ __('season.download_season') }}</span>
             </x-secondary-button>
-            @if(config('beta.allow_new_season'))
             <form method="post" action="{{ route('game.start-new-season', $game->id) }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
                 <x-primary-button-spin color="red" class="px-8 py-4 text-lg font-bold">
                     {{ __('season.start_new_season', ['season' => \App\Models\Game::formatSeason((string)((int)$game->season + 1))]) }}
                 </x-primary-button-spin>
             </form>
-            @else
-            <p class="text-text-secondary text-lg">{{ __('season.new_season_coming_soon') }}</p>
-            @endif
         </div>
 
     </div>
