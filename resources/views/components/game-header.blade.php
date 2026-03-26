@@ -71,6 +71,10 @@
                         </div>
                     </div>
                     @endif
+                    {{-- Liga Online --}}
+                    <a href="{{ route('league-room.create') }}" class="nav-item @if(Str::startsWith(Route::currentRouteName(), 'league-room')) active @endif whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-wider {{ Str::startsWith(Route::currentRouteName(), 'league-room') ? 'text-text-primary' : 'text-text-muted hover:text-text-body' }}">
+                        🌐 Online
+                    </a>
                 </nav>
 
                 {{-- Right: Next match + action button --}}
@@ -195,6 +199,10 @@
                     {{ __('game.standings') }}
                 </x-responsive-nav-link>
                 @endif
+                {{-- Liga Online (móvil) --}}
+                <x-responsive-nav-link :href="route('league-room.create')" :active="Str::startsWith(Route::currentRouteName(), 'league-room')">
+                    🌐 Liga Online
+                </x-responsive-nav-link>
             </nav>
 
             {{-- Competitions (career mode only) --}}
