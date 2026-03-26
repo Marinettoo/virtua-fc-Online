@@ -24,7 +24,10 @@ use App\Modules\Match\Listeners\UpdateManagerStats;
 use App\Modules\Season\Listeners\RecordSeasonCompleted;
 use App\Modules\Season\Listeners\SimulateOtherLeagues;
 use App\Modules\Competition\Services\CompetitionHandlerResolver;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -60,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('game-creation', fn (Request $request) => Limit::perMinute(5)->by($request->user()?->id ?: $request->ip()));
+        RateLimiter::for('tournament-simulation', fn (Request $request) => Limit::perMinute(3)->by($request->user()?->id ?: $request->ip()));
+
         // Order matters: standings must be updated before competition progress notifications
         Event::listen(MatchFinalized::class, UpdateLeagueStandings::class);
         Event::listen(MatchFinalized::class, UpdateGoalkeeperStats::class);

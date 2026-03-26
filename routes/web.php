@@ -124,7 +124,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard & Game Creation
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/new-game', SelectTeam::class)->name('select-team');
-    Route::post('/new-game', InitGame::class)->name('init-game');
+    Route::post('/new-game', InitGame::class)->middleware('throttle:game-creation')->name('init-game');
     Route::get('/tournament-summary/{summaryId}', ShowTournamentSummary::class)->name('tournament-summary.show');
 
     // All game routes require ownership verification
@@ -214,7 +214,7 @@ Route::middleware('auth')->group(function () {
 
         // Tournament End
         Route::get('/game/{gameId}/tournament-end', ShowTournamentEnd::class)->name('game.tournament-end');
-        Route::get('/game/{gameId}/simulate-tournament', SimulateTournament::class)->name('game.simulate-tournament');
+        Route::get('/game/{gameId}/simulate-tournament', SimulateTournament::class)->middleware('throttle:tournament-simulation')->name('game.simulate-tournament');
 
         // Budget Allocation
         Route::get('/game/{gameId}/budget', ShowBudgetAllocation::class)->name('game.budget');

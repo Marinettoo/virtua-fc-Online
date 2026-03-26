@@ -15,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -41,12 +42,16 @@ class SetupTournamentGame implements ShouldQueue
             return;
         }
 
-        // Load groups.json for fixture data and group assignments
-        $groupsPath = base_path('data/2025/WC2026/groups.json');
-        $groupsData = json_decode(file_get_contents($groupsPath), true);
+        // Load groups.json for fixture data and group assignments (cached for 1 hour)
+        $groupsData = Cache::remember('wc2026_groups', 3600, function () {
+            $groupsPath = base_path('data/2025/WC2026/groups.json');
+            return json_decode(file_get_contents($groupsPath), true);
+        });
 
-        // Build FIFA code → Team UUID map from the database
-        $nationalTeams = Team::worldCupEligible()->get(['id', 'fifa_code']);
+        // Build FIFA code → Team UUID map from the database (cached for 1 hour)
+        $nationalTeams = Cache::remember('wc2026_national_teams', 3600, function () {
+            return Team::worldCupEligible()->get(['id', 'fifa_code']);
+        });
         $teamKeyMap = $nationalTeams->pluck('id', 'fifa_code')->toArray();
 
         DB::transaction(function () use ($game, $groupsData, $teamKeyMap, $nationalTeams, $notificationService) {

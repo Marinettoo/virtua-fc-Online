@@ -198,6 +198,17 @@ return [
     'welcome_step_autosave_desc' => 'Every action is saved instantly. You can close the browser and come back anytime — your game will be right where you left it.',
     'welcome_start_journey' => 'Get Started',
 
+    // Tournament welcome
+    'tournament_welcome_title' => 'World Cup 2026',
+    'tournament_welcome_subtitle' => 'Lead :team to glory',
+    'tournament_welcome_step_format' => 'Tournament format',
+    'tournament_welcome_step_format_desc' => '48 teams compete in 12 groups. The top 2 from each group and the best 3rd-place teams advance to the knockout rounds.',
+    'tournament_welcome_step_lineup' => 'Pick your lineup',
+    'tournament_welcome_step_lineup_desc' => 'Choose your formation, starting XI, and tactical approach before each match. Make substitutions during the game to turn things around.',
+    'tournament_welcome_step_glory' => 'One shot at glory',
+    'tournament_welcome_step_glory_desc' => 'No transfers, no second chances. Win every match or go home. Your progress is saved automatically.',
+    'tournament_welcome_start' => 'Start Tournament',
+
     // Onboarding
     'welcome_to_team' => 'Welcome :team_a',
     'season_preview' => 'Season Preview',

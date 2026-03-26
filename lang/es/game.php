@@ -198,6 +198,17 @@ return [
     'welcome_step_autosave_desc' => 'Cada acción se guarda al instante. Puedes cerrar el navegador y volver en cualquier momento — tu partida estará justo donde la dejaste.',
     'welcome_start_journey' => 'Comenzar',
 
+    // Tournament welcome
+    'tournament_welcome_title' => 'Copa del Mundo 2026',
+    'tournament_welcome_subtitle' => 'Lleva a :team a la gloria',
+    'tournament_welcome_step_format' => 'Formato del torneo',
+    'tournament_welcome_step_format_desc' => '48 selecciones compiten en 12 grupos. Los 2 primeros de cada grupo y los mejores terceros avanzan a la fase eliminatoria.',
+    'tournament_welcome_step_lineup' => 'Elige tu alineación',
+    'tournament_welcome_step_lineup_desc' => 'Elige tu formación, once titular y enfoque táctico antes de cada partido. Haz sustituciones durante el juego para cambiar el rumbo.',
+    'tournament_welcome_step_glory' => 'Una sola oportunidad',
+    'tournament_welcome_step_glory_desc' => 'Sin fichajes, sin segundas oportunidades. Gana cada partido o vuelve a casa. Tu progreso se guarda automáticamente.',
+    'tournament_welcome_start' => 'Comenzar Torneo',
+
     // Onboarding
     'welcome_to_team' => 'Bienvenido :team_a',
     'season_preview' => 'Previa de Temporada',

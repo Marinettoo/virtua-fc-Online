@@ -808,11 +808,11 @@ class Game extends Model
     // ==========================================
 
     /**
-     * Check if the game needs the welcome tutorial (career mode only).
+     * Check if the game needs the welcome tutorial.
      */
     public function needsWelcome(): bool
     {
-        return $this->isCareerMode() && ($this->needs_welcome ?? false);
+        return $this->needs_welcome ?? false;
     }
 
     /**

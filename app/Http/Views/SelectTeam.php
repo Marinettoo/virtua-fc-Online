@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Game;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 final class SelectTeam
 {
@@ -46,11 +47,14 @@ final class SelectTeam
         $hasTournamentMode = $request->user()->canPlayTournamentMode() && Competition::where('id', 'WC2026')->exists();
 
         if ($hasTournamentMode) {
-            $allWcTeams = Team::worldCupEligible()
-                ->where('is_placeholder', false)
-                ->get()
-                ->sortBy('name') // PHP sort: name accessor applies i18n translation
-                ->values();
+            $locale = app()->getLocale();
+            $allWcTeams = Cache::remember("wc2026_selectable_teams:{$locale}", 600, function () {
+                return Team::worldCupEligible()
+                    ->where('is_placeholder', false)
+                    ->get()
+                    ->sortBy('name') // PHP sort: name accessor applies i18n translation
+                    ->values();
+            });
 
             // Featured national teams shown as larger cards
             $featuredCodes = ['ESP', 'ARG', 'BRA', 'ENG', 'FRA', 'GER', 'POR', 'NED'];
