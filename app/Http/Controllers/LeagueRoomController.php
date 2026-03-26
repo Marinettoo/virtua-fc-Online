@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\LeagueRoom;
 use App\Models\LeagueRoomMember;
 use App\Models\LeagueRoomMatchday;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LeagueRoomController extends Controller
 {
-    // Mostrar pantalla de crear sala
     public function create()
     {
         return view('league-room.create');
     }
 
-    // Guardar nueva sala
     public function store(Request $request)
     {
         $request->validate([
@@ -32,23 +31,20 @@ class LeagueRoomController extends Controller
             'status' => 'waiting',
         ]);
 
-        // El creador entra automáticamente como miembro
         LeagueRoomMember::create([
             'league_room_id' => $room->id,
             'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('league-room.lobby', $room->id)
-            ->with('success', '¡Sala creada! Comparte el código ' . $room->code . ' con tus amigos.');
+            ->with('success', '\u00a1Sala creada! Comparte el c\u00f3digo ' . $room->code . ' con tus amigos.');
     }
 
-    // Pantalla de unirse con código
     public function join()
     {
         return view('league-room.join');
     }
 
-    // Procesar unirse a sala
     public function joinStore(Request $request)
     {
         $request->validate([
@@ -59,7 +55,6 @@ class LeagueRoomController extends Controller
             ->where('status', 'waiting')
             ->firstOrFail();
 
-        // Comprobar que no está ya dentro
         $alreadyMember = LeagueRoomMember::where('league_room_id', $room->id)
             ->where('user_id', Auth::id())
             ->exists();
@@ -74,51 +69,63 @@ class LeagueRoomController extends Controller
         ]);
 
         return redirect()->route('league-room.lobby', $room->id)
-            ->with('success', '¡Te has unido a ' . $room->name . '!');
+            ->with('success', '\u00a1Te has unido a ' . $room->name . '!');
     }
 
-    // Lobby de la sala (elegir equipo y esperar)
     public function lobby(LeagueRoom $leagueRoom)
     {
-        $leagueRoom->load('members.user');
+        $leagueRoom->load('members.user', 'members.team');
         $member = $leagueRoom->members->firstWhere('user_id', Auth::id());
 
         abort_if(!$member, 403, 'No eres miembro de esta sala.');
+
+        // IDs de equipos ya cogidos por otros
+        $takenTeamIds = $leagueRoom->members
+            ->where('user_id', '!=', Auth::id())
+            ->pluck('team_id')
+            ->filter()
+            ->values();
+
+        // Equipos de clubs reales, ordenados por nombre, excluyendo reservas y placeholders
+        $teams = Team::where('type', 'club')
+            ->where('is_placeholder', false)
+            ->whereNull('parent_team_id')
+            ->whereNotIn('id', $takenTeamIds)
+            ->orderBy('name')
+            ->get(['id', 'name', 'country']);
 
         return view('league-room.lobby', [
             'room' => $leagueRoom,
             'members' => $leagueRoom->members,
             'myMember' => $member,
+            'teams' => $teams,
         ]);
     }
 
-    // Elegir equipo dentro del lobby
     public function chooseTeam(Request $request, LeagueRoom $leagueRoom)
     {
         $request->validate([
-            'team_id' => 'required|integer',
+            'team_id' => 'required|string|exists:teams,id',
         ]);
 
         $member = LeagueRoomMember::where('league_room_id', $leagueRoom->id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        // Comprobar que el equipo no está cogido por otro
         $teamTaken = LeagueRoomMember::where('league_room_id', $leagueRoom->id)
             ->where('team_id', $request->team_id)
             ->where('user_id', '!=', Auth::id())
             ->exists();
 
         if ($teamTaken) {
-            return back()->with('error', 'Ese equipo ya está cogido por otro jugador.');
+            return back()->with('error', 'Ese equipo ya est\u00e1 cogido por otro jugador.');
         }
 
         $member->update(['team_id' => $request->team_id]);
 
-        return back()->with('success', '¡Equipo seleccionado!');
+        return back()->with('success', '\u00a1Equipo seleccionado!');
     }
 
-    // El creador arranca la liga
     public function start(LeagueRoom $leagueRoom)
     {
         abort_if($leagueRoom->owner_id !== Auth::id(), 403);
@@ -126,7 +133,6 @@ class LeagueRoomController extends Controller
 
         $leagueRoom->update(['status' => 'active']);
 
-        // Crear la primera jornada
         LeagueRoomMatchday::create([
             'league_room_id' => $leagueRoom->id,
             'matchday_number' => 1,
@@ -135,10 +141,9 @@ class LeagueRoomController extends Controller
         ]);
 
         return redirect()->route('league-room.dashboard', $leagueRoom->id)
-            ->with('success', '¡Liga iniciada!');
+            ->with('success', '\u00a1Liga iniciada!');
     }
 
-    // Dashboard de la liga activa
     public function dashboard(LeagueRoom $leagueRoom)
     {
         $leagueRoom->load('members.user', 'matchdays');
@@ -157,7 +162,6 @@ class LeagueRoomController extends Controller
         ]);
     }
 
-    // Pulsar "Jugar Jornada"
     public function ready(LeagueRoom $leagueRoom)
     {
         $member = LeagueRoomMember::where('league_room_id', $leagueRoom->id)
@@ -166,16 +170,13 @@ class LeagueRoomController extends Controller
 
         $member->update(['is_ready' => true]);
 
-        // Si todos están listos, simular jornada
         if ($leagueRoom->allMembersReady()) {
-            // TODO Fase 5: disparar simulación de partidos compartidos
             $leagueRoom->members()->update(['is_ready' => false]);
 
             $currentMatchday = $leagueRoom->matchdays()->where('status', 'pending')->first();
             if ($currentMatchday) {
                 $currentMatchday->update(['status' => 'simulated']);
 
-                // Crear siguiente jornada
                 LeagueRoomMatchday::create([
                     'league_room_id' => $leagueRoom->id,
                     'matchday_number' => $currentMatchday->matchday_number + 1,
@@ -185,6 +186,6 @@ class LeagueRoomController extends Controller
             }
         }
 
-        return back()->with('success', '¡Listo! Esperando al resto de jugadores...');
+        return back()->with('success', '\u00a1Listo! Esperando al resto de jugadores...');
     }
 }

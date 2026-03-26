@@ -16,7 +16,12 @@
             <div class="space-y-3">
                 @foreach($members as $member)
                     <div class="flex items-center justify-between bg-surface-700 rounded-lg px-4 py-3">
-                        <span class="text-text-primary font-medium">{{ $member->user->name }}</span>
+                        <div>
+                            <span class="text-text-primary font-medium">{{ $member->user->name }}</span>
+                            @if($member->team)
+                                <span class="text-text-muted text-xs ml-2">({{ $member->team->name }})</span>
+                            @endif
+                        </div>
                         @if($member->team_id)
                             <span class="text-green-400 text-sm">✅ Equipo elegido</span>
                         @else
@@ -36,7 +41,13 @@
                 <select name="team_id"
                     class="w-full bg-surface-700 text-text-primary rounded-lg px-4 py-2 border border-surface-600 mb-4">
                     <option value="">-- Selecciona un equipo --</option>
-                    {{-- TODO: cargar equipos disponibles desde la base de datos --}}
+                    @foreach($teams->groupBy('country') as $country => $countryTeams)
+                        <optgroup label="{{ $country }}">
+                            @foreach($countryTeams as $team)
+                                <option value="{{ $team->id }}">{{ $team->name }}</option>
+                            @endforeach
+                        </optgroup>
+                    @endforeach
                 </select>
                 <button type="submit"
                     class="w-full bg-accent-blue hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition">
