@@ -29,16 +29,37 @@ class ShowBudgetAllocation
         // Calculate available surplus
         $availableSurplus = $finances->available_surplus ?? 0;
 
-        // Get current tiers (0-4 for each area), default based on club reputation
-        $tiers = $investment ? [
-            'youth_academy' => $investment->youth_academy_tier,
-            'medical' => $investment->medical_tier,
-            'scouting' => $investment->scouting_tier,
-            'facilities' => $investment->facilities_tier,
-        ] : GameInvestment::defaultTiersForReputation(
-            TeamReputation::resolveLevel($game->id, $game->team_id),
-            $availableSurplus,
-        );
+        // Get current tiers, carry forward from previous season
+        $previousInvestment = $game->previousSeasonInvestment();
+
+        if ($investment) {
+            $tiers = [
+                'youth_academy' => $investment->youth_academy_tier,
+                'medical' => $investment->medical_tier,
+                'scouting' => $investment->scouting_tier,
+                'facilities' => $investment->facilities_tier,
+            ];
+        } elseif ($previousInvestment) {
+            $tiers = [
+                'youth_academy' => $previousInvestment->youth_academy_tier,
+                'medical' => $previousInvestment->medical_tier,
+                'scouting' => $previousInvestment->scouting_tier,
+                'facilities' => $previousInvestment->facilities_tier,
+            ];
+        } else {
+            $tiers = GameInvestment::defaultTiersForReputation(
+                TeamReputation::resolveLevel($game->id, $game->team_id),
+                $availableSurplus,
+            );
+        }
+
+        // Infrastructure tiers are permanent — previous season's tiers are the floor
+        $minTiers = $previousInvestment ? [
+            'youth_academy' => $previousInvestment->youth_academy_tier,
+            'medical' => $previousInvestment->medical_tier,
+            'scouting' => $previousInvestment->scouting_tier,
+            'facilities' => $previousInvestment->facilities_tier,
+        ] : ['youth_academy' => 1, 'medical' => 1, 'scouting' => 1, 'facilities' => 1];
 
         return view('budget-allocation', [
             'game' => $game,
@@ -46,6 +67,7 @@ class ShowBudgetAllocation
             'investment' => $investment,
             'availableSurplus' => $availableSurplus,
             'tiers' => $tiers,
+            'minTiers' => $minTiers,
             'tierThresholds' => GameInvestment::TIER_THRESHOLDS,
             'isLocked' => false,
         ]);

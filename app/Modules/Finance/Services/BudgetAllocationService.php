@@ -40,6 +40,18 @@ class BudgetAllocationService
             throw new \InvalidArgumentException('messages.budget_minimum_tier');
         }
 
+        // Infrastructure tiers are permanent — cannot drop below previous season's levels
+        $previousInvestment = $game->previousSeasonInvestment();
+        if ($previousInvestment) {
+            if ($youthTier < $previousInvestment->youth_academy_tier
+                || $medicalTier < $previousInvestment->medical_tier
+                || $scoutingTier < $previousInvestment->scouting_tier
+                || $facilitiesTier < $previousInvestment->facilities_tier
+            ) {
+                throw new \InvalidArgumentException('messages.budget_tier_below_previous');
+            }
+        }
+
         return GameInvestment::updateOrCreate(
             [
                 'game_id' => $game->id,

@@ -56,17 +56,38 @@ class ShowNewSeason
         $investment = $game->currentInvestment;
         $availableSurplus = $finances->available_surplus ?? 0;
 
-        // Get current tiers (0-4 for each area), default based on club reputation
+        // Get current tiers (0-4 for each area), carry forward from previous season
         $reputationLevel = TeamReputation::resolveLevel($game->id, $game->team_id);
-        $tiers = $investment ? [
-            'youth_academy' => $investment->youth_academy_tier,
-            'medical' => $investment->medical_tier,
-            'scouting' => $investment->scouting_tier,
-            'facilities' => $investment->facilities_tier,
-        ] : GameInvestment::defaultTiersForReputation(
-            $reputationLevel,
-            $availableSurplus,
-        );
+        $previousInvestment = $game->previousSeasonInvestment();
+
+        if ($investment) {
+            $tiers = [
+                'youth_academy' => $investment->youth_academy_tier,
+                'medical' => $investment->medical_tier,
+                'scouting' => $investment->scouting_tier,
+                'facilities' => $investment->facilities_tier,
+            ];
+        } elseif ($previousInvestment) {
+            $tiers = [
+                'youth_academy' => $previousInvestment->youth_academy_tier,
+                'medical' => $previousInvestment->medical_tier,
+                'scouting' => $previousInvestment->scouting_tier,
+                'facilities' => $previousInvestment->facilities_tier,
+            ];
+        } else {
+            $tiers = GameInvestment::defaultTiersForReputation(
+                $reputationLevel,
+                $availableSurplus,
+            );
+        }
+
+        // Infrastructure tiers are permanent — previous season's tiers are the floor
+        $minTiers = $previousInvestment ? [
+            'youth_academy' => $previousInvestment->youth_academy_tier,
+            'medical' => $previousInvestment->medical_tier,
+            'scouting' => $previousInvestment->scouting_tier,
+            'facilities' => $previousInvestment->facilities_tier,
+        ] : ['youth_academy' => 1, 'medical' => 1, 'scouting' => 1, 'facilities' => 1];
 
         // Get season goal data
         $competition = Competition::find($game->competition_id);
@@ -94,6 +115,7 @@ class ShowNewSeason
             'investment' => $investment,
             'availableSurplus' => $availableSurplus,
             'tiers' => $tiers,
+            'minTiers' => $minTiers,
             'tierThresholds' => GameInvestment::TIER_THRESHOLDS,
             'seasonGoal' => $seasonGoal,
             'seasonGoalLabel' => $seasonGoalLabel,
