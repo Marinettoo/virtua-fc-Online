@@ -228,6 +228,16 @@
       "position": "Defensive Midfield"
     },
     {
+      "contract": "Jun 30, 2029",
+      "dateOfBirth": "May 26, 2007",
+      "foot": "left",
+      "height": "1,93m",
+      "id": "1018920",
+      "marketValue": "€30.00m",
+      "name": "Marc Bernal",
+      "position": "Defensive Midfield"
+    },
+    {
       "contract": "Nov 16, 2023",
       "dateOfBirth": "Jun 28, 1997",
       "foot": "right",
@@ -361,13 +371,25 @@
       "position": "Left Winger"
     },
     {
-      "contract": "Sep 4, 2025",
-      "dateOfBirth": "Nov 21, 2005",
+      "contract": "Jun 30, 2030",
+      "dateOfBirth": "Dec 10, 2002",
       "foot": "right",
-      "height": "1,85m",
-      "id": "1190411",
-      "marketValue": "€1.00m",
-      "name": "Jesús Rodríguez",
+      "height": "1,70m",
+      "id": "636385",
+      "marketValue": "€25.00m",
+      "name": "Yeremay Hernández",
+      "number": "10",
+      "position": "Left Winger"
+    },
+    {
+      "contract": "Jun 30, 2030",
+      "dateOfBirth": "Jul 26, 2006",
+      "foot": "right",
+      "height": "1,77m",
+      "id": "1301775",
+      "marketValue": "€15.00m",
+      "name": "Jan Virgili",
+      "number": "17",
       "position": "Left Winger"
     },
     {
@@ -493,6 +515,16 @@
       "id": "128223",
       "marketValue": "€13.00m",
       "name": "Álvaro Morata",
+      "position": "Centre-Forward"
+    },
+    {
+      "contract": "Jun 30, 2030",
+      "dateOfBirth": "Mar 24, 2004",
+      "foot": "both",
+      "height": "1,82m",
+      "id": "935230",
+      "marketValue": "€30.00m",
+      "name": "Gonzalo García",
       "position": "Centre-Forward"
     }
   ],
