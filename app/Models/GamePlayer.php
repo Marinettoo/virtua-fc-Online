@@ -682,11 +682,13 @@ class GamePlayer extends Model
      */
     public function getOverallScoreAttribute(): int
     {
+        $w = config('match_simulation.overall_score_weights');
+
         return (int) round(
-            $this->current_technical_ability * 0.35 +
-            $this->current_physical_ability * 0.35 +
-            $this->fitness * 0.15 +
-            $this->morale * 0.15
+            $this->current_technical_ability * $w['technical'] +
+            $this->current_physical_ability * $w['physical'] +
+            $this->fitness * $w['fitness'] +
+            $this->morale * $w['morale']
         );
     }
 

@@ -331,6 +331,7 @@ class MatchSimulator
         }
 
         // Calculate effective attributes with match performance modifier
+        $w = config('match_simulation.player_strength_weights');
         $totalStrength = 0;
         foreach ($lineup as $player) {
             $performance = $this->getMatchPerformance($player);
@@ -344,12 +345,11 @@ class MatchSimulator
             $fitness = $player->fitness;
             $morale = $player->morale;
 
-            // Weighted contribution — ability-dominant so team quality differences are wide
-            // Fitness/morale still affect matches through getMatchPerformance() modifiers
-            $playerStrength = ($effectiveTechnical * 0.55) +
-                              ($effectivePhysical * 0.35) +
-                              ($fitness * 0.05) +
-                              ($morale * 0.05);
+            // Weighted contribution — configurable via config/match_simulation.php
+            $playerStrength = ($effectiveTechnical * $w['technical']) +
+                              ($effectivePhysical * $w['physical']) +
+                              ($fitness * $w['fitness']) +
+                              ($morale * $w['morale']);
 
             // Apply energy/stamina modifier
             $entryMinute = $playerEntryMinutes[$player->id] ?? 0;

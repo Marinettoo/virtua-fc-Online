@@ -11,6 +11,40 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Player Strength Weights
+    |--------------------------------------------------------------------------
+    |
+    | How each attribute contributes to a player's match strength.
+    | Used in calculateTeamStrength() to determine team quality.
+    | Must sum to 1.0.
+    |
+    */
+    'player_strength_weights' => [
+        'technical' => 0.45,
+        'physical' => 0.30,
+        'fitness' => 0.15,
+        'morale' => 0.10,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Overall Score Weights (Display)
+    |--------------------------------------------------------------------------
+    |
+    | How each attribute contributes to the player's displayed overall score.
+    | Used on squad screens, lineup views, and team averages.
+    | Must sum to 1.0.
+    |
+    */
+    'overall_score_weights' => [
+        'technical' => 0.50,
+        'physical' => 0.50,
+        'fitness' => 0.00,
+        'morale' => 0.00,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Expected Goals (Ratio-Based Formula)
     |--------------------------------------------------------------------------
     |
