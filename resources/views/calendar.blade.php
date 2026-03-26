@@ -17,7 +17,11 @@
                     <x-section-card :title="$month">
                         <div class="divide-y divide-border-default">
                             @foreach($matches as $match)
-                                <x-fixture-row :match="$match" :game="$game" :next-match-id="$nextMatchId" />
+                                @if(!empty($match->is_placeholder))
+                                    <x-fixture-placeholder-row :placeholder="$match" />
+                                @else
+                                    <x-fixture-row :match="$match" :game="$game" :next-match-id="$nextMatchId" />
+                                @endif
                             @endforeach
                         </div>
                     </x-section-card>

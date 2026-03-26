@@ -39,7 +39,9 @@ return [
     'cup.quarter_finals' => 'Cuartos de final',
     'cup.semi_finals' => 'Semifinales',
     'cup.final' => 'Final',
+    'cup.third_place' => 'Tercer puesto',
     'third_place_match' => 'Tercer puesto',
+    'tbd' => 'Por determinar',
 
     // Standings
     'pts' => 'pts',

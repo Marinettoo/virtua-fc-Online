@@ -103,15 +103,15 @@
         <div class="max-w-7xl mx-auto px-4 pb-8">
 
             {{-- Sub-navigation --}}
-            @php
-                $squadNavItems = [
-                    ['href' => route('game.squad', $game->id), 'label' => $isCareerMode ? __('squad.first_team') : __('squad.squad'), 'active' => true],
-                ];
-                if ($isCareerMode) {
-                    $squadNavItems[] = ['href' => route('game.squad.academy', $game->id), 'label' => __('squad.academy'), 'active' => false];
-                }
-            @endphp
-            <x-section-nav :items="$squadNavItems" />
+            @if($isCareerMode)
+                @php
+                    $squadNavItems = [
+                        ['href' => route('game.squad', $game->id), 'label' => __('squad.first_team'), 'active' => true],
+                        ['href' => route('game.squad.academy', $game->id), 'label' => __('squad.academy'), 'active' => false],
+                    ];
+                @endphp
+                <x-section-nav :items="$squadNavItems" />
+            @endif
 
             {{-- Flash Messages --}}
             <x-flash-message type="success" :message="session('success')" class="mt-4" />

@@ -15,12 +15,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             @if($game->isTournamentMode())
                 <span class="text-xs font-medium text-text-secondary">
-                    @if($nextMatch->round_name)
-                        {{ __($nextMatch->round_name) }}
-                        @if($nextMatch->round_number) &middot; {{ __('game.matchday_n', ['number' => $nextMatch->round_number]) }}@endif
-                    @elseif($nextMatch->round_number)
-                        {{ __('game.matchday_n', ['number' => $nextMatch->round_number]) }}
-                    @endif
+                    {{ __($nextMatch->round_name ?? '') }}
                 </span>
             @else
                 <x-competition-pill :competition="$comp" :round-name="$nextMatch->round_name" :round-number="$nextMatch->round_number" />
