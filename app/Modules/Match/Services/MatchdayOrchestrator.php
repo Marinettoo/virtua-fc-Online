@@ -917,13 +917,13 @@ class MatchdayOrchestrator
             // Clean sheet bonus for goalkeepers and defenders
             if ($teamConceded === 0) {
                 $score += match ($group) {
-                    'Goalkeeper' => 0.30,
+                    'Goalkeeper' => 0.25,
                     'Defender' => 0.15,
                     default => 0.0,
                 };
             } elseif ($teamConceded === 1) {
                 $score += match ($group) {
-                    'Goalkeeper' => 0.10,
+                    'Goalkeeper' => 0.05,
                     'Defender' => 0.05,
                     default => 0.0,
                 };
