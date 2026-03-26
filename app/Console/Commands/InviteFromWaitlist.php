@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessBulkWaitlistInvites;
 use App\Models\WaitlistEntry;
 use App\Services\BetaInviteService;
 use Illuminate\Console\Command;
@@ -76,40 +77,34 @@ class InviteFromWaitlist extends Command
             return self::FAILURE;
         }
 
-        $entries = WaitlistEntry::whereDoesntHave('inviteCode')
-            ->inRandomOrder()
-            ->limit($count)
-            ->get();
+        $pending = WaitlistEntry::whereDoesntHave('inviteCode')->count();
 
-        if ($entries->isEmpty()) {
+        if ($pending === 0) {
             $this->info('No pending waitlist entries to invite.');
 
             return self::SUCCESS;
         }
 
-        $dryRun = $this->option('dry-run');
-        $sent = 0;
+        $count = min($count, $pending);
 
-        foreach ($entries as $entry) {
-            if ($dryRun) {
+        if ($this->option('dry-run')) {
+            $entries = WaitlistEntry::whereDoesntHave('inviteCode')
+                ->inRandomOrder()
+                ->limit($count)
+                ->get();
+
+            foreach ($entries as $entry) {
                 $this->line("  [dry-run] Would invite: {$entry->name} <{$entry->email}>");
-                $sent++;
-
-                continue;
             }
 
-            $this->inviteService->invite($entry, $this->option('expires'));
-            $this->info("  Invited: {$entry->name} <{$entry->email}>");
-            $sent++;
+            $this->newLine();
+            $this->info("Would invite: {$entries->count()} of {$pending} waitlist entries.");
 
-            if ($sent < $entries->count()) {
-                sleep(1);
-            }
+            return self::SUCCESS;
         }
 
-        $this->newLine();
-        $action = $dryRun ? 'Would invite' : 'Invited';
-        $this->info("{$action}: {$sent} of {$entries->count()} waitlist entries.");
+        ProcessBulkWaitlistInvites::dispatch($count);
+        $this->info("Dispatched job to invite {$count} waitlist entries.");
 
         return self::SUCCESS;
     }
