@@ -56,7 +56,6 @@ use App\Http\Actions\WithdrawTransferOffer;
 use App\Http\Actions\SaveLineup;
 use App\Http\Actions\SaveTacticalPreset;
 use App\Http\Actions\DeleteTacticalPreset;
-
 use App\Http\Actions\SaveSquadSelection;
 use App\Http\Views\ShowSquadSelection;
 use App\Http\Actions\SubmitScoutSearch;
@@ -107,6 +106,13 @@ use App\Http\Views\ShowTournamentSummary;
 use App\Http\Actions\ProcessTacticalActions;
 use App\Http\Actions\PromoteAcademyPlayer;
 use App\Http\Actions\StartNewSeason;
+// Online League
+use App\Http\Actions\Online\CreateOnlineLeague;
+use App\Http\Actions\Online\JoinOnlineLeague;
+use App\Http\Actions\Online\StartOnlineLeague;
+use App\Http\Actions\Online\ProcessOnlineMatchday;
+use App\Http\Views\ShowOnlineLeagueLobby;
+use App\Http\Views\ShowOnlineLeagueSquad;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -126,6 +132,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/new-game', SelectTeam::class)->name('select-team');
     Route::post('/new-game', InitGame::class)->name('init-game');
     Route::get('/tournament-summary/{summaryId}', ShowTournamentSummary::class)->name('tournament-summary.show');
+
+    // =========================================
+    // MODO MULTIJUGADOR ONLINE
+    // =========================================
+    Route::prefix('online-leagues')->name('online-league.')->group(function () {
+        // Crear nueva liga
+        Route::post('/', CreateOnlineLeague::class)->name('create');
+
+        // Unirse con código de invitación
+        Route::post('/join', JoinOnlineLeague::class)->name('join');
+
+        // Hub de la liga (clasificación, jornada, managers)
+        Route::get('/{leagueId}', ShowOnlineLeagueLobby::class)->name('lobby');
+
+        // Arrancar la temporada (solo el owner)
+        Route::post('/{leagueId}/start', StartOnlineLeague::class)->name('start');
+
+        // Simular partidos CPU de la jornada actual
+        Route::post('/{leagueId}/process-matchday', ProcessOnlineMatchday::class)->name('process-matchday');
+
+        // Plantilla + stats de un equipo en la liga
+        Route::get('/{leagueId}/teams/{teamId}', ShowOnlineLeagueSquad::class)->name('squad');
+    });
 
     // All game routes require ownership verification
     Route::middleware('game.owner')->group(function () {
@@ -162,6 +191,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/game/{gameId}/match/{matchId}/extra-time', ProcessExtraTime::class)->name('game.match.extra-time');
         Route::post('/game/{gameId}/match/{matchId}/penalties', ProcessPenalties::class)->name('game.match.penalties');
         Route::post('/game/{gameId}/finalize-match', FinalizeMatch::class)->name('game.finalize-match');
+
         // Transfers
         Route::post('/game/{gameId}/transfers/list/{playerId}', ListPlayerForTransfer::class)->name('game.transfers.list');
         Route::post('/game/{gameId}/transfers/unlist/{playerId}', UnlistPlayerFromTransfer::class)->name('game.transfers.unlist');
@@ -201,7 +231,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/game/{gameId}/explore/free-agents', ExploreFreeAgents::class)->name('game.explore.free-agents');
         Route::get('/game/{gameId}/explore/search', ExplorePlayerSearch::class)->name('game.explore.search');
 
-        // Loans (redirect old URL to transfers)
+        // Loans
         Route::get('/game/{gameId}/loans', function (string $gameId) {
             return redirect()->route('game.transfers.outgoing', $gameId);
         })->name('game.loans');
@@ -222,19 +252,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/game/{gameId}/infrastructure/upgrade', UpgradeInfrastructure::class)->name('game.infrastructure.upgrade');
         Route::post('/game/{gameId}/budget-loan', RequestBudgetLoan::class)->name('game.budget-loan');
 
-        // Welcome Tutorial (new games only)
+        // Welcome Tutorial
         Route::get('/game/{gameId}/welcome', ShowWelcome::class)->name('game.welcome');
         Route::post('/game/{gameId}/welcome', CompleteWelcome::class)->name('game.welcome.complete');
 
-        // New Season (season budget allocation)
+        // New Season
         Route::get('/game/{gameId}/new-season', ShowNewSeason::class)->name('game.new-season');
         Route::post('/game/{gameId}/new-season', CompleteNewSeason::class)->name('game.new-season.complete');
 
-        // Squad Selection (Tournament mode new-season setup)
+        // Squad Selection
         Route::get('/game/{gameId}/squad-selection', ShowSquadSelection::class)->name('game.squad-selection');
         Route::post('/game/{gameId}/squad-selection', SaveSquadSelection::class)->name('game.squad-selection.save');
 
-        // Game Setup Status (polling endpoint)
+        // Game Setup Status
         Route::get('/game/{gameId}/setup-status', GameSetupStatus::class)->name('game.setup-status');
 
         // Notifications
@@ -251,10 +281,8 @@ Route::middleware('auth')->group(function () {
 
 // Admin routes
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    // Accessible while impersonating (impersonated user may not be admin)
     Route::post('/stop-impersonation', StopImpersonation::class)->name('stop-impersonation');
 
-    // Admin-only routes
     Route::middleware('admin')->group(function () {
         Route::get('/', AdminDashboard::class)->name('dashboard');
         Route::get('/users', AdminUsers::class)->name('users');
