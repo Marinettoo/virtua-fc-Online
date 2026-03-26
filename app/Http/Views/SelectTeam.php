@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Game;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 final class SelectTeam
 {
@@ -16,29 +17,33 @@ final class SelectTeam
             return redirect()->route('dashboard')->withErrors(['limit' => __('messages.game_limit_reached')]);
         }
 
-        // Build country → tier → competition structure for career mode
-        $countries = [];
+        // Build country → tier → competition structure for career mode (cached — static reference data)
+        $countries = Cache::remember('career_mode_countries', 3600, function () use ($countryConfig) {
+            $countries = [];
 
-        foreach ($countryConfig->playableCountryCodes() as $code) {
-            $config = $countryConfig->get($code);
-            $tiers = [];
+            foreach ($countryConfig->playableCountryCodes() as $code) {
+                $config = $countryConfig->get($code);
+                $tiers = [];
 
-            foreach ($config['tiers'] as $tier => $tierConfig) {
-                $competition = Competition::with('teams')
-                    ->find($tierConfig['competition']);
+                foreach ($config['tiers'] as $tier => $tierConfig) {
+                    $competition = Competition::with('teams')
+                        ->find($tierConfig['competition']);
 
-                if ($competition) {
-                    $tiers[$tier] = $competition;
+                    if ($competition) {
+                        $tiers[$tier] = $competition;
+                    }
+                }
+
+                if (!empty($tiers)) {
+                    $countries[$code] = [
+                        'name' => $config['name'],
+                        'tiers' => $tiers,
+                    ];
                 }
             }
 
-            if (!empty($tiers)) {
-                $countries[$code] = [
-                    'name' => $config['name'],
-                    'tiers' => $tiers,
-                ];
-            }
-        }
+            return $countries;
+        });
 
         // Load World Cup teams for tournament mode
         $wcTeams = collect();
@@ -46,11 +51,14 @@ final class SelectTeam
         $hasTournamentMode = $request->user()->canPlayTournamentMode() && Competition::where('id', 'WC2026')->exists();
 
         if ($hasTournamentMode) {
-            $allWcTeams = Team::worldCupEligible()
-                ->where('is_placeholder', false)
-                ->get()
-                ->sortBy('name') // PHP sort: name accessor applies i18n translation
-                ->values();
+            $locale = app()->getLocale();
+            $allWcTeams = Cache::remember("wc2026_selectable_teams:{$locale}", 600, function () {
+                return Team::worldCupEligible()
+                    ->where('is_placeholder', false)
+                    ->get()
+                    ->sortBy('name') // PHP sort: name accessor applies i18n translation
+                    ->values();
+            });
 
             // Featured national teams shown as larger cards
             $featuredCodes = ['ESP', 'ARG', 'BRA', 'ENG', 'FRA', 'GER', 'POR', 'NED'];

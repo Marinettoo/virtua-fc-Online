@@ -103,6 +103,7 @@
             @endforeach
         </ul>
 
+
         {{-- Tournament History --}}
         @if($tournamentHistory->isNotEmpty())
         <div class="mt-10">
