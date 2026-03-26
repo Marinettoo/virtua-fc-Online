@@ -17,29 +17,33 @@ final class SelectTeam
             return redirect()->route('dashboard')->withErrors(['limit' => __('messages.game_limit_reached')]);
         }
 
-        // Build country → tier → competition structure for career mode
-        $countries = [];
+        // Build country → tier → competition structure for career mode (cached — static reference data)
+        $countries = Cache::remember('career_mode_countries', 3600, function () use ($countryConfig) {
+            $countries = [];
 
-        foreach ($countryConfig->playableCountryCodes() as $code) {
-            $config = $countryConfig->get($code);
-            $tiers = [];
+            foreach ($countryConfig->playableCountryCodes() as $code) {
+                $config = $countryConfig->get($code);
+                $tiers = [];
 
-            foreach ($config['tiers'] as $tier => $tierConfig) {
-                $competition = Competition::with('teams')
-                    ->find($tierConfig['competition']);
+                foreach ($config['tiers'] as $tier => $tierConfig) {
+                    $competition = Competition::with('teams')
+                        ->find($tierConfig['competition']);
 
-                if ($competition) {
-                    $tiers[$tier] = $competition;
+                    if ($competition) {
+                        $tiers[$tier] = $competition;
+                    }
+                }
+
+                if (!empty($tiers)) {
+                    $countries[$code] = [
+                        'name' => $config['name'],
+                        'tiers' => $tiers,
+                    ];
                 }
             }
 
-            if (!empty($tiers)) {
-                $countries[$code] = [
-                    'name' => $config['name'],
-                    'tiers' => $tiers,
-                ];
-            }
-        }
+            return $countries;
+        });
 
         // Load World Cup teams for tournament mode
         $wcTeams = collect();
