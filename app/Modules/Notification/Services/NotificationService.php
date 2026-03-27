@@ -123,9 +123,10 @@ class NotificationService
     /**
      * Create an injury notification.
      */
-    public function notifyInjury(Game $game, GamePlayer $player, string $injuryType, int $weeksOut): GameNotification
+    public function notifyInjury(Game $game, GamePlayer $player, string $injuryType, int $weeksOut, bool $duringMatch = true): GameNotification
     {
         $translatedInjury = $this->translateInjuryType($injuryType);
+        $translatedLocation = __('notifications.injury_location_'.($duringMatch ? 'match' : 'training'));
 
         // Compute matches missed if injury_until is set
         $messageKey = 'notifications.player_injured_message';
@@ -149,6 +150,7 @@ class NotificationService
             message: trans_choice($messageKey, $matchesMissed, [
                 'player' => $player->name,
                 'injury' => $translatedInjury,
+                'location' => $translatedLocation,
                 'matches' => $matchesMissed,
             ]),
             priority: GameNotification::PRIORITY_CRITICAL,

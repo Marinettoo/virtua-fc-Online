@@ -21,9 +21,11 @@ return [
 
     // Player injuries
     'player_injured_title' => ':player lesionado',
-    'player_injured_message' => ':player tiene :injury.',
-    'player_injured_message_matches' => ':player tiene :injury y se perderá :matches partido.|:player tiene :injury y se perderá :matches partidos.',
-    'player_injured_message_matches_approx' => ':player tiene :injury y se perderá :matches+ partido.|:player tiene :injury y se perderá :matches+ partidos.',
+    'player_injured_message' => ':player ha sufrido :injury :location.',
+    'player_injured_message_matches' => ':player ha sufrido :injury :location y se perderá :matches partido.|:player ha sufrido :injury :location y se perderá :matches partidos.',
+    'player_injured_message_matches_approx' => ':player ha sufrido :injury :location y se perderá :matches+ partido.|:player ha sufrido :injury :location y se perderá :matches+ partidos.',
+    'injury_location_match' => 'durante el partido',
+    'injury_location_training' => 'durante el entrenamiento',
 
     // Player suspensions
     'player_suspended_title' => ':player sancionado',
