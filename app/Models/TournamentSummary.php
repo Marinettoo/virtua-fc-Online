@@ -20,6 +20,7 @@ class TournamentSummary extends Model
             'summary_data' => 'array',
             'your_record' => 'array',
             'tournament_date' => 'date',
+            'is_champion' => 'boolean',
         ];
     }
 

@@ -18,14 +18,24 @@ class TournamentSnapshotService
         $teams = $this->buildTeamsMap($data);
         $summaryData = $this->serializeSummaryData($data, $teams, $game);
 
+        $record = $data['yourRecord'];
+
         $summary = TournamentSummary::create([
             'user_id' => $game->user_id,
             'team_id' => $game->team_id,
             'competition_id' => $game->competition_id,
             'result_label' => $data['resultLabel'],
-            'your_record' => $data['yourRecord'],
+            'your_record' => $record,
             'summary_data' => $summaryData,
             'tournament_date' => $game->current_date ?? now(),
+            'matches_played' => ($record['won'] ?? 0) + ($record['drawn'] ?? 0) + ($record['lost'] ?? 0),
+            'matches_won' => $record['won'] ?? 0,
+            'matches_drawn' => $record['drawn'] ?? 0,
+            'matches_lost' => $record['lost'] ?? 0,
+            'goals_scored' => $record['goalsFor'] ?? 0,
+            'goals_conceded' => $record['goalsAgainst'] ?? 0,
+            'is_champion' => $data['resultLabel'] === 'champion',
+            'result_points' => self::computeResultPoints($data['resultLabel']),
         ]);
 
         $this->pruneOldSummaries($game->user_id);
@@ -222,7 +232,31 @@ class TournamentSnapshotService
         ];
     }
 
-    private function pruneOldSummaries(int $userId): void
+    public static function computeResultPoints(string $resultLabel): int
+    {
+        return match ($resultLabel) {
+            'champion' => 6,
+            'runner_up' => 5,
+            'semi_finalist' => 4,
+            'quarter_finalist' => 3,
+            'round_of_16' => 2,
+            default => 1,
+        };
+    }
+
+    public static function resultLabelFromPoints(int $points): string
+    {
+        return match ($points) {
+            6 => 'champion',
+            5 => 'runner_up',
+            4 => 'semi_finalist',
+            3 => 'quarter_finalist',
+            2 => 'round_of_16',
+            default => 'group_stage',
+        };
+    }
+
+    private function pruneOldSummaries(string $userId): void
     {
         $count = TournamentSummary::where('user_id', $userId)->count();
 
