@@ -23,6 +23,10 @@
                     </svg>
                     {{ __('leaderboard.back_to_career') }}
                 </a>
+                <span class="text-text-faint">|</span>
+                <a href="{{ route('leaderboard.national-teams') }}" class="text-sm text-accent-blue hover:underline">
+                    {{ __('leaderboard.browse_national_teams') }}
+                </a>
             </div>
 
             {{-- Summary Cards --}}

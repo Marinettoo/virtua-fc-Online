@@ -196,6 +196,7 @@ class TournamentSnapshotService
         ])->values()->all();
 
         $yourSquadStats = $data['yourSquadStats']->map(fn ($gp) => [
+            'player_id' => $gp->player_id,
             'player_name' => $gp->player->name,
             'position' => $gp->position,
             'appearances' => $gp->appearances,

@@ -106,6 +106,8 @@ use App\Http\Views\ShowLeaderboard;
 use App\Http\Views\ShowManagerProfile;
 use App\Http\Views\ShowTeamLeaderboard;
 use App\Http\Views\ShowTeamLeaderboardIndex;
+use App\Http\Views\ShowNationalTeamStats;
+use App\Http\Views\ShowNationalTeamStatsIndex;
 use App\Http\Views\ShowTournamentLeaderboard;
 use App\Http\Views\ShowTournamentSummary;
 use App\Http\Actions\ProcessTacticalActions;
@@ -122,6 +124,8 @@ Route::get('/leaderboard', ShowLeaderboard::class)->name('leaderboard');
 Route::get('/leaderboard/teams', ShowTeamLeaderboardIndex::class)->name('leaderboard.teams');
 Route::get('/leaderboard/team/{slug}', ShowTeamLeaderboard::class)->name('leaderboard.team');
 Route::get('/leaderboard/tournament', ShowTournamentLeaderboard::class)->name('leaderboard.tournament');
+Route::get('/leaderboard/national-teams', ShowNationalTeamStatsIndex::class)->name('leaderboard.national-teams');
+Route::get('/leaderboard/national-team/{slug}', ShowNationalTeamStats::class)->name('leaderboard.national-team');
 Route::get('/manager/{username}', ShowManagerProfile::class)->name('manager.profile');
 Route::get('/design-system', fn () => view('design-system.index', [
     'allTeams' => \App\Support\TeamColors::all(),
