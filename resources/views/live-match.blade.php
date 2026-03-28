@@ -425,8 +425,8 @@
 
                             {{-- ET Second half events --}}
                             <template x-for="(event, idx) in etSecondHalfEvents" :key="'etsh-' + idx">
-                                <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
-                                     :class="isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent'"
+                                <div class="flex gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
+                                     :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', event.type === 'substitution_group' ? 'items-start' : 'items-center']"
                                      x-transition:enter="transition ease-out duration-300"
                                      x-transition:enter-start="opacity-0 -translate-y-2"
                                      x-transition:enter-end="opacity-100 translate-y-0"
@@ -446,8 +446,8 @@
 
                             {{-- ET First half events --}}
                             <template x-for="(event, idx) in etFirstHalfEvents" :key="'etfh-' + idx">
-                                <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
-                                     :class="isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent'"
+                                <div class="flex gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
+                                     :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', event.type === 'substitution_group' ? 'items-start' : 'items-center']"
                                      x-transition:enter="transition ease-out duration-300"
                                      x-transition:enter-start="opacity-0 -translate-y-2"
                                      x-transition:enter-end="opacity-100 translate-y-0"
@@ -467,8 +467,8 @@
 
                             {{-- Second half events (newest first) --}}
                             <template x-for="(event, idx) in secondHalfEvents" :key="'sh-' + idx">
-                                <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
-                                     :class="isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent'"
+                                <div class="flex gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
+                                     :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', event.type === 'substitution_group' ? 'items-start' : 'items-center']"
                                      x-transition:enter="transition ease-out duration-300"
                                      x-transition:enter-start="opacity-0 -translate-y-2"
                                      x-transition:enter-end="opacity-100 translate-y-0"
@@ -488,8 +488,8 @@
 
                             {{-- First half events (newest first) --}}
                             <template x-for="(event, idx) in firstHalfEvents" :key="'fh-' + idx">
-                                <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
-                                     :class="isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent'"
+                                <div class="flex gap-3 py-2.5 px-3 rounded-lg transition-all duration-300"
+                                     :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', event.type === 'substitution_group' ? 'items-start' : 'items-center']"
                                      x-transition:enter="transition ease-out duration-300"
                                      x-transition:enter-start="opacity-0 -translate-y-2"
                                      x-transition:enter-end="opacity-100 translate-y-0"

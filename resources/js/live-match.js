@@ -297,11 +297,11 @@ export default function liveMatch(config) {
         },
 
         get etFirstHalfEvents() {
-            return this.revealedEvents.filter(e => e.minute > 90 && e.minute <= 105);
+            return this.groupSubstitutions(this.revealedEvents.filter(e => e.minute > 90 && e.minute <= 105));
         },
 
         get etSecondHalfEvents() {
-            return this.revealedEvents.filter(e => e.minute > 105);
+            return this.groupSubstitutions(this.revealedEvents.filter(e => e.minute > 105));
         },
 
         get showETHalfTimeSeparator() {
@@ -1063,16 +1063,44 @@ export default function liveMatch(config) {
         },
 
         get secondHalfEvents() {
-            return this.revealedEvents.filter(e => e.minute > 45 && e.minute <= 90);
+            return this.groupSubstitutions(this.revealedEvents.filter(e => e.minute > 45 && e.minute <= 90));
         },
 
         get firstHalfEvents() {
-            return this.revealedEvents.filter(e => e.minute <= 45);
+            return this.groupSubstitutions(this.revealedEvents.filter(e => e.minute <= 45));
         },
 
         get showHalfTimeSeparator() {
             return this.phase === 'half_time' || this.phase === 'second_half' || this.phase === 'full_time'
                 || this.isInExtraTime || this.phase === 'going_to_extra_time' || this.phase === 'penalties';
+        },
+
+        groupSubstitutions(events) {
+            const result = [];
+            for (const event of events) {
+                if (event.type === 'substitution') {
+                    const prev = result[result.length - 1];
+                    if (prev && prev.type === 'substitution_group' && prev.minute === event.minute && prev.teamId === event.teamId) {
+                        prev.substitutions.push({ playerInName: event.playerInName, playerName: event.playerName });
+                        continue;
+                    }
+                    const prevSingle = result[result.length - 1];
+                    if (prevSingle && prevSingle.type === 'substitution' && prevSingle.minute === event.minute && prevSingle.teamId === event.teamId) {
+                        result[result.length - 1] = {
+                            type: 'substitution_group',
+                            minute: prevSingle.minute,
+                            teamId: prevSingle.teamId,
+                            substitutions: [
+                                { playerInName: prevSingle.playerInName, playerName: prevSingle.playerName },
+                                { playerInName: event.playerInName, playerName: event.playerName },
+                            ],
+                        };
+                        continue;
+                    }
+                }
+                result.push(event);
+            }
+            return result;
         },
 
         getTimelineMarkers() {
