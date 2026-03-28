@@ -36,10 +36,12 @@
         @endunless
     </div>
 
-    {{-- Home/Away indicator --}}
-    <span class="inline-flex px-2 py-0.5 text-[9px] font-semibold rounded-full shrink-0 uppercase tracking-wider {{ $isHome ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-600 text-text-secondary' }}">
-        {{ $isHome ? __('game.home_abbr') : __('game.away_abbr') }}
-    </span>
+    {{-- Home/Away indicator (hidden for neutral-venue competitions like World Cup) --}}
+    @if($match->competition_id !== 'WC2026')
+        <span class="inline-flex px-2 py-0.5 text-[9px] font-semibold rounded-full shrink-0 uppercase tracking-wider {{ $isHome ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-600 text-text-secondary' }}">
+            {{ $isHome ? __('game.home_abbr') : __('game.away_abbr') }}
+        </span>
+    @endif
 
     {{-- Opponent --}}
     <div class="flex-1 flex items-center gap-2 min-w-0">
