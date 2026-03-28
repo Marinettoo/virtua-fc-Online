@@ -216,8 +216,9 @@ class ShowLiveMatch
             'tooltip' => $m->tooltip(),
         ], Mentality::cases());
 
-        // Tournament knockout context for dramatic result display
-        $isTournamentKnockout = $game->isTournamentMode() && $playerMatch->cup_tie_id !== null;
+        // Tournament context
+        $isTournamentMode = $game->isTournamentMode();
+        $isTournamentKnockout = $isTournamentMode && $playerMatch->cup_tie_id !== null;
         $knockoutRoundNumber = null;
         $knockoutRoundName = null;
 
@@ -290,6 +291,7 @@ class ShowLiveMatch
             'isKnockout' => $isKnockout,
             'extraTimeData' => $extraTimeData,
             'twoLeggedInfo' => $twoLeggedInfo,
+            'isTournamentMode' => $isTournamentMode,
             'isTournamentKnockout' => $isTournamentKnockout,
             'knockoutRoundNumber' => $knockoutRoundNumber,
             'knockoutRoundName' => $knockoutRoundName,

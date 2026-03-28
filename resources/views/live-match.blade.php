@@ -111,12 +111,16 @@
                 <div class="relative flex items-center justify-between px-4 py-2.5">
                     {{-- Left: Competition indicator --}}
                     {{-- Mobile: colored dot only. Desktop: full pill with name --}}
+                    @if(!$isTournamentMode)
                     <div class="shrink-0 z-10">
                         <div class="sm:hidden w-2.5 h-2.5 rounded-full {{ $compBadge['bg'] }}" x-tooltip.raw="{{ __($match->competition->name) }}"></div>
                         <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md {{ $compBadge['bg'] }} {{ $compBadge['text'] }} text-[9px] font-semibold uppercase tracking-wider">
                             {{ __($match->competition->name) }}
                         </span>
                     </div>
+                    @else
+                    <div class="shrink-0 z-10 w-8"></div>
+                    @endif
 
                     {{-- Center: Round + Stadium (absolutely centered) --}}
                     <div class="absolute inset-x-0 flex justify-center pointer-events-none">
