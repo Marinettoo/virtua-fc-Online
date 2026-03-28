@@ -120,7 +120,6 @@
                                                 <span class="text-sm font-medium text-text-primary truncate">{{ $prospect->name }}</span>
                                                 <span class="text-[10px] text-text-faint">{{ $prospect->age }}</span>
                                             </div>
-                                            <div class="text-xs text-text-secondary mt-0.5">{{ trans_choice('squad.academy_seasons', $prospect->seasons_in_academy, ['count' => $prospect->seasons_in_academy]) }}</div>
                                         </div>
                                         <x-rating-badge :value="$prospect->overall" class="shrink-0" />
                                     </div>
@@ -138,7 +137,6 @@
                                             <img src="{{ Storage::disk('assets')->url('flags/' . $prospect->nationality_flag['code'] . '.svg') }}" class="w-4 h-3 rounded-sm shadow-xs shrink-0" title="{{ $prospect->nationality_flag['name'] }}">
                                         @endif
                                         <span class="text-sm font-medium text-text-primary truncate">{{ $prospect->name }}</span>
-                                        <span class="text-xs text-text-secondary shrink-0">{{ trans_choice('squad.academy_seasons', $prospect->seasons_in_academy, ['count' => $prospect->seasons_in_academy]) }}</span>
                                     </div>
                                     {{-- Age --}}
                                     <span class="text-xs text-text-secondary text-center tabular-nums">{{ $prospect->age }}</span>
@@ -178,7 +176,6 @@
                                             <span class="text-sm font-medium text-text-primary truncate">{{ $prospect->name }}</span>
                                             <span class="text-[10px] font-semibold bg-violet-500/10 text-violet-400 px-1.5 py-0.5 rounded-full">{{ __('squad.academy_on_loan') }}</span>
                                         </div>
-                                        <div class="text-xs text-text-secondary mt-0.5">{{ trans_choice('squad.academy_seasons', $prospect->seasons_in_academy, ['count' => $prospect->seasons_in_academy]) }}</div>
                                     </div>
                                     @if($prospect->nationality_flag)
                                         <img src="{{ Storage::disk('assets')->url('flags/' . $prospect->nationality_flag['code'] . '.svg') }}" class="w-5 h-4 rounded-sm shadow-xs shrink-0 hidden md:block" title="{{ $prospect->nationality_flag['name'] }}">
