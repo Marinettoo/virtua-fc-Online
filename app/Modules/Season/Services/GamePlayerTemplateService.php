@@ -70,13 +70,9 @@ class GamePlayerTemplateService
             ->whereNotNull('transfermarkt_id')
             ->get(['id', 'transfermarkt_id']);
 
-        $allPlayers = DB::table('players')
-            ->select('id', 'transfermarkt_id', 'date_of_birth', 'technical_ability', 'physical_ability')
-            ->get()
-            ->keyBy('transfermarkt_id');
-
-        $processedPlayerIds = [];
-        $rows = [];
+        // Load roster data per team and collect needed transfermarkt IDs
+        $teamRosters = [];
+        $neededTmIds = [];
 
         foreach ($nationalTeams as $team) {
             $filePath = "{$basePath}/{$team->transfermarkt_id}.json";
@@ -89,8 +85,27 @@ class GamePlayerTemplateService
                 continue;
             }
 
+            $teamRosters[] = ['team_id' => $team->id, 'players' => $data['players']];
             foreach ($data['players'] as $playerData) {
-                $row = $this->prepareTemplateRow($season, $team->id, $playerData, 0, $allPlayers);
+                if (!empty($playerData['id'])) {
+                    $neededTmIds[] = $playerData['id'];
+                }
+            }
+        }
+
+        // Only load players that appear in roster files
+        $allPlayers = DB::table('players')
+            ->select('id', 'transfermarkt_id', 'date_of_birth', 'technical_ability', 'physical_ability')
+            ->whereIn('transfermarkt_id', array_unique($neededTmIds))
+            ->get()
+            ->keyBy('transfermarkt_id');
+
+        $processedPlayerIds = [];
+        $rows = [];
+
+        foreach ($teamRosters as $roster) {
+            foreach ($roster['players'] as $playerData) {
+                $row = $this->prepareTemplateRow($season, $roster['team_id'], $playerData, 0, $allPlayers);
                 if ($row && !isset($processedPlayerIds[$row['player_id']])) {
                     $row['number'] = null; // WC templates must not store squad numbers
                     $rows[] = $row;
