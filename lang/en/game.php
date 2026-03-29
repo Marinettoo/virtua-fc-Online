@@ -163,7 +163,9 @@ return [
     'formation_profile_4231' => 'Solid and creative',
     'formation_profile_343' => 'Very attacking, exposed',
     'formation_profile_352' => 'Midfield control',
+    'formation_profile_4123' => 'Wide attacking, creative',
     'formation_profile_4141' => 'Defensive midfield shield',
+    'formation_profile_4321' => 'Narrow, layered attack',
     'formation_profile_532' => 'Defensive, hard to break',
     'formation_profile_541' => 'Park the bus',
 

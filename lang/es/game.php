@@ -163,7 +163,9 @@ return [
     'formation_profile_4231' => 'Sólido y creativo',
     'formation_profile_343' => 'Muy atacante, expuesto',
     'formation_profile_352' => 'Control del mediocampo',
+    'formation_profile_4123' => 'Ataque amplio y creativo',
     'formation_profile_4141' => 'Escudo en mediocampo',
+    'formation_profile_4321' => 'Ataque estrecho y escalonado',
     'formation_profile_532' => 'Defensivo, difícil de superar',
     'formation_profile_541' => 'Autobús aparcado',
 
