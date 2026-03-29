@@ -32,7 +32,6 @@
                 awayTeamImage: '{{ $match->awayTeam->image }}',
                 lineupPlayers: {{ Js::from($lineupPlayers) }},
                 benchPlayers: {{ Js::from($benchPlayers) }},
-                existingSubstitutions: {{ Js::from($existingSubstitutions) }},
                 userTeamId: '{{ $game->team_id }}',
                 tacticalActionsUrl: '{{ $tacticalActionsUrl }}',
                 csrfToken: '{{ csrf_token() }}',
@@ -254,7 +253,7 @@
                         </template>
 
                         {{-- Event markers --}}
-                        <template x-for="marker in getTimelineMarkers()" :key="marker.minute + '-' + marker.type">
+                        <template x-for="marker in getTimelineMarkers()" :key="marker.minute + '-' + marker.type + '-' + marker.index">
                             <div class="absolute w-2.5 h-2.5 rounded-full top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-300"
                                  :style="'left: ' + marker.position + '%'"
                                  :class="{
