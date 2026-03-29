@@ -427,11 +427,15 @@ class MatchResimulationService
             ->all();
 
         if (! empty($subbedInPlayerIds)) {
+            $clamp = DB::getDriverName() === 'pgsql'
+                ? ['GREATEST(appearances - 1, 0)', 'GREATEST(season_appearances - 1, 0)']
+                : ['MAX(appearances - 1, 0)', 'MAX(season_appearances - 1, 0)'];
+
             GamePlayer::whereIn('id', $subbedInPlayerIds)
                 ->where('appearances', '>', 0)
                 ->update([
-                    'appearances' => DB::raw('MAX(appearances - 1, 0)'),
-                    'season_appearances' => DB::raw('MAX(season_appearances - 1, 0)'),
+                    'appearances' => DB::raw($clamp[0]),
+                    'season_appearances' => DB::raw($clamp[1]),
                 ]);
         }
 
