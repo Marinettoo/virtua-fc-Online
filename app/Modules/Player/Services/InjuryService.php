@@ -43,15 +43,15 @@ class InjuryService
     ];
 
     /**
-     * Medical tier multipliers for recovery time.
-     * Higher tier = faster recovery.
+     * Medical tier recovery reduction in whole weeks.
+     * Higher tier = more weeks shaved off recovery.
      */
-    private const MEDICAL_RECOVERY_MULTIPLIER = [
-        0 => 1.2,   // No medical staff - slower recovery
-        1 => 1.0,   // Basic - baseline
-        2 => 0.9,   // Good - 10% faster
-        3 => 0.8,   // Excellent - 20% faster
-        4 => 0.7,   // World-class - 30% faster
+    private const MEDICAL_RECOVERY_REDUCTION = [
+        0 => -1,  // No medical staff - 1 week longer
+        1 => 0,   // Basic - baseline
+        2 => 1,   // Good - 1 week faster
+        3 => 2,   // Excellent - 2 weeks faster
+        4 => 3,   // World-class - 3 weeks faster
     ];
 
     /**
@@ -268,17 +268,17 @@ class InjuryService
 
         $baseWeeks = rand($minWeeks, $maxWeeks);
 
-        // Older players take slightly longer to recover
+        // Older players take longer to recover (+1 or +2 extra weeks)
         $age = $player->age($player->game->current_date);
         if ($age > PlayerAge::PRIME_END) {
-            $baseWeeks = (int) ceil($baseWeeks * 1.2);
+            $baseWeeks += 2;
         } elseif ($age > PlayerAge::YOUNG_END) {
-            $baseWeeks = (int) ceil($baseWeeks * 1.1);
+            $baseWeeks += 1;
         }
 
-        // Apply medical tier recovery multiplier
-        $medicalMultiplier = $this->getMedicalRecoveryMultiplier($game);
-        $baseWeeks = (int) ceil($baseWeeks * $medicalMultiplier);
+        // Medical tier reduces recovery by whole weeks
+        $medicalReduction = $this->getMedicalRecoveryReduction($game);
+        $baseWeeks -= $medicalReduction;
 
         // Minimum 1 week for any injury
         return max(1, $baseWeeks);
@@ -366,16 +366,16 @@ class InjuryService
     /**
      * Get medical tier multiplier for recovery time.
      */
-    private function getMedicalRecoveryMultiplier(?Game $game): float
+    private function getMedicalRecoveryReduction(?Game $game): int
     {
         if (! $game) {
-            return 1.0;
+            return 0;
         }
 
         $investment = $game->currentInvestment;
         $tier = $investment->medical_tier ?? 1;
 
-        return self::MEDICAL_RECOVERY_MULTIPLIER[$tier] ?? 1.0;
+        return self::MEDICAL_RECOVERY_REDUCTION[$tier] ?? 0;
     }
 
     /**
@@ -570,7 +570,7 @@ class InjuryService
         foreach ($players as $player) {
             if ($player->isInjured($referenceDate) && $player->injury_until) {
                 $map[$player->id] = [
-                    'count' => $upcomingMatchDates->filter(fn ($d) => $d->lt($player->injury_until))->count(),
+                    'count' => $upcomingMatchDates->filter(fn ($d) => $d->lte($player->injury_until))->count(),
                     'approx' => $lastScheduledDate && $player->injury_until->gt($lastScheduledDate),
                 ];
             }
@@ -590,7 +590,7 @@ class InjuryService
         $lastScheduledDate = $upcomingMatchDates->last();
 
         return [
-            'count' => $upcomingMatchDates->filter(fn ($d) => $d->lt($injuryUntil))->count(),
+            'count' => $upcomingMatchDates->filter(fn ($d) => $d->lte($injuryUntil))->count(),
             'approx' => $lastScheduledDate && $injuryUntil->gt($lastScheduledDate),
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Modules\Match\Services;
 
 use App\Modules\Competition\Services\CompetitionHandlerResolver;
 use App\Modules\Match\Events\CupTieResolved;
+use App\Modules\Match\Events\GameDateAdvanced;
 use App\Modules\Match\Events\MatchFinalized;
 use App\Modules\Player\Services\PlayerConditionService;
 use App\Models\Competition;
@@ -33,6 +34,7 @@ class MatchFinalizationService
      */
     public function finalize(GameMatch $match, Game $game): void
     {
+        $previousDate = $game->current_date->copy();
         $competition = Competition::find($match->competition_id);
 
         // 1. Apply fitness/morale changes for the user's match (deferred from batch processing)
@@ -52,7 +54,24 @@ class MatchFinalizationService
         // 5. Clear the pending flag
         $game->update(['pending_finalization_match_id' => null]);
 
-        // 6. Generate any pending knockout/playoff fixtures now that standings are final.
+        // 6. Advance current_date to the next upcoming match (forward-looking calendar).
+        // This ensures transfer windows and other date-based logic reflect where
+        // the season calendar actually is, not when the last match was played.
+        $nextMatch = GameMatch::where('game_id', $game->id)
+            ->where('played', false)
+            ->orderBy('scheduled_date')
+            ->first();
+
+        if ($nextMatch) {
+            $game->update(['current_date' => $nextMatch->scheduled_date->toDateString()]);
+            $game->refresh();
+
+            if ($nextMatch->scheduled_date->gt($previousDate)) {
+                GameDateAdvanced::dispatch($game, $previousDate, $nextMatch->scheduled_date);
+            }
+        }
+
+        // 7. Generate any pending knockout/playoff fixtures now that standings are final.
         // This covers both league matches (where standings determine playoff seedings)
         // and cup ties (where completing a round may trigger the next round draw,
         // especially for group_stage_cup competitions like the World Cup).

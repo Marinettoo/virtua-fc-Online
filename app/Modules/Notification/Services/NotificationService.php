@@ -133,7 +133,9 @@ class NotificationService
         $matchesMissed = 0;
 
         if ($player->injury_until) {
-            $data = InjuryService::getMatchesMissed($game->id, $player->team_id, $game->current_date, $player->injury_until);
+            // Use the day after current_date so the match where the injury occurred
+            // is excluded from the "missed" count (the player already played that match).
+            $data = InjuryService::getMatchesMissed($game->id, $player->team_id, $game->current_date->copy()->addDay(), $player->injury_until);
             $matchesMissed = $data['count'];
 
             if ($matchesMissed > 0) {
@@ -634,6 +636,44 @@ class NotificationService
         );
     }
 
+    /**
+     * Notify the user that the transfer window is about to close.
+     */
+    public function notifyTransferWindowClosing(Game $game, string $window): GameNotification
+    {
+        $windowLabel = __("notifications.ai_transfer_window_{$window}");
+
+        return $this->create(
+            game: $game,
+            type: GameNotification::TYPE_TRANSFER_WINDOW_CLOSING,
+            title: __('notifications.transfer_window_closing_title', ['window' => $windowLabel]),
+            message: __('notifications.transfer_window_closing_message'),
+            priority: GameNotification::PRIORITY_WARNING,
+            metadata: [
+                'window' => $window,
+            ],
+        );
+    }
+
+    /**
+     * Notify the user that the transfer window has closed.
+     */
+    public function notifyTransferWindowClosed(Game $game, string $window): GameNotification
+    {
+        $windowLabel = __("notifications.ai_transfer_window_{$window}");
+
+        return $this->create(
+            game: $game,
+            type: GameNotification::TYPE_TRANSFER_WINDOW_CLOSED,
+            title: __('notifications.transfer_window_closed_title', ['window' => $windowLabel]),
+            message: __('notifications.transfer_window_closed_message'),
+            priority: GameNotification::PRIORITY_INFO,
+            metadata: [
+                'window' => $window,
+            ],
+        );
+    }
+
     // ==========================================
     // Tournament Notifications
     // ==========================================
@@ -775,6 +815,7 @@ class NotificationService
             GameNotification::TYPE_EMERGENCY_SIGNING => 'transfer_complete',
             GameNotification::TYPE_MATCH_FORFEIT => 'eliminated',
             GameNotification::TYPE_BUDGET_LOAN => 'transfer',
+            GameNotification::TYPE_TRANSFER_WINDOW_CLOSING => 'clock',
             default => 'bell',
         };
     }

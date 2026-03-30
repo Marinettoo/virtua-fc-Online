@@ -55,7 +55,6 @@ class PreseasonSuspensionTest extends TestCase
             'competition_id' => $league->id,
             'season' => '2024',
             'current_date' => '2024-07-15',
-            'current_matchday' => 0,
         ]);
     }
 
@@ -102,7 +101,6 @@ class PreseasonSuspensionTest extends TestCase
         $processor = app(MatchResultProcessor::class);
         $processor->processAll(
             $this->game->id,
-            1,
             '2024-07-16',
             [$matchResult],
         );
@@ -234,7 +232,6 @@ class PreseasonSuspensionTest extends TestCase
         $processor = app(MatchResultProcessor::class);
         $processor->processAll(
             $this->game->id,
-            1,
             '2024-07-16',
             [$matchResult],
         );

@@ -15,6 +15,7 @@ use App\Modules\Competition\Services\StandingsCalculator;
 use App\Modules\Squad\Services\EligibilityService;
 use App\Modules\Player\Services\PlayerConditionService;
 use App\Modules\Notification\Services\NotificationService;
+use App\Modules\Player\Services\InjuryService;
 
 class MatchResultProcessor
 {
@@ -30,20 +31,18 @@ class MatchResultProcessor
      *
      * @param  string|null  $deferMatchId  Match ID to skip standings and GK stats for (deferred to finalization)
      */
-    public function processAll(string $gameId, int $matchday, string $currentDate, array $matchResults, ?string $deferMatchId = null, $allPlayers = null): void
+    public function processAll(string $gameId, string $currentDate, array $matchResults, ?string $deferMatchId = null, $allPlayers = null): void
     {
         // Load game once for previous date capture and date guard
         $game = Game::find($gameId);
 
-        // 1. Update game state (replaces onMatchdayAdvanced projector)
-        // Only advance current_date forward — background batch processing must not
-        // regress the date that was already set by the player's batch.
+        // 1. Update game state — only advance current_date forward.
+        // Background batch processing must not regress the date that was
+        // already set by the player's batch.
         $newDate = Carbon::parse($currentDate);
-        $updateData = ['current_matchday' => $matchday];
         if (! $game->current_date || $newDate->gte($game->current_date)) {
-            $updateData['current_date'] = $newDate->toDateString();
+            Game::where('id', $gameId)->update(['current_date' => $newDate->toDateString()]);
         }
-        Game::where('id', $gameId)->update($updateData);
 
         // 2. Bulk update match records (scores + played)
         $this->bulkUpdateMatchScores($matchResults);
@@ -439,11 +438,20 @@ class MatchResultProcessor
 
             $injuryType = $eventData['metadata']['injury_type'] ?? 'Unknown injury';
             $weeksOut = $eventData['metadata']['weeks_out'] ?? 2;
+            $matchDate = Carbon::parse($eventData['matchDate']);
+
+            // Skip injuries that wouldn't cause the player to miss any games
+            $projectedUntil = $matchDate->copy()->addWeeks($weeksOut);
+            $missedData = InjuryService::getMatchesMissed($game->id, $player->team_id, $matchDate->copy()->addDay(), $projectedUntil);
+            if ($missedData['count'] === 0) {
+                continue;
+            }
+
             $this->eligibilityService->applyInjury(
                 $player,
                 $injuryType,
                 $weeksOut,
-                Carbon::parse($eventData['matchDate'])
+                $matchDate
             );
 
             $isUserTeamPlayer = $player->team_id === $game->team_id;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Modules\Transfer\TransferWindow;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $team_id
  * @property string $season
  * @property \Illuminate\Support\Carbon|null $current_date
- * @property int $current_matchday
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property bool $needs_new_season_setup
@@ -72,7 +72,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder<static>|Game whereCountry($value)
  * @method static Builder<static>|Game whereCreatedAt($value)
  * @method static Builder<static>|Game whereCurrentDate($value)
- * @method static Builder<static>|Game whereCurrentMatchday($value)
  * @method static Builder<static>|Game whereDefaultFormation($value)
  * @method static Builder<static>|Game whereDefaultLineup($value)
  * @method static Builder<static>|Game whereDefaultMentality($value)
@@ -116,7 +115,6 @@ class Game extends Model
         'competition_id',
         'season',
         'current_date',
-        'current_matchday',
         'season_goal',
         'needs_new_season_setup',
         'needs_welcome',
@@ -136,7 +134,6 @@ class Game extends Model
 
     protected $casts = [
         'current_date' => 'date',
-        'current_matchday' => 'integer',
         'season_goal' => 'string',
         'needs_new_season_setup' => 'boolean',
         'needs_welcome' => 'boolean',
@@ -500,146 +497,51 @@ class Game extends Model
             ->first();
     }
 
+    public function getNextLeagueMatchdayAttribute(): ?int
+    {
+        return $this->matches()
+            ->where('played', false)
+            ->whereNull('cup_tie_id')
+            ->orderBy('scheduled_date')
+            ->value('round_number');
+    }
+
     // ==========================================
-    // Transfer Window Logic (Calendar-based)
+    // Transfer Window Logic (delegates to TransferWindow value object)
     // ==========================================
 
-    /**
-     * Summer transfer window: July 1 - August 31
-     * This is when the season starts, contracts renew, etc.
-     */
+    public function transferWindow(): TransferWindow
+    {
+        return new TransferWindow($this->current_date ?? Carbon::now());
+    }
+
     public function isSummerWindowOpen(): bool
     {
-        if (!$this->current_date) {
-            return false;
-        }
-
-        $month = $this->current_date->month;
-        return $month === 7 || $month === 8;
+        return $this->current_date && $this->transferWindow()->isSummer();
     }
 
-    /**
-     * Winter transfer window: January 1 - January 31
-     * Mid-season transfer period.
-     *
-     * Also accounts for the gap between the last December match and the first
-     * January match: current_date only advances when matches are played, so
-     * when it's still December but the next match is in January, the calendar
-     * has progressed past January 1st and the window should be open.
-     */
     public function isWinterWindowOpen(): bool
     {
-        if (!$this->current_date) {
-            return false;
-        }
-
-        if ($this->current_date->month === 1) {
-            return true;
-        }
-
-        if ($this->current_date->month === 12) {
-            $nextMatch = $this->next_match;
-            if ($nextMatch && $nextMatch->scheduled_date->month === 1) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->current_date && $this->transferWindow()->isWinter();
     }
 
-    /**
-     * Check if any transfer window is currently open.
-     */
     public function isTransferWindowOpen(): bool
     {
-        return $this->isSummerWindowOpen() || $this->isWinterWindowOpen();
+        return $this->current_date && $this->transferWindow()->isOpen();
     }
 
-    /**
-     * Check if we've just entered the summer window (July 1).
-     * Used to trigger one-time events like wage payments, TV rights, etc.
-     */
-    public function isStartOfSummerWindow(): bool
-    {
-        if (!$this->current_date) {
-            return false;
-        }
-
-        // First day of July
-        return $this->current_date->month === 7 && $this->current_date->day <= 7;
-    }
-
-    /**
-     * Check if we've just entered the winter window (January 1).
-     * Used to trigger one-time events like wage payments.
-     *
-     * Also accounts for the December→January gap (see isWinterWindowOpen).
-     */
-    public function isStartOfWinterWindow(): bool
-    {
-        if (!$this->current_date) {
-            return false;
-        }
-
-        // First week of January
-        if ($this->current_date->month === 1 && $this->current_date->day <= 7) {
-            return true;
-        }
-
-        // December→January gap: next match is in early January
-        if ($this->current_date->month === 12) {
-            $nextMatch = $this->next_match;
-            if ($nextMatch && $nextMatch->scheduled_date->month === 1 && $nextMatch->scheduled_date->day <= 7) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if we're at the start of either transfer window.
-     * This is when financial events (wages, TV rights) should be processed.
-     */
-    public function isTransferWindowStart(): bool
-    {
-        return $this->isStartOfSummerWindow() || $this->isStartOfWinterWindow();
-    }
-
-    /**
-     * Get the current transfer window name, or null if none is open.
-     */
     public function getCurrentWindowName(): ?string
     {
-        if ($this->isSummerWindowOpen()) {
-            return __('app.summer_window');
-        }
-
-        if ($this->isWinterWindowOpen()) {
-            return __('app.winter_window');
-        }
-
-        return null;
+        return $this->current_date ? $this->transferWindow()->displayName() : null;
     }
 
-    /**
-     * Get the next transfer window name.
-     */
     public function getNextWindowName(): string
     {
-        if (!$this->current_date) {
+        if (! $this->current_date) {
             return __('app.summer_window');
         }
 
-        $month = $this->current_date->month;
-
-        // Jan-Jun: next window is summer (July)
-        // Jul-Dec: next window is winter (January)
-        if ($month >= 1 && $month <= 6) {
-            return __('app.summer_window');
-        }
-
-        return __('app.winter_window');
+        return $this->transferWindow()->nextWindowDisplayName();
     }
 
     /**
@@ -677,32 +579,9 @@ class Game extends Model
     // Pre-Contract Period
     // ==========================================
 
-    /**
-     * Check if we're in the pre-contract offer period (January through May).
-     * Players in their last year of contract can be approached for a free transfer.
-     *
-     * Also accounts for the December→January gap (see isWinterWindowOpen).
-     */
     public function isPreContractPeriod(): bool
     {
-        if (!$this->current_date) {
-            return false;
-        }
-
-        $month = $this->current_date->month;
-
-        if ($month >= 1 && $month <= 5) {
-            return true;
-        }
-
-        if ($month === 12) {
-            $nextMatch = $this->next_match;
-            if ($nextMatch && $nextMatch->scheduled_date->month === 1) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->current_date && $this->transferWindow()->isPreContractPeriod();
     }
 
     // ==========================================
@@ -740,61 +619,27 @@ class Game extends Model
      * Get a countdown to the next window boundary (opening or closing).
      * Returns null when no boundary is within 10 matchdays.
      *
-     * @return array{action: string, window: string, matchdays: int}|null
+     * @return array{action: string, window: string, matchdays: int, date: Carbon}|null
      */
     public function getWindowCountdown(): ?array
     {
-        if (!$this->current_date) {
+        if (! $this->current_date) {
             return null;
         }
 
-        $month = $this->current_date->month;
+        $tw = $this->transferWindow();
+        $boundary = $tw->isOpen()
+            ? $tw->closingBoundaryDate()
+            : $tw->openingBoundaryDate();
 
-        // Determine the next interesting boundary date
-        $year = $this->current_date->year;
-        $boundaries = [];
-
-        if ($this->isTransferWindowOpen()) {
-            // Window is open — countdown to closing
-            if ($this->isSummerWindowOpen()) {
-                $boundaries[] = [
-                    'date' => Carbon::createFromDate($year, 9, 1),
-                    'action' => 'closes',
-                    'window' => __('app.summer_window'),
-                ];
-            }
-            if ($this->isWinterWindowOpen()) {
-                $closeYear = $month === 12 ? $year + 1 : $year;
-                $boundaries[] = [
-                    'date' => Carbon::createFromDate($closeYear, 2, 1),
-                    'action' => 'closes',
-                    'window' => __('app.winter_window'),
-                ];
-            }
-        } else {
-            // Window is closed — countdown to opening
-            if ($month >= 2 && $month <= 6) {
-                $boundaries[] = [
-                    'date' => Carbon::createFromDate($year, 7, 1),
-                    'action' => 'opens',
-                    'window' => __('app.summer_window'),
-                ];
-            }
-            if ($month >= 9 && $month <= 12) {
-                $boundaries[] = [
-                    'date' => Carbon::createFromDate($year + 1, 1, 1),
-                    'action' => 'opens',
-                    'window' => __('app.winter_window'),
-                ];
-            }
-        }
-
-        if (empty($boundaries)) {
+        if (! $boundary) {
             return null;
         }
 
-        // Pick the nearest boundary
-        $nearest = collect($boundaries)->sortBy('date')->first();
+        $action = $tw->isOpen() ? 'closes' : 'opens';
+        $windowName = $tw->isOpen()
+            ? $tw->displayName()
+            : $tw->nextWindowDisplayName();
 
         // Count unplayed matches between now and the boundary
         $matchdays = $this->matches()
@@ -803,7 +648,7 @@ class Game extends Model
                 $query->where('home_team_id', $this->team_id)
                     ->orWhere('away_team_id', $this->team_id);
             })
-            ->where('scheduled_date', '<', $nearest['date'])
+            ->where('scheduled_date', '<', $boundary)
             ->where('scheduled_date', '>=', $this->current_date)
             ->count();
 
@@ -812,10 +657,10 @@ class Game extends Model
         }
 
         return [
-            'action' => $nearest['action'],
-            'window' => $nearest['window'],
+            'action' => $action,
+            'window' => $windowName,
             'matchdays' => $matchdays,
-            'date' => $nearest['date'],
+            'date' => $boundary,
         ];
     }
 

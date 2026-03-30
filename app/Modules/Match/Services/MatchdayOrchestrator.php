@@ -241,7 +241,7 @@ class MatchdayOrchestrator
         $deferMatchId = $playerMatch?->id;
 
         // --- Process results ---
-        $this->matchResultProcessor->processAll($game->id, $matchday, $currentDate, $matchResults, $deferMatchId, $allPlayers);
+        $this->matchResultProcessor->processAll($game->id, $currentDate, $matchResults, $deferMatchId, $allPlayers);
 
         // --- Recalculate positions ---
         $this->recalculateLeaguePositions($game->id, $matches);
@@ -502,17 +502,14 @@ class MatchdayOrchestrator
         // Roll for training injuries (non-playing squad members)
         $this->processTrainingInjuries($game, $matches, $allPlayers);
 
-        // Batch-load recent recovery + low-fitness notifications to avoid per-player queries
+        // Batch-load recent low-fitness notifications to avoid per-player queries
         $recentNotificationPlayerIds = GameNotification::where('game_id', $game->id)
-            ->whereIn('type', [GameNotification::TYPE_PLAYER_RECOVERED, GameNotification::TYPE_LOW_FITNESS])
+            ->where('type', GameNotification::TYPE_LOW_FITNESS)
             ->where('game_date', '>', $game->current_date->copy()->subDays(7))
             ->pluck('metadata')
             ->map(fn ($m) => $m['player_id'] ?? null)
             ->filter()
             ->toArray();
-
-        // Check for recovered players
-        $this->checkRecoveredPlayers($game, $allPlayers, $recentNotificationPlayerIds);
 
         // Check for low fitness players
         $this->checkLowFitnessPlayers($game, $allPlayers, $recentNotificationPlayerIds);
@@ -539,26 +536,6 @@ class MatchdayOrchestrator
     }
 
     /**
-     * Check for players who have recovered from injuries.
-     */
-    private function checkRecoveredPlayers(Game $game, $allPlayers, array $recentNotificationPlayerIds): void
-    {
-        $userTeamPlayers = $allPlayers->get($game->team_id, collect());
-
-        foreach ($userTeamPlayers as $player) {
-            // Check if player was injured but is now recovered
-            if ($player->injury_until && $player->injury_until->lte($game->current_date)) {
-                // Clear the injury fields so this doesn't trigger again on future matchdays
-                $this->eligibilityService->clearInjury($player);
-
-                if (! in_array($player->id, $recentNotificationPlayerIds)) {
-                    $this->notificationService->notifyRecovery($game, $player);
-                }
-            }
-        }
-    }
-
-    /**
      * Check for players with low fitness and notify.
      */
     private function checkLowFitnessPlayers(Game $game, $allPlayers, array $recentNotificationPlayerIds): void
@@ -567,7 +544,7 @@ class MatchdayOrchestrator
 
         foreach ($userTeamPlayers as $player) {
             // Skip injured players
-            if ($player->injury_until && $player->injury_until->gt($game->current_date)) {
+            if ($player->injury_until && $player->injury_until->gte($game->current_date)) {
                 continue;
             }
 
@@ -589,7 +566,7 @@ class MatchdayOrchestrator
         foreach ($allPlayers as $teamId => $teamPlayers) {
             // Filter to non-injured squad members (playing and non-playing)
             $eligible = $teamPlayers->filter(function ($player) use ($game) {
-                if ($player->injury_until && $player->injury_until->gt($game->current_date)) {
+                if ($player->injury_until && $player->injury_until->gte($game->current_date)) {
                     return false;
                 }
 
@@ -603,6 +580,13 @@ class MatchdayOrchestrator
             $injury = $this->injuryService->rollTrainingInjuries($eligible, $game);
 
             if (! $injury) {
+                continue;
+            }
+
+            // Skip injuries that wouldn't cause the player to miss any games
+            $projectedUntil = Carbon::parse($game->current_date)->addWeeks($injury['weeks']);
+            $missedData = InjuryService::getMatchesMissed($game->id, $teamId, $game->current_date, $projectedUntil);
+            if ($missedData['count'] === 0) {
                 continue;
             }
 

@@ -8,6 +8,7 @@ use App\Events\TournamentCompleted;
 use App\Models\User;
 use App\Modules\Academy\Listeners\GenerateInitialAcademyBatch;
 use App\Modules\Match\Events\CupTieResolved;
+use App\Modules\Match\Events\GameDateAdvanced;
 use App\Modules\Match\Events\MatchFinalized;
 use App\Modules\Match\Handlers\PreSeasonHandler;
 use App\Modules\Match\Handlers\GroupStageCupHandler;
@@ -17,6 +18,9 @@ use App\Modules\Match\Handlers\LeagueWithPlayoffHandler;
 use App\Modules\Match\Handlers\SwissFormatHandler;
 use App\Modules\Match\Listeners\AwardCupPrizeMoney;
 use App\Modules\Match\Listeners\ConductNextCupRoundDraw;
+use App\Modules\Notification\Listeners\NotifyTransferWindowClosed;
+use App\Modules\Notification\Listeners\NotifyTransferWindowClosing;
+use App\Modules\Notification\Listeners\NotifyTransferWindowOpen;
 use App\Modules\Notification\Listeners\SendCupTieNotifications;
 use App\Modules\Notification\Listeners\SendCompetitionProgressNotifications;
 use App\Modules\Notification\Listeners\SendMatchNotifications;
@@ -24,6 +28,8 @@ use App\Modules\Match\Listeners\UpdateGoalkeeperStats;
 use App\Modules\Match\Listeners\UpdateLeagueStandings;
 use App\Modules\Match\Listeners\UpdateManagerStats;
 use App\Modules\Season\Listeners\GrantCareerAccessToChampion;
+use App\Modules\Squad\Listeners\CheckRecoveredPlayers;
+use App\Modules\Transfer\Listeners\ProcessTransferWindowClose;
 use App\Modules\Season\Listeners\RecordSeasonCompleted;
 use App\Modules\Season\Listeners\SimulateOtherLeagues;
 use App\Modules\Competition\Services\CompetitionHandlerResolver;
@@ -91,5 +97,11 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(SeasonCompleted::class, RecordSeasonCompleted::class);
 
         Event::listen(TournamentCompleted::class, GrantCareerAccessToChampion::class);
+
+        Event::listen(GameDateAdvanced::class, CheckRecoveredPlayers::class);
+        Event::listen(GameDateAdvanced::class, NotifyTransferWindowOpen::class);
+        Event::listen(GameDateAdvanced::class, NotifyTransferWindowClosing::class);
+        Event::listen(GameDateAdvanced::class, ProcessTransferWindowClose::class);
+        Event::listen(GameDateAdvanced::class, NotifyTransferWindowClosed::class);
     }
 }
