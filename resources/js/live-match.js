@@ -955,6 +955,9 @@ export default function liveMatch(config) {
                 this.tacticalTab = 'substitutions';
             }
 
+            // Can't select a red-carded player
+            if (this.redCardedPlayerIds.includes(slot.player.id)) return;
+
             // If this player is already selected, deselect
             if (this.livePitchSelectedOutId === slot.player.id) {
                 this.livePitchSelectedOutId = null;
