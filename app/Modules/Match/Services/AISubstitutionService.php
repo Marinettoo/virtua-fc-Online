@@ -240,6 +240,58 @@ class AISubstitutionService
     }
 
     /**
+     * Choose a reactive substitution for the team that received a red card.
+     *
+     * Tries to bring on a backup goalkeeper or defender when a player in
+     * those positions is sent off, sacrificing a random attacker or midfielder.
+     *
+     * @return array{player_out: GamePlayer, player_in: GamePlayer}|null
+     */
+    public function chooseRedCardReactiveSubstitution(
+        Collection $lineup,
+        Collection $bench,
+        string $sentOffPosition,
+    ): ?array {
+        if ($bench->isEmpty()) {
+            return null;
+        }
+
+        $sentOffGroup = PositionMapper::getPositionGroup($sentOffPosition);
+
+        // Only react to GK or Defender red cards
+        if ($sentOffGroup === 'Goalkeeper') {
+            $replacement = $bench->firstWhere('position', 'Goalkeeper');
+        } elseif ($sentOffGroup === 'Defender') {
+            $replacement = $bench->filter(fn ($p) => PositionMapper::getPositionGroup($p->position) === 'Defender')
+                ->sortByDesc(fn ($p) => $p->overall_score)
+                ->first();
+        } else {
+            return null;
+        }
+
+        if (! $replacement) {
+            return null;
+        }
+
+        $playerOut = $this->findOutfieldPlayerToSacrifice($lineup);
+
+        return $playerOut ? ['player_out' => $playerOut, 'player_in' => $replacement] : null;
+    }
+
+    /**
+     * Pick a random forward or midfielder to sacrifice for a tactical sub.
+     */
+    private function findOutfieldPlayerToSacrifice(Collection $lineup): ?GamePlayer
+    {
+        $candidates = $lineup->filter(fn ($p) => in_array(
+            PositionMapper::getPositionGroup($p->position),
+            ['Forward', 'Midfielder']
+        ));
+
+        return $candidates->isNotEmpty() ? $candidates->random() : null;
+    }
+
+    /**
      * Find the best bench replacement for a player being subbed out.
      *
      * Priority: same position > same group > best available.
