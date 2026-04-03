@@ -223,6 +223,12 @@ class SquadNumberService
 
         if (! empty($updates)) {
             DB::transaction(function () use ($updates, $game) {
+                // Clear numbers first to avoid unique constraint violations
+                // when swapping numbers between players
+                GamePlayer::where('game_id', $game->id)
+                    ->whereIn('id', array_keys($updates))
+                    ->update(['number' => null]);
+
                 foreach ($updates as $playerId => $number) {
                     GamePlayer::where('id', $playerId)
                         ->where('game_id', $game->id)
