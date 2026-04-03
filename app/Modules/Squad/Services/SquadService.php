@@ -216,6 +216,8 @@ class SquadService
             }
         }
 
+        unset($depth['LM'], $depth['RM']);
+
         return $depth;
     }
 
