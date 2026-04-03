@@ -109,7 +109,7 @@ class TransferCompletionService
             'transfer_status' => null,
             'transfer_listed_at' => null,
             // Extend their contract with the new team
-            'contract_until' => Carbon::parse($game->current_date)->addYears(rand(2, 4)),
+            'contract_until' => Carbon::createFromDate((int) $game->season + rand(2, 4) + 1, 6, 30),
         ]);
 
         GameTransfer::record(
@@ -158,7 +158,8 @@ class TransferCompletionService
         // Transfer player to user's team
         $age = $player->age($game->current_date);
         $contractYears = $offer->offered_years ?? ($age > PlayerAge::PRIME_END ? 2 : ($age >= PlayerAge::PRIME_END ? 3 : rand(3, 5)));
-        $newContractEnd = Carbon::parse($game->current_date)->addYears($contractYears);
+        $seasonYear = (int) $game->season;
+        $newContractEnd = Carbon::createFromDate($seasonYear + $contractYears + 1, 6, 30);
 
         $player->update([
             'team_id' => $game->team_id,
