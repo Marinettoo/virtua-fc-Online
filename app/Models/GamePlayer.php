@@ -44,8 +44,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $goals_conceded
  * @property int $clean_sheets
  * @property int $annual_wage
- * @property string|null $transfer_status
- * @property \Illuminate\Support\Carbon|null $transfer_listed_at
  * @property int|null $pending_annual_wage
  * @property int $durability
  * @property string|null $retiring_at_season
@@ -115,8 +113,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereRetiringAtSeason($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereSeasonAppearances($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereTeamId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereTransferListedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereTransferStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereYellowCards($value)
  * @mixin \Eloquent
  */
@@ -158,8 +154,6 @@ class GamePlayer extends Model
         'potential_low',
         'potential_high',
         'season_appearances',
-        'transfer_status',
-        'transfer_listed_at',
         'retiring_at_season',
     ];
 
@@ -189,13 +183,7 @@ class GamePlayer extends Model
         'potential_low' => 'integer',
         'potential_high' => 'integer',
         'season_appearances' => 'integer',
-        // Transfer fields
-        'transfer_listed_at' => 'datetime',
     ];
-
-    // Transfer status constants
-    public const TRANSFER_STATUS_LISTED = 'listed';
-    public const TRANSFER_STATUS_LOAN_SEARCH = 'loan_search';
 
     /**
      * Check if player has announced retirement.
@@ -233,6 +221,11 @@ class GamePlayer extends Model
     public function suspensions(): HasMany
     {
         return $this->hasMany(PlayerSuspension::class);
+    }
+
+    public function transferListing(): HasOne
+    {
+        return $this->hasOne(TransferListing::class);
     }
 
     /**
@@ -340,7 +333,11 @@ class GamePlayer extends Model
      */
     public function isTransferListed(): bool
     {
-        return $this->transfer_status === self::TRANSFER_STATUS_LISTED;
+        if ($this->relationLoaded('transferListing')) {
+            return $this->transferListing?->status === TransferListing::STATUS_LISTED;
+        }
+
+        return $this->transferListing()->where('status', TransferListing::STATUS_LISTED)->exists();
     }
 
     /**
@@ -348,7 +345,11 @@ class GamePlayer extends Model
      */
     public function hasActiveLoanSearch(): bool
     {
-        return $this->transfer_status === self::TRANSFER_STATUS_LOAN_SEARCH;
+        if ($this->relationLoaded('transferListing')) {
+            return $this->transferListing?->status === TransferListing::STATUS_LOAN_SEARCH;
+        }
+
+        return $this->transferListing()->where('status', TransferListing::STATUS_LOAN_SEARCH)->exists();
     }
 
     /**
