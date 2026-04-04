@@ -443,12 +443,9 @@
 
                             {{-- ET Second half events --}}
                             <template x-for="(event, idx) in etSecondHalfEvents" :key="'etsh-' + idx">
-                                <div class="px-3 rounded-lg transition-all duration-300"
+                                <div class="px-3 rounded-lg "
                                      x-show="!isAtmosphereEvent(event) || showCommentary"
                                      :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', isAtmosphereEvent(event) ? 'py-1' : 'py-2.5']"
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0"
                                 >
                                     @include('partials.live-match.event-row')
                                 </div>
@@ -465,12 +462,9 @@
 
                             {{-- ET First half events --}}
                             <template x-for="(event, idx) in etFirstHalfEvents" :key="'etfh-' + idx">
-                                <div class="px-3 rounded-lg transition-all duration-300"
+                                <div class="px-3 rounded-lg "
                                      x-show="!isAtmosphereEvent(event) || showCommentary"
                                      :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', isAtmosphereEvent(event) ? 'py-1' : 'py-2.5']"
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0"
                                 >
                                     @include('partials.live-match.event-row')
                                 </div>
@@ -487,12 +481,9 @@
 
                             {{-- Second half events (newest first) --}}
                             <template x-for="(event, idx) in secondHalfEvents" :key="'sh-' + idx">
-                                <div class="px-3 rounded-lg transition-all duration-300"
+                                <div class="px-3 rounded-lg "
                                      x-show="!isAtmosphereEvent(event) || showCommentary"
                                      :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', isAtmosphereEvent(event) ? 'py-1' : 'py-2.5']"
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0"
                                 >
                                     @include('partials.live-match.event-row')
                                 </div>
@@ -509,12 +500,9 @@
 
                             {{-- First half events (newest first) --}}
                             <template x-for="(event, idx) in firstHalfEvents" :key="'fh-' + idx">
-                                <div class="px-3 rounded-lg transition-all duration-300"
+                                <div class="px-3 rounded-lg "
                                      x-show="!isAtmosphereEvent(event) || showCommentary"
                                      :class="[isGoalEvent(event) ? 'bg-goal-highlight border-l-2 border-l-accent-gold' : 'border-l-2 border-l-transparent', isAtmosphereEvent(event) ? 'py-1' : 'py-2.5']"
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0"
                                 >
                                     @include('partials.live-match.event-row')
                                 </div>
