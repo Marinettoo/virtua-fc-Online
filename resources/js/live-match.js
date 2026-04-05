@@ -18,7 +18,7 @@ import { assignPlayersToSlots } from './modules/slot-assignment.js';
 import { createPenaltyShootout } from './modules/penalty-shootout.js';
 import { createSubstitutionManager } from './modules/substitution-manager.js';
 import { createMatchSimulation } from './modules/match-simulation.js';
-import { generateRegularTimeAtmosphere, generateExtraTimeAtmosphere, addGoalNarratives, generateContextualNarratives, generateTacticalNarratives } from './modules/atmosphere-generator.js';
+import { generateRegularTimeAtmosphere, generateExtraTimeAtmosphere, generateAtmosphereForPeriod, addGoalNarratives, generateContextualNarratives, generateTacticalNarratives } from './modules/atmosphere-generator.js';
 
 /**
  * Copy all own properties from source to target. Regular properties are
@@ -708,13 +708,13 @@ export default function liveMatch(config) {
                     this.activeDefLine = result.defensiveLine;
                 }
 
-                // Filter server events up to current minute, but keep decorative atmosphere
-                // (shots/fouls). Contextual narratives are removed and regenerated below.
-                const isAtmosphere = (e) => e.type === 'shot_on_target' || e.type === 'shot_off_target' || e.type === 'foul';
+                // Filter server events up to current minute. Atmosphere events
+                // (shots/fouls) beyond this minute are discarded and regenerated
+                // below so they reflect substitutions and tactical changes.
                 if (isET) {
-                    this.extraTimeEvents = this.extraTimeEvents.filter(e => e.minute <= minute || isAtmosphere(e));
+                    this.extraTimeEvents = this.extraTimeEvents.filter(e => e.minute <= minute);
                 } else {
-                    this.events = this.events.filter(e => e.minute <= minute || isAtmosphere(e));
+                    this.events = this.events.filter(e => e.minute <= minute);
                     // Remove contextual narratives — they'll be freshly regenerated
                     // below to reflect the post-resimulation score.
                     this.events = this.events.filter(e => e.type !== 'contextual');
@@ -730,6 +730,44 @@ export default function liveMatch(config) {
                             playerInName: sub.playerInName,
                             teamId: sub.teamId,
                         });
+                    }
+
+                    // Also add substitution events to the main events array so
+                    // the atmosphere generator can track who is on/off the pitch.
+                    const subEvents = result.substitutions.map(sub => ({
+                        minute,
+                        type: 'substitution',
+                        playerName: sub.playerOutName,
+                        playerInName: sub.playerInName,
+                        teamId: sub.teamId,
+                        gamePlayerId: sub.playerOutId,
+                        metadata: { player_in_id: sub.playerInId },
+                    }));
+
+                    if (isET) {
+                        this.extraTimeEvents.push(...subEvents);
+                    } else {
+                        this.events.push(...subEvents);
+                    }
+                }
+
+                // Regenerate atmosphere events (shots/fouls) for the remaining
+                // match period, now aware of substitutions.
+                const atmCfg = this._atmosphereConfig();
+                const atmMaxMinute = isET ? 120 : 90;
+                const freshAtmosphere = generateAtmosphereForPeriod({
+                    ...atmCfg,
+                    allEvents: isET ? [...this.events, ...this.extraTimeEvents] : this.events,
+                    minMinute: minute + 1,
+                    maxMinute: atmMaxMinute,
+                });
+                if (freshAtmosphere.length) {
+                    if (isET) {
+                        this.extraTimeEvents.push(...freshAtmosphere);
+                        this.extraTimeEvents.sort((a, b) => a.minute - b.minute);
+                    } else {
+                        this.events.push(...freshAtmosphere);
+                        this.events.sort((a, b) => a.minute - b.minute);
                     }
                 }
 
