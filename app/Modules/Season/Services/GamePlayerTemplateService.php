@@ -315,18 +315,23 @@ class GamePlayerTemplateService
             return null;
         }
 
-        $contractUntil = null;
-        if (!empty($playerData['contract'])) {
+        $referenceDate = Carbon::parse("{$season}-08-15");
+        $defaultContract = '2027-06-30';
+        $contractUntil = $defaultContract;
+
+        if (!empty($playerData['contract']) && $playerData['contract'] !== '-') {
             try {
                 $parsed = Carbon::parse($playerData['contract']);
                 $year = $parsed->month > 6 ? $parsed->year + 1 : $parsed->year;
-                $contractUntil = Carbon::createFromDate($year, 6, 30)->toDateString();
+                $candidate = Carbon::createFromDate($year, 6, 30);
+
+                if ($candidate->greaterThan($referenceDate)) {
+                    $contractUntil = $candidate->toDateString();
+                }
             } catch (\Exception $e) {
-                // Ignore invalid dates
+                // Invalid date — keep default
             }
         }
-
-        $referenceDate = Carbon::parse("{$season}-08-15");
         $dob = Carbon::parse($player->date_of_birth);
         $age = (int) $dob->diffInYears($referenceDate);
         $marketValueCents = Money::parseMarketValue($playerData['marketValue'] ?? null);
